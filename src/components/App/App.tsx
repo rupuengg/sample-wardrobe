@@ -1,9 +1,9 @@
 import { Canvas } from "@react-three/fiber";
-import { Wardrobe } from "./components/Wardrobe";
-import { CustomOption } from "./components/CustomOption";
 import { useState } from "react";
-import { defaultSize, ISize } from "./models";
-import { WardRobeConstants } from "./constants";
+import { Wardrobe } from "../Wardrobe";
+import { CustomOption } from "../CustomOption";
+import { defaultSize, ISize } from "../../models";
+import { WardRobeConstants } from "../../constants";
 
 export const App = () => {
   const [wardrobeInnerColor] = useState<string>('#ccc');
