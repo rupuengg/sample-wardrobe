@@ -12,9 +12,10 @@ export interface IWardrobe {
   innerColor: string;
   wardrobeColor: string;
   hangerRoadSize: ISize;
+  showWireFrame?: boolean;
 }
 
-export const Wardrobe: React.FC<IWardrobe> = ({ size, hangerRoadSize, innerColor, wardrobeColor }) => {
+export const Wardrobe: React.FC<IWardrobe> = ({ size, hangerRoadSize, innerColor, wardrobeColor, showWireFrame = false }) => {
   const dLightRef: any = useRef(null);
   const orbitRef = useRef<ComponentRef<typeof OrbitControls> | null>(null);
   const { camera } = useThree();
@@ -29,7 +30,8 @@ export const Wardrobe: React.FC<IWardrobe> = ({ size, hangerRoadSize, innerColor
     return ((ConvertUtils().toMeterFromInch(84) / 2) - (ConvertUtils().toMeterFromInch(boardThickness) / 2));
   }, []);
 
-  console.log('size', size, hangerRoadSize, size.width / 2);
+  // console.log('size', size, hangerRoadSize, size.width / 2);
+  console.log(E_Position.BACK, { x: 0, y: 0, z: 0 }, { x: BoardThickness.SIX_MM, y: size.height, z: size.width });
   return <>
     <ambientLight intensity={0.5} />
     <OrbitControls ref={orbitRef} target={[0, 0, 0]} autoRotate={false} />
@@ -38,31 +40,31 @@ export const Wardrobe: React.FC<IWardrobe> = ({ size, hangerRoadSize, innerColor
 
     <Suspense>
       {/* Back Side */}
-      <PlyBoard type={E_Position.BACK} position={{ x: 0, y: 0, z: 0 }} size={{ x: BoardThickness.SIX_MM, y: size.height, z: size.width }} frontColor={wardrobeColor} backColor={innerColor} />
+      <PlyBoard type={E_Position.BACK} position={{ x: 0, y: 0, z: 0 }} size={{ x: BoardThickness.SIX_MM, y: size.height, z: size.width }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />
 
       {/* Left Side */}
-      <PlyBoard type={E_Position.LEFT} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: 0, z: CalculationUtils(size).depth(BoardThickness.EIGHTEEN_MM) }} size={{ x: size.depth, y: size.height, z: BoardThickness.EIGHTEEN_MM }} frontColor={wardrobeColor} backColor={innerColor} />
+      <PlyBoard type={E_Position.LEFT} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: 0, z: CalculationUtils(size).depth(BoardThickness.EIGHTEEN_MM) }} size={{ x: size.depth, y: size.height, z: BoardThickness.EIGHTEEN_MM }} frontColor={wardrobeColor} showWireFrame={showWireFrame} backColor={innerColor} />
 
       {/* Right Side */}
-      <PlyBoard type={E_Position.RIGHT} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: 0, z: -CalculationUtils(size).depth(BoardThickness.EIGHTEEN_MM) }} size={{ x: size.depth, y: size.height, z: BoardThickness.EIGHTEEN_MM }} frontColor={wardrobeColor} backColor={innerColor} />
+      <PlyBoard type={E_Position.RIGHT} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: 0, z: -CalculationUtils(size).depth(BoardThickness.EIGHTEEN_MM) }} size={{ x: size.depth, y: size.height, z: BoardThickness.EIGHTEEN_MM }} frontColor={wardrobeColor} showWireFrame={showWireFrame} backColor={innerColor} />
 
       {/* Top Side */}
-      <PlyBoard type={E_Position.TOP} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: CalculationUtils(size).top(BoardThickness.EIGHTEEN_MM), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} frontColor={wardrobeColor} backColor={innerColor} />
+      <PlyBoard type={E_Position.TOP} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: CalculationUtils(size).top(BoardThickness.EIGHTEEN_MM), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />
 
       {/* Bottom Side */}
-      <PlyBoard type={E_Position.BOTTOM} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: CalculationUtils(size).bottom(BoardThickness.EIGHTEEN_MM), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} frontColor={wardrobeColor} backColor={innerColor} />
+      <PlyBoard type={E_Position.BOTTOM} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: CalculationUtils(size).bottom(BoardThickness.EIGHTEEN_MM), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />
 
       {/* Above Partition if height is greater then 7 feet */}
-      {Number(size.height) > 84 && <PlyBoard type={E_Position.BOTTOM} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: CalculationUtils(size).top(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(Number(size.height) - 84), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} frontColor={wardrobeColor} backColor={innerColor} />}
+      {Number(size.height) > 84 && <PlyBoard type={E_Position.BOTTOM} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: CalculationUtils(size).top(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(Number(size.height) - 84), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />}
 
       {/* Hanger Road Partition From Top */}
-      <PlyBoard type={E_Position.INNER} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: topHieght(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(hangerRoadSize.height), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} frontColor={wardrobeColor} backColor={innerColor} />
+      <PlyBoard type={E_Position.INNER} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: topHieght(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(hangerRoadSize.height), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />
 
       {/* Drawer From Hander Box */}
-      <PlyBoard type={E_Position.INNER} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: topHieght(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(hangerRoadSize.height + 10), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} frontColor={wardrobeColor} backColor={innerColor} />
+      <PlyBoard type={E_Position.INNER} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: topHieght(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(hangerRoadSize.height + 10), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />
 
       {/* Second Drawer From Hander Box */}
-      <PlyBoard type={E_Position.INNER} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: topHieght(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(hangerRoadSize.height + 20), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} frontColor={wardrobeColor} backColor={innerColor} />
+      <PlyBoard type={E_Position.INNER} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: topHieght(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(hangerRoadSize.height + 20), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />
     </Suspense>
   </>;
 }

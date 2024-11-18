@@ -62,7 +62,8 @@ body,
       }
     }
 
-    & .wardrobe-size {
+    & .wardrobe-size,
+    & .other {
       display: flex;
       height: 100%;
 
@@ -73,7 +74,7 @@ body,
         list-style: none;
       }
 
-      & ul {
+      & ul.sizes {
         font-family: Verdana;
         font-size: 16px;
 

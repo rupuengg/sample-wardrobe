@@ -6,13 +6,16 @@ import { useCallback, useState } from "react";
 export interface ICustomOption {
   color: string;
   size: string;
+  wireframe: boolean;
   onColorChange?: (color: string) => void;
   onSizeChange?: (size: ISize) => void;
+  onWireFrameChange?: (wireframe: boolean) => void;
 }
 
-export const CustomOption: React.FC<ICustomOption> = ({ color, size, onColorChange, onSizeChange }) => {
+export const CustomOption: React.FC<ICustomOption> = ({ color, size, wireframe, onColorChange, onSizeChange, onWireFrameChange }) => {
   const [initialWardrobeColor] = useState<string>(color);
   const [initialWardrobeSize] = useState<string>(size);
+  const [initialWireframe] = useState<boolean>(wireframe);
 
   const getValueInFeet = useCallback((sizeStr: string) => {
     const str = sizeStr.split('*');
@@ -47,7 +50,12 @@ export const CustomOption: React.FC<ICustomOption> = ({ color, size, onColorChan
     }
 
     onSizeChange && onSizeChange(size);
-  }, [initialWardrobeColor, initialWardrobeSize, onColorChange, onSizeChange]);
+    onWireFrameChange && onWireFrameChange(initialWireframe);
+  }, [initialWardrobeColor, initialWardrobeSize, initialWireframe, onColorChange, onSizeChange, onWireFrameChange]);
+
+  const handleWireframe = useCallback(() => {
+    onWireFrameChange && onWireFrameChange(!wireframe);
+  }, [onWireFrameChange, wireframe]);
 
   return <div className="custom-option">
     <div className="inner-box">
@@ -55,11 +63,17 @@ export const CustomOption: React.FC<ICustomOption> = ({ color, size, onColorChan
       <CirclePicker color={color} onChange={handleColorChange} />
       <h3 className="title">Size Picker</h3>
       <div className="wardrobe-size">
-        <ul>
+        <ul className="sizes">
           {WardRobeConstants.DEFAULT_WARDROBE_SIZE.map(item => <li key={item} onClick={() => handleSizeChange(item)}>{`${getValueInFeet(item)} Feet`}</li>)}
         </ul>
       </div>
-      <h3 className="title" onClick={handleReset}>Reset</h3>
+      <h3 className="title">Other Option</h3>
+      <div className="other">
+        <ul className="sizes">
+          <li onClick={handleWireframe}>Wireframe</li>
+          <li onClick={handleReset}>Reset</li>
+        </ul>
+      </div>
     </div>
   </div>
 }
