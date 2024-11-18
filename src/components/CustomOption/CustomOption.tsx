@@ -1,42 +1,65 @@
 import { CirclePicker } from "react-color";
 import { ISize } from "../../models";
-import { ConvertUtils } from "../../utils";
+import { WardRobeConstants } from "../../constants";
+import { useCallback, useState } from "react";
 
 export interface ICustomOption {
   color: string;
-  colorChange?: (color: string) => void;
-  sizeChange?: (size: ISize) => void;
+  size: string;
+  onColorChange?: (color: string) => void;
+  onSizeChange?: (size: ISize) => void;
 }
 
-export const CustomOption: React.FC<ICustomOption> = ({ color, colorChange, sizeChange }) => {
-  const handleColorChange = (color: any) => {
-    colorChange && colorChange(color.hex);
-  }
+export const CustomOption: React.FC<ICustomOption> = ({ color, size, onColorChange, onSizeChange }) => {
+  const [initialWardrobeColor] = useState<string>(color);
+  const [initialWardrobeSize] = useState<string>(size);
 
-  const handleSizeChange = (sizeStr: string) => {
+  const getValueInFeet = useCallback((sizeStr: string) => {
+    const str = sizeStr.split('*');
+    return Number(str[0]) / 12 + ' * ' + Number(str[1]) / 12;
+  }, []);
+
+  const handleColorChange = useCallback((color: any) => {
+    onColorChange && onColorChange(color.hex);
+  }, [onColorChange]);
+
+  const handleSizeChange = useCallback((sizeStr: string) => {
     const str = sizeStr.split('*');
 
     const size: ISize = {
-      width: ConvertUtils().toMeterFromFeet(str[0]),
-      height: ConvertUtils().toMeterFromFeet(str[1]),
-      depth: ConvertUtils().toMeterFromFeet(2),
+      width: Number(str[0]),
+      height: Number(str[1]),
+      depth: 12 * 2,
     }
 
-    sizeChange && sizeChange(size);
-  }
+    onSizeChange && onSizeChange(size);
+  }, [onSizeChange]);
+
+  const handleReset = useCallback(() => {
+    onColorChange && onColorChange(initialWardrobeColor);
+
+    const str = initialWardrobeSize.split('*');
+
+    const size: ISize = {
+      width: Number(str[0]),
+      height: Number(str[1]),
+      depth: 12 * 2,
+    }
+
+    onSizeChange && onSizeChange(size);
+  }, [initialWardrobeColor, initialWardrobeSize, onColorChange, onSizeChange]);
 
   return <div className="custom-option">
     <div className="inner-box">
+      <h3 className="title">Color Picker</h3>
       <CirclePicker color={color} onChange={handleColorChange} />
-      <div>
+      <h3 className="title">Size Picker</h3>
+      <div className="wardrobe-size">
         <ul>
-          <li onClick={() => handleSizeChange('3*7')}>3 * 7 Feet</li>
-          <li onClick={() => handleSizeChange('4*7')}>4 * 7 Feet</li>
-          <li onClick={() => handleSizeChange('6*7')}>6 * 7 Feet</li>
-          <li onClick={() => handleSizeChange('7*9')}>7 * 9 Feet</li>
-          <li onClick={() => handleSizeChange('10*10')}>10 * 10 Feet</li>
+          {WardRobeConstants.DEFAULT_WARDROBE_SIZE.map(item => <li key={item} onClick={() => handleSizeChange(item)}>{`${getValueInFeet(item)} Feet`}</li>)}
         </ul>
       </div>
+      <h3 className="title" onClick={handleReset}>Reset</h3>
     </div>
   </div>
 }

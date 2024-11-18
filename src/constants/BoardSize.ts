@@ -1,7 +1,5 @@
-import { ConvertUtils } from "../utils";
-
 export const BoardThickness = {
-  SIX_MM: ConvertUtils().toMeterFromMM(6),
-  TWELVE_MM: ConvertUtils().toMeterFromMM(12),
-  EIGHTEEN_MM: ConvertUtils().toMeterFromMM(18),
+  SIX_MM: 0.23622,
+  TWELVE_MM: 0.472441,
+  EIGHTEEN_MM: 0.708661,
 }

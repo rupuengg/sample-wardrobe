@@ -5,4 +5,5 @@ export enum E_Position {
   RIGHT = 'right',
   TOP = 'top',
   BOTTOM = 'bottom',
+  INNER = 'inner',
 }

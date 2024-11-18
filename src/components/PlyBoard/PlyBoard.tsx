@@ -1,6 +1,7 @@
 import { BackSide, FrontSide } from "three";
 import { IPosition } from "../../models";
 import { E_Position } from "../../enums";
+import { ConvertUtils } from "../../utils";
 
 export interface IPlyBoard {
   position: IPosition;
@@ -12,7 +13,7 @@ export interface IPlyBoard {
 
 export const PlyBoard: React.FC<IPlyBoard> = ({ position, size, type, backColor = '#ccc', frontColor = 'red' }) => {
   return <mesh position={[position.x, position.y, position.z]} >
-    <boxGeometry args={[size.x, size.y, size.z]} />
+    <boxGeometry args={[ConvertUtils().toMeterFromInch(size.x), ConvertUtils().toMeterFromInch(size.y), ConvertUtils().toMeterFromInch(size.z)]} />
 
     {/* Back Side */}
     <meshStandardMaterial attach={'material-0'} color={[E_Position.BACK].includes(type) ? frontColor : backColor} />

@@ -21,37 +21,70 @@ body,
   position: relative;
   z-index: 1;
 
+  & .title {
+    margin: 0;
+    padding: 10px 0;
+    display: block;
+  }
+
   & .custom-option {
     position: absolute;
     top: 0;
     right: 0;
     z-index: 2;
-    height: 8px;
+    width: 8px;
+    overflow: hidden;
 
     &:hover {
-      height: 120px;
-      transform: translateY(0px);
+      width: 130px;
     }
 
     &:hover .inner-box,
     &.active .inner-box {
-      height: 120px;
-      transform: translateY(0px);
-      overflow: hidden;
+      width: 130px;
     }
 
     & .inner-box {
       display: flex;
-      align-items: center;
+      flex-direction: column;
       transition: transform 0.6s ease-in-out;
-      padding: 0 10px;
-      width: 400px;
-      height: 120px;
+      padding: 6px 0 6px 6px;
+      height: 100%;
+      width: 130px;
       background-color: #ffffff;
       border: 4px solid #009BDE;
-      border-top: 0px;
-      border-radius: 0 0 20px 20px;
-      transform: translateY(-97%);
+      border-right: 0px;
+      border-radius: 20px 0 0 20px;
+      transform: translateX(3%);
+
+      & .circle-picker {
+        width: 100% !important;
+      }
+    }
+
+    & .wardrobe-size {
+      display: flex;
+      height: 100%;
+
+      & ul,
+      & li {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+      }
+
+      & ul {
+        font-family: Verdana;
+        font-size: 16px;
+
+        & li {
+          padding: 2px 0;
+
+          &:last-of-type {
+            border-bottom: 0px;
+          }
+        }
+      }
     }
   }
 }

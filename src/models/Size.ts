@@ -1,5 +1,3 @@
-import { ConvertUtils } from "../utils";
-
 export interface ISize {
   width: number,
   height: number,
@@ -7,7 +5,7 @@ export interface ISize {
 }
 
 export const defaultSize: ISize = {
-  width: ConvertUtils().toMeterFromFeet(3),
-  height: ConvertUtils().toMeterFromFeet(7),
-  depth: ConvertUtils().toMeterFromFeet(2),
+  width: 36,
+  height: 84,
+  depth: 24,
 }
