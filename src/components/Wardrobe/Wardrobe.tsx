@@ -68,7 +68,12 @@ export const Wardrobe: React.FC<IWardrobe> = ({ size, hangerRoadSize, innerColor
       <PlyBoard type={E_Position.INNER} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: topHieght(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(hangerRoadSize.height + 20), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />
 
       {/* Door Side */}
-      {showDoors && <PlyBoard type={E_Position.FRONT} position={{ x: -ConvertUtils().toMeterFromInch(24) - 0.01, y: 0, z: 0 }} size={{ x: BoardThickness.EIGHTEEN_MM, y: size.height, z: size.width }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />}
+      {
+        showDoors && <>
+          <PlyBoard type={E_Position.FRONT} position={{ x: -ConvertUtils().toMeterFromInch(24) - 0.01, y: 0, z: -ConvertUtils().toMeterFromInch(size.width / 4) }} size={{ x: BoardThickness.EIGHTEEN_MM, y: size.height, z: (size.width / 2) - ConvertUtils().toMeterFromMM(6) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />
+          <PlyBoard type={E_Position.FRONT} position={{ x: -ConvertUtils().toMeterFromInch(24) - 0.01, y: 0, z: +ConvertUtils().toMeterFromInch(size.width / 4) }} size={{ x: BoardThickness.EIGHTEEN_MM, y: size.height, z: (size.width / 2) - ConvertUtils().toMeterFromMM(6) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />
+        </>
+      }
     </Suspense>
   </>;
 }
