@@ -13,9 +13,10 @@ export interface IWardrobe {
   wardrobeColor: string;
   hangerRoadSize: ISize;
   showWireFrame?: boolean;
+  showDoors?: boolean;
 }
 
-export const Wardrobe: React.FC<IWardrobe> = ({ size, hangerRoadSize, innerColor, wardrobeColor, showWireFrame = false }) => {
+export const Wardrobe: React.FC<IWardrobe> = ({ size, hangerRoadSize, innerColor, wardrobeColor, showWireFrame = false, showDoors = false }) => {
   const dLightRef: any = useRef(null);
   const orbitRef = useRef<ComponentRef<typeof OrbitControls> | null>(null);
   const { camera } = useThree();
@@ -30,7 +31,7 @@ export const Wardrobe: React.FC<IWardrobe> = ({ size, hangerRoadSize, innerColor
     return ((ConvertUtils().toMeterFromInch(84) / 2) - (ConvertUtils().toMeterFromInch(boardThickness) / 2));
   }, []);
 
-  // console.log('size', size, hangerRoadSize, size.width / 2);
+  console.log('size', size, hangerRoadSize, size.width / 2);
   console.log(E_Position.BACK, { x: 0, y: 0, z: 0 }, { x: BoardThickness.SIX_MM, y: size.height, z: size.width });
   return <>
     <ambientLight intensity={0.5} />
@@ -65,6 +66,9 @@ export const Wardrobe: React.FC<IWardrobe> = ({ size, hangerRoadSize, innerColor
 
       {/* Second Drawer From Hander Box */}
       <PlyBoard type={E_Position.INNER} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: topHieght(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(hangerRoadSize.height + 20), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />
+
+      {/* Door Side */}
+      {showDoors && <PlyBoard type={E_Position.FRONT} position={{ x: -ConvertUtils().toMeterFromInch(24) - 0.01, y: 0, z: 0 }} size={{ x: BoardThickness.EIGHTEEN_MM, y: size.height, z: size.width }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />}
     </Suspense>
   </>;
 }

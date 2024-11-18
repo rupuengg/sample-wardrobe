@@ -20,18 +20,18 @@ export const PlyBoard: React.FC<IPlyBoard> = ({ position, size, type, backColor 
     <meshStandardMaterial attach={'material-0'} color={[E_Position.BACK].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
 
     {/* Front Side */}
-    <meshStandardMaterial attach={'material-1'} color={backColor} transparent={true} opacity={0.8} side={FrontSide} shadowSide={BackSide} clipShadows {...(showWireFrame ? { wireframe: true } : {})} />
+    <meshStandardMaterial attach={'material-1'} color={[E_Position.FRONT].includes(type) ? frontColor : backColor} opacity={0.8} side={FrontSide} shadowSide={BackSide} clipShadows {...(showWireFrame ? { wireframe: true } : {})} />
 
     {/* Left Side */}
-    <meshStandardMaterial attach={'material-2'} color={[E_Position.TOP, E_Position.LEFT, E_Position.RIGHT, E_Position.BACK].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
+    <meshStandardMaterial attach={'material-2'} color={[E_Position.TOP, E_Position.LEFT, E_Position.RIGHT, E_Position.BACK, E_Position.FRONT].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
 
     {/* Right Side */}
-    <meshStandardMaterial attach={'material-3'} color={[E_Position.BOTTOM, E_Position.LEFT, E_Position.RIGHT, E_Position.BACK].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
+    <meshStandardMaterial attach={'material-3'} color={[E_Position.BOTTOM, E_Position.LEFT, E_Position.RIGHT, E_Position.BACK, E_Position.FRONT].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
 
     {/* Top Side */}
-    <meshStandardMaterial attach={'material-4'} color={[E_Position.RIGHT, E_Position.BACK].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
+    <meshStandardMaterial attach={'material-4'} color={[E_Position.RIGHT, E_Position.BACK, E_Position.FRONT].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
 
     {/* Bottom Side */}
-    <meshStandardMaterial attach={'material-5'} color={[E_Position.LEFT, E_Position.BACK].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
+    <meshStandardMaterial attach={'material-5'} color={[E_Position.LEFT, E_Position.BACK, E_Position.FRONT].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
   </mesh>
 }

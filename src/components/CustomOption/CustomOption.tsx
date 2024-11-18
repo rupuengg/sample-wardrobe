@@ -7,14 +7,17 @@ export interface ICustomOption {
   color: string;
   size: string;
   wireframe: boolean;
+  showDoors: boolean;
   onColorChange?: (color: string) => void;
   onSizeChange?: (size: ISize) => void;
+  onShowDoors?: (showDoors: boolean) => void;
   onWireFrameChange?: (wireframe: boolean) => void;
 }
 
-export const CustomOption: React.FC<ICustomOption> = ({ color, size, wireframe, onColorChange, onSizeChange, onWireFrameChange }) => {
+export const CustomOption: React.FC<ICustomOption> = ({ color, size, showDoors, wireframe, onColorChange, onSizeChange, onShowDoors, onWireFrameChange }) => {
   const [initialWardrobeColor] = useState<string>(color);
   const [initialWardrobeSize] = useState<string>(size);
+  const [initialShowDoors] = useState<boolean>(showDoors);
   const [initialWireframe] = useState<boolean>(wireframe);
 
   const getValueInFeet = useCallback((sizeStr: string) => {
@@ -50,8 +53,13 @@ export const CustomOption: React.FC<ICustomOption> = ({ color, size, wireframe, 
     }
 
     onSizeChange && onSizeChange(size);
+    onShowDoors && onShowDoors(initialShowDoors);
     onWireFrameChange && onWireFrameChange(initialWireframe);
-  }, [initialWardrobeColor, initialWardrobeSize, initialWireframe, onColorChange, onSizeChange, onWireFrameChange]);
+  }, [initialShowDoors, initialWardrobeColor, initialWardrobeSize, initialWireframe, onColorChange, onShowDoors, onSizeChange, onWireFrameChange]);
+
+  const handleShowDoors = useCallback(() => {
+    onShowDoors && onShowDoors(!showDoors);
+  }, [onShowDoors, showDoors]);
 
   const handleWireframe = useCallback(() => {
     onWireFrameChange && onWireFrameChange(!wireframe);
@@ -71,6 +79,7 @@ export const CustomOption: React.FC<ICustomOption> = ({ color, size, wireframe, 
       <div className="other">
         <ul className="sizes">
           <li onClick={handleWireframe}>Wireframe</li>
+          <li onClick={handleShowDoors}>Doors</li>
           <li onClick={handleReset}>Reset</li>
         </ul>
       </div>
