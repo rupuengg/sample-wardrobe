@@ -1,26 +1,19 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Canvas } from "@react-three/fiber";
+import { Wardrobe } from "./components/Wardrobe";
+import { CustomOption } from "./components/CustomOption";
+import { useState } from "react";
+import { defaultSize, ISize } from "./models";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+export const App = () => {
+  const [wardrobeInnerColor] = useState<string>('#fafafa');
+  const [wardrobeColor, setWardrobeColor] = useState<string>('red');
+  const [wardrobeSize, setWardrobeSize] = useState<ISize>(defaultSize);
 
-export default App;
+  return <div className="main-container">
+    <Canvas camera={{ fov: 10, near: 0.1, far: 1000, position: [-30, 4, -4] }}>
+      <Wardrobe innerColor={wardrobeInnerColor} wardrobeColor={wardrobeColor} size={wardrobeSize} />
+    </Canvas>
+
+    <CustomOption color={wardrobeColor} colorChange={(color) => setWardrobeColor(color)} sizeChange={(size) => setWardrobeSize(size)} />
+  </div>
+};
