@@ -9,3 +9,9 @@ export const defaultSize: ISize = {
   height: 84,
   depth: 24,
 }
+
+export const defaultDrawerSize: ISize = {
+  width: 36,
+  height: 10,
+  depth: 24,
+}

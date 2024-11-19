@@ -1,74 +1,52 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { CirclePicker } from "react-color";
 import { useCallback, useState } from "react";
-import { ISize } from "models";
-import { WardRobeConstants } from "constants/WardRobeConstants";
+import { ISize, IWardrobeModel } from "models";
+import { mockWardrobes } from "mockValues";
+import { useAppDispatch } from "store/store";
+import { WardrobeActions } from "store/slices";
 
 export interface ICustomOption {
+  wardrobe: IWardrobeModel;
   color: string;
-  size: string;
   wireframe: boolean;
   showDoors: boolean;
-  onColorChange?: (color: string) => void;
-  onSizeChange?: (size: ISize) => void;
-  onShowDoors?: (showDoors: boolean) => void;
-  onWireFrameChange?: (wireframe: boolean) => void;
 }
 
-export const CustomOption: React.FC<ICustomOption> = ({ color, size, showDoors, wireframe, onColorChange, onSizeChange, onShowDoors, onWireFrameChange }) => {
+export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color, showDoors, wireframe }) => {
+  const dispatch: any = useAppDispatch();
+
+  const [initialWardrobe] = useState<IWardrobeModel>(wardrobe);
   const [initialWardrobeColor] = useState<string>(color);
-  const [initialWardrobeSize] = useState<string>(size);
   const [initialShowDoors] = useState<boolean>(showDoors);
   const [initialWireframe] = useState<boolean>(wireframe);
 
-  const [wardrobeSize, setWardrobeSize] = useState<string>(size);
-
-  const getValueInFeet = useCallback((sizeStr: string) => {
-    const str = sizeStr.split('*');
-    return Number(str[0]) / 12 + ' * ' + Number(str[1]) / 12;
+  const getValueInFeet = useCallback((newSize: ISize) => {
+    return newSize.width / 12 + ' * ' + newSize.height / 12;
   }, []);
 
   const handleColorChange = useCallback((color: any) => {
-    onColorChange && onColorChange(color.hex);
-  }, [onColorChange]);
+    dispatch(WardrobeActions.setWardrobeColor(color.hex));
+  }, [dispatch]);
 
-  const handleSizeChange = useCallback((sizeStr: string) => {
-    setWardrobeSize(sizeStr);
-    const str = sizeStr.split('*');
-
-    const size: ISize = {
-      width: Number(str[0]),
-      height: Number(str[1]),
-      depth: 12 * 2,
-    }
-
-    onSizeChange && onSizeChange(size);
-  }, [onSizeChange]);
+  const handleSizeChange = useCallback((wardrobe: IWardrobeModel) => {
+    dispatch(WardrobeActions.setCurrentWardrobe(wardrobe));
+  }, [dispatch]);
 
   const handleReset = useCallback(() => {
-    onColorChange && onColorChange(initialWardrobeColor);
-
-    const str = initialWardrobeSize.split('*');
-
-    const size: ISize = {
-      width: Number(str[0]),
-      height: Number(str[1]),
-      depth: 12 * 2,
-    }
-
-    setWardrobeSize(initialWardrobeSize);
-    onSizeChange && onSizeChange(size);
-    onShowDoors && onShowDoors(initialShowDoors);
-    onWireFrameChange && onWireFrameChange(initialWireframe);
-  }, [initialShowDoors, initialWardrobeColor, initialWardrobeSize, initialWireframe, onColorChange, onShowDoors, onSizeChange, onWireFrameChange]);
-
-  const handleShowDoors = useCallback(() => {
-    onShowDoors && onShowDoors(!showDoors);
-  }, [onShowDoors, showDoors]);
+    dispatch(WardrobeActions.setWardrobeColor(initialWardrobeColor));
+    dispatch(WardrobeActions.setCurrentWardrobe(initialWardrobe));
+    dispatch(WardrobeActions.toggleWireframe(initialWireframe));
+    dispatch(WardrobeActions.toggleDoors(initialShowDoors));
+  }, [dispatch, initialShowDoors, initialWardrobe, initialWardrobeColor, initialWireframe]);
 
   const handleWireframe = useCallback(() => {
-    onWireFrameChange && onWireFrameChange(!wireframe);
-  }, [onWireFrameChange, wireframe]);
+    dispatch(WardrobeActions.toggleWireframe());
+  }, [dispatch]);
+
+  const handleShowDoors = useCallback(() => {
+    dispatch(WardrobeActions.toggleDoors());
+  }, [dispatch]);
 
   return <div className="custom-option">
     <div className="inner-box">
@@ -77,7 +55,7 @@ export const CustomOption: React.FC<ICustomOption> = ({ color, size, showDoors, 
       <h3 className="title">Size Picker</h3>
       <div className="wardrobe-size">
         <ul className="sizes">
-          {WardRobeConstants.DEFAULT_WARDROBE_SIZE.map(item => <li key={item}><a className={`link ${item === wardrobeSize ? 'active' : ''}`} href="#" onClick={() => handleSizeChange(item)}>{`${getValueInFeet(item)} Feet`}</a></li>)}
+          {mockWardrobes.map(item => <li key={item.key}><a className={`link ${item.key === wardrobe.key ? 'active' : ''}`} href="#" onClick={() => handleSizeChange(item)}>{`${getValueInFeet(item.size)} Feet`}</a></li>)}
         </ul>
       </div>
       <h3 className="title">Other Option</h3>

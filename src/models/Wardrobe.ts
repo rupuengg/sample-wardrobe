@@ -1,18 +1,9 @@
-import { E_Position } from "../enums";
-import { IPosition } from "./Position";
+import { ISize } from "./Size";
 
-export interface IWardrobe {
-  type: E_Position;
-  position: IPosition;
-  size: IPosition;
-  backColor?: string;
-  frontColor?: string;
-}
-
-export interface IWardrobeList {
-  3_7: IWardrobe[];
-  4_7: IWardrobe[];
-  6_7: IWardrobe[];
-  7_9: IWardrobe[];
-  10_10: IWardrobe[];
+export interface IWardrobeModel {
+  key: string;
+  title: string;
+  size: ISize;
+  innerColor?: string;
+  wardrobeColor: string;
 }
