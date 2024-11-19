@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { CirclePicker } from "react-color";
-import { ISize } from "../../models";
-import { WardRobeConstants } from "../../constants";
 import { useCallback, useState } from "react";
+import { ISize } from "models";
+import { WardRobeConstants } from "constants/WardRobeConstants";
 
 export interface ICustomOption {
   color: string;
@@ -20,6 +21,8 @@ export const CustomOption: React.FC<ICustomOption> = ({ color, size, showDoors, 
   const [initialShowDoors] = useState<boolean>(showDoors);
   const [initialWireframe] = useState<boolean>(wireframe);
 
+  const [wardrobeSize, setWardrobeSize] = useState<string>(size);
+
   const getValueInFeet = useCallback((sizeStr: string) => {
     const str = sizeStr.split('*');
     return Number(str[0]) / 12 + ' * ' + Number(str[1]) / 12;
@@ -30,6 +33,7 @@ export const CustomOption: React.FC<ICustomOption> = ({ color, size, showDoors, 
   }, [onColorChange]);
 
   const handleSizeChange = useCallback((sizeStr: string) => {
+    setWardrobeSize(sizeStr);
     const str = sizeStr.split('*');
 
     const size: ISize = {
@@ -52,6 +56,7 @@ export const CustomOption: React.FC<ICustomOption> = ({ color, size, showDoors, 
       depth: 12 * 2,
     }
 
+    setWardrobeSize(initialWardrobeSize);
     onSizeChange && onSizeChange(size);
     onShowDoors && onShowDoors(initialShowDoors);
     onWireFrameChange && onWireFrameChange(initialWireframe);
@@ -72,15 +77,15 @@ export const CustomOption: React.FC<ICustomOption> = ({ color, size, showDoors, 
       <h3 className="title">Size Picker</h3>
       <div className="wardrobe-size">
         <ul className="sizes">
-          {WardRobeConstants.DEFAULT_WARDROBE_SIZE.map(item => <li key={item} onClick={() => handleSizeChange(item)}>{`${getValueInFeet(item)} Feet`}</li>)}
+          {WardRobeConstants.DEFAULT_WARDROBE_SIZE.map(item => <li key={item}><a className={`link ${item === wardrobeSize ? 'active' : ''}`} href="#" onClick={() => handleSizeChange(item)}>{`${getValueInFeet(item)} Feet`}</a></li>)}
         </ul>
       </div>
       <h3 className="title">Other Option</h3>
       <div className="other">
         <ul className="sizes">
-          <li><a onClick={handleWireframe}>Wireframe</a></li>
-          <li><a onClick={handleShowDoors}>Doors</a></li>
-          <li><a onClick={handleReset}>Reset</a></li>
+          <li><a className="link" href="#" onClick={handleWireframe}>Wireframe</a></li>
+          <li><a className="link" href="#" onClick={handleShowDoors}>Doors</a></li>
+          <li><a className="link" href="#" onClick={handleReset}>Reset</a></li>
         </ul>
       </div>
     </div>

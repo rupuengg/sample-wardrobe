@@ -32,6 +32,13 @@ body,
     padding: 0;
     font-size: 14px;
     display: block;
+    text-decoration: none;
+
+    &:focus,
+    &:hover,
+    &.active {
+      font-weight: 600;
+    }
   }
 
   & .custom-option {

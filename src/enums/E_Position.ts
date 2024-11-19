@@ -6,4 +6,5 @@ export enum E_Position {
   TOP = 'top',
   BOTTOM = 'bottom',
   INNER = 'inner',
+  DRAWER = 'drawer',
 }

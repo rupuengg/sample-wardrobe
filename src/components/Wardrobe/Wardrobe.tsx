@@ -1,11 +1,12 @@
 import { ComponentRef, Suspense, useCallback, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import { PlyBoard } from "../PlyBoard";
-import { ISize } from "../../models";
-import { BoardThickness } from "../../constants";
-import { CalculationUtils, ConvertUtils } from "../../utils";
-import { E_Position } from "../../enums";
+import { PlyBoard } from "components/PlyBoard";
+import { HangerRoad } from "components/HangerRoad";
+import { ISize } from "models";
+import { BoardThickness } from "constants/BoardSize";
+import { E_Position } from "enums";
+import { CalculationUtils, ConvertUtils } from "utils";
 
 export interface IWardrobe {
   size: ISize;
@@ -56,7 +57,7 @@ export const Wardrobe: React.FC<IWardrobe> = ({ size, hangerRoadSize, innerColor
       <PlyBoard type={E_Position.BOTTOM} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: CalculationUtils(size).bottom(BoardThickness.EIGHTEEN_MM), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />
 
       {/* Above Partition if height is greater then 7 feet */}
-      {Number(size.height) > 84 && <PlyBoard type={E_Position.BOTTOM} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: CalculationUtils(size).top(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(Number(size.height) - 84), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />}
+      {Number(size.height) > 84 && <PlyBoard type={E_Position.INNER} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: CalculationUtils(size).top(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(Number(size.height) - 84), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />}
 
       {/* Hanger Road Partition From Top */}
       <PlyBoard type={E_Position.INNER} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: topHieght(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(hangerRoadSize.height), z: 0 }} size={{ x: size.depth, y: BoardThickness.EIGHTEEN_MM, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />
@@ -74,6 +75,12 @@ export const Wardrobe: React.FC<IWardrobe> = ({ size, hangerRoadSize, innerColor
           <PlyBoard type={E_Position.FRONT} position={{ x: -ConvertUtils().toMeterFromInch(24) - 0.01, y: 0, z: +ConvertUtils().toMeterFromInch(size.width / 4) }} size={{ x: BoardThickness.EIGHTEEN_MM, y: size.height, z: (size.width / 2) - ConvertUtils().toMeterFromMM(6) }} showWireFrame={showWireFrame} frontColor={wardrobeColor} backColor={innerColor} />
         </>
       }
+
+      {/* Hanger Road */}
+      <HangerRoad type={E_Position.BACK} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: CalculationUtils(size).top(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(Number(size.height) - 84) - ConvertUtils().toMeterFromInch(3), z: 0 }} size={{ x: ConvertUtils().toMeterFromInch(1), y: ConvertUtils().toMeterFromInch(1), z: (ConvertUtils().toMeterFromInch(size.width) - (2 * ConvertUtils().toMeterFromInch(BoardThickness.EIGHTEEN_MM))) }} showWireFrame={showWireFrame} frontColor={'#c4c4c4'} backColor={'#fff'} />
+
+      {/* Drawer */}
+      <PlyBoard type={E_Position.DRAWER} position={{ x: CalculationUtils(size).left(BoardThickness.SIX_MM), y: topHieght(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(hangerRoadSize.height) - ConvertUtils().toMeterFromInch(BoardThickness.EIGHTEEN_MM) - ConvertUtils().toMeterFromInch(BoardThickness.GAP) - ConvertUtils().toMeterFromInch(4), z: 0 }} size={{ x: size.depth, y: 9, z: (size.width - (2 * BoardThickness.EIGHTEEN_MM)) }} showWireFrame={showWireFrame} frontColor={'red'} backColor={'green'} />
     </Suspense>
   </>;
 }

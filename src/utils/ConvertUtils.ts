@@ -12,5 +12,9 @@ export const ConvertUtils = () => {
       let value: number = typeof val === 'string' ? Number(val) : val;
       return value * 0.001;
     },
+    toInchFromMM: (val: string | number) => {
+      let value: number = typeof val === 'string' ? Number(val) : val;
+      return value * 0.0393701;
+    },
   }
 }
