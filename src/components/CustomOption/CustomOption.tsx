@@ -17,7 +17,6 @@ export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color, showDoo
   const dispatch: any = useAppDispatch();
 
   const [initialWardrobe] = useState<IWardrobeModel>(wardrobe);
-  const [initialWardrobeColor] = useState<string>(color);
   const [initialShowDoors] = useState<boolean>(showDoors);
   const [initialWireframe] = useState<boolean>(wireframe);
 
@@ -34,11 +33,10 @@ export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color, showDoo
   }, [dispatch]);
 
   const handleReset = useCallback(() => {
-    dispatch(WardrobeActions.setWardrobeColor(initialWardrobeColor));
     dispatch(WardrobeActions.setCurrentWardrobe(initialWardrobe));
     dispatch(WardrobeActions.toggleWireframe(initialWireframe));
     dispatch(WardrobeActions.toggleDoors(initialShowDoors));
-  }, [dispatch, initialShowDoors, initialWardrobe, initialWardrobeColor, initialWireframe]);
+  }, [dispatch, initialShowDoors, initialWardrobe, initialWireframe]);
 
   const handleWireframe = useCallback(() => {
     dispatch(WardrobeActions.toggleWireframe());
