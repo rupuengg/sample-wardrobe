@@ -3,7 +3,7 @@ import { IPosition } from "../../models";
 import { E_Position } from "../../enums";
 import { ConvertUtils } from "../../utils";
 
-export interface IPlyBoard {
+export interface IHangerRoad {
   position: IPosition;
   size: IPosition;
   type: E_Position;
@@ -12,7 +12,7 @@ export interface IPlyBoard {
   showWireFrame?: boolean;
 }
 
-export const PlyBoard: React.FC<IPlyBoard> = ({ position, size, type, backColor = '#ccc', frontColor = 'red', showWireFrame = false }) => {
+export const HangerRoad: React.FC<IHangerRoad> = ({ position, size, type, backColor = '#ccc', frontColor = 'red', showWireFrame = false }) => {
   return <mesh position={[position.x, position.y, position.z]} >
     <boxGeometry args={[ConvertUtils().toMeterFromInch(size.x), ConvertUtils().toMeterFromInch(size.y), ConvertUtils().toMeterFromInch(size.z)]} />
 

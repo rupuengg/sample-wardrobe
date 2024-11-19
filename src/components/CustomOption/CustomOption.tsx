@@ -78,9 +78,9 @@ export const CustomOption: React.FC<ICustomOption> = ({ color, size, showDoors, 
       <h3 className="title">Other Option</h3>
       <div className="other">
         <ul className="sizes">
-          <li onClick={handleWireframe}>Wireframe</li>
-          <li onClick={handleShowDoors}>Doors</li>
-          <li onClick={handleReset}>Reset</li>
+          <li><a onClick={handleWireframe}>Wireframe</a></li>
+          <li><a onClick={handleShowDoors}>Doors</a></li>
+          <li><a onClick={handleReset}>Reset</a></li>
         </ul>
       </div>
     </div>
