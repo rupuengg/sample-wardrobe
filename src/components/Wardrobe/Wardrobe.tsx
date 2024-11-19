@@ -40,6 +40,7 @@ export const Wardrobe: React.FC<IWardrobe> = ({ size, hangerRoadSize, innerColor
     <OrbitControls ref={orbitRef} target={[0, 0, 0]} autoRotate={false} />
     <directionalLight position={[0, 0, 2]} intensity={Math.PI} ref={dLightRef} />
     <axesHelper />
+    <gridHelper />
 
     <Suspense>
       {/* Back Side */}
