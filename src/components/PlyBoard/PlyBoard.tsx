@@ -20,7 +20,7 @@ export interface IPlyBoard {
 }
 
 export const PlyBoard: React.FC<IPlyBoard> = ({ position, size, type, backColor = '#ccc', frontColor = 'red', showWireFrame = false }) => {
-  return <mesh position={[position.x, position.y, position.z]} >
+  return <mesh position={[position.x, position.y, position.z]}>
     <boxGeometry args={[ConvertUtils().toMeterFromInch(size.x), ConvertUtils().toMeterFromInch(size.y), ConvertUtils().toMeterFromInch(size.z)]} />
 
     {/* Back Side */}

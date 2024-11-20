@@ -5,6 +5,8 @@ export const WardrobeConstants = {
     OTHER_OPTION: 'Other Option',
     WIREFRAME: 'Wireframe',
     DOORS: 'Doors',
+    GRID_LINE: 'Grid Line',
+    AXES: 'Axes',
     RESET: 'Reset',
   }
 }

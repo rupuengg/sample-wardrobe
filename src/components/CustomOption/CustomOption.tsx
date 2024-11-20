@@ -10,16 +10,20 @@ import { WardrobeConstants } from "constants/WardrobeConstants";
 export interface ICustomOption {
   wardrobe: IWardrobeModel;
   color: string;
-  wireframe: boolean;
-  showDoors: boolean;
+  wireframe?: boolean;
+  showDoors?: boolean;
+  showGridLine?: boolean;
+  showAxes?: boolean;
 }
 
-export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color, showDoors, wireframe }) => {
+export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color, showDoors = false, wireframe = false, showGridLine = false, showAxes = true }) => {
   const dispatch: any = useAppDispatch();
 
   const [initialWardrobe] = useState<IWardrobeModel>(wardrobe);
   const [initialShowDoors] = useState<boolean>(showDoors);
   const [initialWireframe] = useState<boolean>(wireframe);
+  const [initialShowGridLine] = useState<boolean>(showGridLine);
+  const [initialShowAxes] = useState<boolean>(showAxes);
 
   const handleColorChange = useCallback((color: any) => {
     dispatch(WardrobeActions.setWardrobeColor(color.hex));
@@ -29,12 +33,6 @@ export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color, showDoo
     dispatch(WardrobeActions.setCurrentWardrobe(wardrobe));
   }, [dispatch]);
 
-  const handleReset = useCallback(() => {
-    dispatch(WardrobeActions.setCurrentWardrobe(initialWardrobe));
-    dispatch(WardrobeActions.toggleWireframe(initialWireframe));
-    dispatch(WardrobeActions.toggleDoors(initialShowDoors));
-  }, [dispatch, initialShowDoors, initialWardrobe, initialWireframe]);
-
   const handleWireframe = useCallback(() => {
     dispatch(WardrobeActions.toggleWireframe());
   }, [dispatch]);
@@ -42,6 +40,22 @@ export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color, showDoo
   const handleShowDoors = useCallback(() => {
     dispatch(WardrobeActions.toggleDoors());
   }, [dispatch]);
+
+  const handleShowGrid = useCallback(() => {
+    dispatch(WardrobeActions.toggleGridLine());
+  }, [dispatch]);
+
+  const handleShowAxes = useCallback(() => {
+    dispatch(WardrobeActions.toggleAxes());
+  }, [dispatch]);
+
+  const handleReset = useCallback(() => {
+    dispatch(WardrobeActions.setCurrentWardrobe(initialWardrobe));
+    dispatch(WardrobeActions.toggleWireframe(initialWireframe));
+    dispatch(WardrobeActions.toggleDoors(initialShowDoors));
+    dispatch(WardrobeActions.toggleGridLine(initialShowGridLine));
+    dispatch(WardrobeActions.toggleAxes(initialShowAxes));
+  }, [dispatch, initialShowDoors, initialWardrobe, initialWireframe, initialShowGridLine, initialShowAxes]);
 
   return <div className="custom-option">
     <div className="inner-box">
@@ -58,6 +72,8 @@ export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color, showDoo
         <ul className="sizes">
           <li><a className="link" href="#" onClick={handleWireframe}>{WardrobeConstants.TITLE.WIREFRAME}</a></li>
           <li><a className="link" href="#" onClick={handleShowDoors}>{WardrobeConstants.TITLE.DOORS}</a></li>
+          <li><a className="link" href="#" onClick={handleShowGrid}>{WardrobeConstants.TITLE.GRID_LINE}</a></li>
+          <li><a className="link" href="#" onClick={handleShowAxes}>{WardrobeConstants.TITLE.AXES}</a></li>
           <li><a className="link" href="#" onClick={handleReset}>{WardrobeConstants.TITLE.RESET}</a></li>
         </ul>
       </div>

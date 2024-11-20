@@ -8,9 +8,12 @@ export interface IWardrobeState {
   wardrobeInnerColor?: string;
   showWireframe?: boolean;
   showDoors?: boolean;
+  showGridLine?: boolean;
+  showAxes?: boolean;
 }
 
 export const defaultWardrobeState: IWardrobeState = {
   wardrobes: [...mockWardrobes],
   currentWardrobe: mockWardrobes[0],
+  showAxes: true,
 }

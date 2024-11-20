@@ -24,6 +24,12 @@ export const wardrobeSlice = createSlice({
     toggleDoors(draft: IWardrobeState, action: PayloadAction<boolean | undefined>) {
       draft.showDoors = action.payload !== undefined ? action.payload : !draft.showDoors;
     },
+    toggleGridLine(draft: IWardrobeState, action: PayloadAction<boolean | undefined>) {
+      draft.showGridLine = action.payload !== undefined ? action.payload : !draft.showGridLine;
+    },
+    toggleAxes(draft: IWardrobeState, action: PayloadAction<boolean | undefined>) {
+      draft.showAxes = action.payload !== undefined ? action.payload : !draft.showAxes;
+    },
   },
   // extraReducers: (builder: ActionReducerMapBuilder<IDataManagementState>) => {
   //   builder

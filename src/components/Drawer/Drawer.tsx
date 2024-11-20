@@ -1,36 +1,27 @@
+import { useRef } from "react";
 import { Mesh as _Mesh, BoxGeometry as _BoxGeometry, MeshStandardMaterial as _MeshStandardMaterial } from "three";
-import { extend } from '@react-three/fiber';
-import { IPosition, ISize } from "models";
-import { ConvertUtils } from "utils";
-import { useMemo } from "react";
-import { BoardThickness } from "constants/BoardSize";
+import { extend, useFrame } from '@react-three/fiber';
+import { IBoard, rotate } from "components/PlyBoard";
+import { E_Position } from "enums";
 
-extend({
-  Mesh: _Mesh,
-  BoxGeometry: _BoxGeometry,
-  MeshStandardMaterial: _MeshStandardMaterial,
-});
+extend({ Mesh: _Mesh, BoxGeometry: _BoxGeometry, MeshStandardMaterial: _MeshStandardMaterial, });
 
-export interface IDrawer {
-  position: IPosition;
-  size: ISize;
-  frontColor?: string;
-  showWireFrame?: boolean;
-}
+export const Drawer: React.FC<IBoard> = ({ position, size, type, frontColor = 'RED', showWireFrame = false }) => {
+  const hangerRoadRef = useRef<any>(null);
 
-export const Drawer: React.FC<IDrawer> = ({ position, size, frontColor = 'red', showWireFrame = false }) => {
-  const yPos = useMemo(() => {
-    return ConvertUtils().toMeterFromInch(size.height) - (2 * ConvertUtils().toMeterFromMM(18));
-  }, [size.height]);
+  useFrame(() => {
+    if (hangerRoadRef.current) {
+      if (type === E_Position.DRAWER) {
+        hangerRoadRef.current.rotation.x = rotate(-90);
+        hangerRoadRef.current.rotation.z = rotate(-90);
+      }
+    }
+  });
 
-  const zPos = useMemo(() => {
-    return ConvertUtils().toMeterFromInch(size.width) - (2 * ConvertUtils().toMeterFromMM(18)) - (2 * ConvertUtils().toMeterFromInch(BoardThickness.GAP));
-  }, [size.width]);
+  console.log('Drawer', type, position, size, frontColor);
+  return <mesh position={[position.x, position.y, position.z]} ref={hangerRoadRef}>
+    <boxGeometry args={[size.width, size.height, size.depth]} />
 
-  return <mesh position={[position.x, position.y, position.z]}>
-    <boxGeometry args={[ConvertUtils().toMeterFromInch(size.depth), yPos, zPos]} />
-
-    {/* Back Side */}
-    <meshStandardMaterial color={frontColor} {...(showWireFrame ? { wireframe: true } : {})} />
-  </mesh>;
+    <meshStandardMaterial color={frontColor}  {...(showWireFrame ? { wireframe: true } : {})} />
+  </mesh>
 }

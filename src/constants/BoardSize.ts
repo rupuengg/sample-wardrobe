@@ -5,4 +5,5 @@ export const BoardThickness = {
   TWELVE_MM: ConvertUtils().toInchFromMM(12),
   EIGHTEEN_MM: ConvertUtils().toInchFromMM(18),
   GAP: ConvertUtils().toInchFromMM(5),
+  HANGER_ROAD: ConvertUtils().toInchFromMM(10),
 }

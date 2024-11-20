@@ -1,37 +1,27 @@
 import { useRef } from "react";
 import * as THREE from "three";
 import { extend, useFrame } from "@react-three/fiber";
-import { IPosition } from "models";
 import { E_Position } from "enums";
+import { IBoard, rotate } from "components/PlyBoard";
 
-extend({
-  Mesh: THREE.Mesh,
-  BoxGeometry: THREE.BoxGeometry,
-  MeshStandardMaterial: THREE.MeshStandardMaterial,
-});
+extend({ Mesh: THREE.Mesh, CylinderGeometry: THREE.CylinderGeometry, MeshStandardMaterial: THREE.MeshStandardMaterial, });
 
-export interface IHangerRoad {
-  position: IPosition;
-  size: IPosition;
-  type: E_Position;
-  backColor?: string;
-  frontColor?: string;
-  showWireFrame?: boolean;
-}
-
-export const HangerRoad: React.FC<IHangerRoad> = ({ position, size, type, backColor = '#fff', frontColor = 'black', showWireFrame = false }) => {
+export const HangerRoad: React.FC<IBoard> = ({ position, size, type, frontColor = 'black', showWireFrame = false }) => {
   const hangerRoadRef = useRef<any>(null);
 
   useFrame(() => {
     if (hangerRoadRef.current) {
-      hangerRoadRef.current.rotation.x = 1.57;
+      if (type === E_Position.HANGER_ROAD) {
+        hangerRoadRef.current.rotation.x = rotate(-90);
+        hangerRoadRef.current.rotation.z = rotate(-90);
+      }
     }
   });
 
   return <mesh position={[position.x, position.y, position.z]} ref={hangerRoadRef} >
-    <cylinderGeometry args={[size.x, size.y, size.z, 6]} />
+    <cylinderGeometry args={[size.width, size.height, size.depth]} />
 
     {/* Back Side */}
-    <meshStandardMaterial attach={'material-0'} color={[E_Position.BACK].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
+    <meshStandardMaterial color={frontColor}  {...(showWireFrame ? { wireframe: true } : {})} />
   </mesh>
 }
