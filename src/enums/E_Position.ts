@@ -9,6 +9,7 @@ export enum E_Position {
   INNER = 'inner',
   DRAWER = 'drawer',
   HANGER_ROAD = 'hanger-road',
+  DOOR = 'door',
 }
 
 export enum E_Category {
@@ -16,4 +17,5 @@ export enum E_Category {
   PARTITION = 'partition',
   HANGER_ROAD = 'hanger-road',
   DRAWER = 'drawer',
+  DOOR = 'door',
 }

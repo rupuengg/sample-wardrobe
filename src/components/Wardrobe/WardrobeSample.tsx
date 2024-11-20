@@ -7,6 +7,7 @@ import { ConvertUtils } from "utils";
 import { Board, Partition } from "components/PlyBoard";
 import { Drawer } from "components/Drawer";
 import { HangerRoad } from "components/HangerRoad";
+import { Door } from "components/Door";
 
 export interface IWardrobeSample {
   wardrobe: IWardrobeModel;
@@ -39,10 +40,12 @@ export const WardrobeSample: React.FC<IWardrobeSample> = ({ wardrobe, size, hang
         return <Drawer type={piece.type} position={ConvertUtils().positionToMeterFromInch(piece.position)} size={ConvertUtils().sizeToMeterFromInch(piece.size)} showWireFrame={showWireFrame} frontColor={piece.frontColor || wardrobe.wardrobeColor} backColor={wardrobe.innerColor} />;
       case E_Category.HANGER_ROAD:
         return <HangerRoad type={piece.type} position={ConvertUtils().positionToMeterFromInch(piece.position)} size={ConvertUtils().sizeToMeterFromInch(piece.size)} showWireFrame={showWireFrame} frontColor={piece.frontColor || wardrobe.wardrobeColor} backColor={wardrobe.innerColor} />;
+      case E_Category.DOOR:
+        return showDoors ? <Door type={piece.type} position={ConvertUtils().positionToMeterFromInch(piece.position)} size={ConvertUtils().sizeToMeterFromInch(piece.size)} showWireFrame={showWireFrame} frontColor={piece.frontColor || wardrobe.wardrobeColor} backColor={wardrobe.innerColor} /> : null;
       default:
         return null;
     }
-  }, [showWireFrame, wardrobe.innerColor, wardrobe.wardrobeColor]);
+  }, [showWireFrame, showDoors, wardrobe.innerColor, wardrobe.wardrobeColor]);
 
   return <>
     <ambientLight intensity={0.5} />

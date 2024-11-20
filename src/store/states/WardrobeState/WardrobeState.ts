@@ -15,5 +15,4 @@ export interface IWardrobeState {
 export const defaultWardrobeState: IWardrobeState = {
   wardrobes: [...mockWardrobes],
   currentWardrobe: mockWardrobes[0],
-  showAxes: true,
 }
