@@ -11,9 +11,11 @@ export const Partition: React.FC<IBoard> = ({ position, size, type, backColor = 
 
   useFrame(() => {
     if (hangerRoadRef.current) {
-      if (type === E_Position.PARTITION_H) {
-        hangerRoadRef.current.rotation.x = rotate(-90);
-        hangerRoadRef.current.rotation.z = rotate(-90);
+      if (type === E_Position.HORIZONTAL_PARTITION) {
+        // hangerRoadRef.current.rotation.x = rotate(-90);
+        // hangerRoadRef.current.rotation.z = rotate(-90);
+      } else if (type === E_Position.VERTICAL_PARTITION) {
+        hangerRoadRef.current.rotation.y = rotate(-90);
       }
     }
   });
@@ -22,20 +24,6 @@ export const Partition: React.FC<IBoard> = ({ position, size, type, backColor = 
   return <mesh position={[position.x, position.y, position.z]} ref={hangerRoadRef}>
     <boxGeometry args={[size.width, size.height, size.depth]} />
 
-    {/* Right Section */}
-    <meshStandardMaterial attach={'material-0'} color={[E_Position.BACK, E_Position.LEFT, E_Position.RIGHT, E_Position.TOP, E_Position.BOTTOM].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
-
-    {/* Left Section */}
-    <meshStandardMaterial attach={'material-1'} color={[E_Position.BACK, E_Position.LEFT, E_Position.RIGHT, E_Position.TOP, E_Position.BOTTOM].includes(type) ? frontColor : backColor} {...(showWireFrame ? { wireframe: true } : {})} />
-
-    {/* Top Section */}
-    <meshStandardMaterial attach={'material-2'} color={[E_Position.BACK, E_Position.LEFT, E_Position.RIGHT, E_Position.TOP, E_Position.BOTTOM].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
-
-    {/* Bottom Section */}
-    <meshStandardMaterial attach={'material-3'} color={[E_Position.BACK, E_Position.LEFT, E_Position.RIGHT, E_Position.TOP, E_Position.BOTTOM].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
-
-    <meshStandardMaterial attach={'material-4'} color={[E_Position.FRONT, E_Position.RIGHT, E_Position.TOP].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
-
-    <meshStandardMaterial attach={'material-5'} color={[E_Position.BACK, E_Position.LEFT, E_Position.BOTTOM].includes(type) ? frontColor : backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
+    <meshStandardMaterial color={backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
   </mesh>
 }

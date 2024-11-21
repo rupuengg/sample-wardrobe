@@ -33,15 +33,15 @@ export const WardrobeSample: React.FC<IWardrobeSample> = ({ wardrobe, size, hang
   const getPiece = useCallback((piece: IWardrobePiecesModel) => {
     switch (piece.category) {
       case E_Category.BOARD:
-        return <Board type={piece.type} position={ConvertUtils().positionToMeterFromInch(piece.position)} size={ConvertUtils().sizeToMeterFromInch(piece.size)} showWireFrame={showWireFrame} frontColor={piece.frontColor || wardrobe.wardrobeColor} backColor={wardrobe.innerColor} />;
+        return <Board type={piece.type} position={ConvertUtils().positionToMeterFromInch(piece.position)} size={ConvertUtils().sizeToMeterFromInch(piece.size)} showWireFrame={showWireFrame} frontColor={piece.frontColor || wardrobe.wardrobeColor} backColor={piece.backColor || wardrobe.innerColor} />;
       case E_Category.PARTITION:
-        return <Partition type={piece.type} position={ConvertUtils().positionToMeterFromInch(piece.position)} size={ConvertUtils().sizeToMeterFromInch(piece.size)} showWireFrame={showWireFrame} frontColor={piece.frontColor || wardrobe.wardrobeColor} backColor={wardrobe.innerColor} />;
+        return <Partition type={piece.type} position={ConvertUtils().positionToMeterFromInch(piece.position)} size={ConvertUtils().sizeToMeterFromInch(piece.size)} showWireFrame={showWireFrame} frontColor={piece.frontColor || wardrobe.wardrobeColor} backColor={piece.backColor || wardrobe.innerColor} />;
       case E_Category.DRAWER:
-        return <Drawer type={piece.type} position={ConvertUtils().positionToMeterFromInch(piece.position)} size={ConvertUtils().sizeToMeterFromInch(piece.size)} showWireFrame={showWireFrame} frontColor={piece.frontColor || wardrobe.wardrobeColor} backColor={wardrobe.innerColor} />;
+        return <Drawer type={piece.type} position={ConvertUtils().positionToMeterFromInch(piece.position)} size={ConvertUtils().sizeToMeterFromInch(piece.size)} showWireFrame={showWireFrame} frontColor={piece.frontColor || wardrobe.wardrobeColor} backColor={piece.backColor || wardrobe.innerColor} />;
       case E_Category.HANGER_ROAD:
-        return <HangerRoad type={piece.type} position={ConvertUtils().positionToMeterFromInch(piece.position)} size={ConvertUtils().sizeToMeterFromInch(piece.size)} showWireFrame={showWireFrame} frontColor={piece.frontColor || wardrobe.wardrobeColor} backColor={wardrobe.innerColor} />;
+        return <HangerRoad type={piece.type} position={ConvertUtils().positionToMeterFromInch(piece.position)} size={ConvertUtils().sizeToMeterFromInch(piece.size)} showWireFrame={showWireFrame} frontColor={piece.frontColor || wardrobe.wardrobeColor} backColor={piece.backColor || wardrobe.innerColor} />;
       case E_Category.DOOR:
-        return showDoors ? <Door type={piece.type} position={ConvertUtils().positionToMeterFromInch(piece.position)} size={ConvertUtils().sizeToMeterFromInch(piece.size)} showWireFrame={showWireFrame} frontColor={piece.frontColor || wardrobe.wardrobeColor} backColor={wardrobe.innerColor} /> : null;
+        return showDoors ? <Door type={piece.type} position={ConvertUtils().positionToMeterFromInch(piece.position)} size={ConvertUtils().sizeToMeterFromInch(piece.size)} showWireFrame={showWireFrame} frontColor={piece.frontColor || wardrobe.wardrobeColor} backColor={piece.backColor || wardrobe.innerColor} /> : null;
       default:
         return null;
     }
