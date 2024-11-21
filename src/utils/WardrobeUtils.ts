@@ -34,17 +34,16 @@ export const WardrobeUtils = (size: ISize) => {
     },
     partitionVPositionFromBottomLeft: (partitionSize: ISize, fromLeft: number, fromTop: number, boardThickness: number) => {
       return {
-        x: -(size.width / 2) - (boardThickness / 2) + (partitionSize.depth / 2) + fromLeft,
+        x: -(size.width / 2) - (boardThickness / 2) + (partitionSize.depth / 2) + (fromLeft - boardThickness),
         y: -(size.height / 2) + (partitionSize.height / 2) + fromTop,
         z: size.depth / 2
       } as IPosition;
     },
-    partitionHPositionFromBottomLeft: (partitionSize: ISize, fromTop: number, boardThickness: number) => {
-      console.log('size,partitionSize', size, partitionSize);
+    partitionHPositionFromBottomLeft: (partitionSize: ISize, fromBottom: number, boardThickness: number) => {
       return {
-        x: 0,//-(size.width / 2) + (boardThickness / 2) + (partitionSize.height / 2) + (size.width - partitionSize.height / 2),
-        y: 0,//-(size.height / 2) - + (boardThickness / 2) + fromTop,
-        z: 0,//size.depth / 2
+        x: -(size.width / 2) + (partitionSize.height / 2),// + (boardThickness / 2),// + (size.width - partitionSize.height),// + (boardThickness / 2) + (size.width - partitionSize.height / 2),
+        y: -(size.height / 2) - (boardThickness / 2) + fromBottom,
+        z: size.depth / 2
       } as IPosition;
     },
   }

@@ -12,8 +12,8 @@ export const Partition: React.FC<IBoard> = ({ position, size, type, backColor = 
   useFrame(() => {
     if (hangerRoadRef.current) {
       if (type === E_Position.HORIZONTAL_PARTITION) {
-        // hangerRoadRef.current.rotation.x = rotate(-90);
-        // hangerRoadRef.current.rotation.z = rotate(-90);
+        hangerRoadRef.current.rotation.x = rotate(-90);
+        hangerRoadRef.current.rotation.z = rotate(-90);
       } else if (type === E_Position.VERTICAL_PARTITION) {
         hangerRoadRef.current.rotation.y = rotate(-90);
       }
