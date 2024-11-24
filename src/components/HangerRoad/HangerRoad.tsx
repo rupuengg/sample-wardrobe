@@ -18,7 +18,7 @@ export const HangerRoad: React.FC<IBoard> = ({ position, size, type, frontColor 
     }
   });
 
-  return <mesh position={[position.x, position.y, position.z]} ref={hangerRoadRef} >
+  return <mesh position={[position.x, position.y, position.z]} ref={hangerRoadRef}>
     <cylinderGeometry args={[size.width, size.height, size.depth]} />
 
     {/* Back Side */}

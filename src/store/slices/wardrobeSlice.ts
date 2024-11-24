@@ -9,11 +9,12 @@ export const wardrobeSlice = createSlice({
     setWardrobes(draft: IWardrobeState, action: PayloadAction<IWardrobeModel[]>) {
       draft.wardrobes = action.payload;
     },
-    setCurrentWardrobe(draft: IWardrobeState, action: PayloadAction<IWardrobeModel>) {
-      draft.currentWardrobe = action.payload;
+    setCurrentWardrobe(draft: IWardrobeState, action: PayloadAction<IWardrobeModel | undefined>) {
+      draft.currentWardrobe = action.payload ? { ...action.payload } : undefined;
     },
     setWardrobeColor(draft: IWardrobeState, action: PayloadAction<string>) {
-      draft.currentWardrobe.wardrobeColor = action.payload;
+      if (draft.currentWardrobe) draft.currentWardrobe.wardrobeColor = action.payload;
+      draft.wardrobeColor = action.payload;
     },
     setWardrobeInnerColor(draft: IWardrobeState, action: PayloadAction<string>) {
       draft.wardrobeInnerColor = action.payload;

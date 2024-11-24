@@ -8,18 +8,18 @@ import { WardrobeActions } from "store/slices";
 import { WardrobeConstants } from "constants/WardrobeConstants";
 
 export interface ICustomOption {
-  wardrobe: IWardrobeModel;
-  color: string;
+  wardrobe?: IWardrobeModel;
+  color?: string;
   wireframe?: boolean;
   showDoors?: boolean;
   showGridLine?: boolean;
   showAxes?: boolean;
 }
 
-export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color, showDoors = false, wireframe = false, showGridLine = false, showAxes = true }) => {
+export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color = '#3f51b5', showDoors = false, wireframe = false, showGridLine = false, showAxes = true }) => {
   const dispatch: any = useAppDispatch();
 
-  const [initialWardrobe] = useState<IWardrobeModel>(wardrobe);
+  const [initialWardrobe] = useState<IWardrobeModel | undefined>(wardrobe);
   const [initialShowDoors] = useState<boolean>(showDoors);
   const [initialWireframe] = useState<boolean>(wireframe);
   const [initialShowGridLine] = useState<boolean>(showGridLine);
@@ -64,7 +64,7 @@ export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color, showDoo
       <h3 className="title">{WardrobeConstants.TITLE.SIZE_PICKER}</h3>
       <div className="wardrobe-size">
         <ul className="sizes">
-          {mockWardrobes.map(item => <li key={item.key}><a className={`link ${item.key === wardrobe.key ? 'active' : ''}`} href="#" onClick={() => handleSizeChange(item)}>{`${item.size.width / 12} * ${item.size.height / 12} Feet`}</a></li>)}
+          {mockWardrobes.map(item => <li key={item.key}><a className={`link ${item.key === wardrobe?.key ? 'active' : ''}`} href="#" onClick={() => handleSizeChange(item)}>{`${item.size.width / 12} * ${item.size.height / 12} Feet`}</a></li>)}
         </ul>
       </div>
       <h3 className="title">{WardrobeConstants.TITLE.OTHER_OPTION}</h3>

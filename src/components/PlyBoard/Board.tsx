@@ -11,6 +11,7 @@ export function rotate(deg: number) {
 extend({ Mesh: _Mesh, BoxGeometry: _BoxGeometry, MeshStandardMaterial: _MeshStandardMaterial, });
 
 export interface IBoard {
+  key: string;
   position: IPosition;
   size: ISize;
   type: E_Position;
@@ -35,7 +36,7 @@ export const Board: React.FC<IBoard> = ({ position, size, type, backColor = '#cc
     }
   });
 
-  console.log('Board', type, position, size);
+  // console.log('Board', type, position, size);
   return <mesh position={[position.x, position.y, position.z]} ref={hangerRoadRef}>
     <boxGeometry args={[size.width, size.height, size.depth]} />
 

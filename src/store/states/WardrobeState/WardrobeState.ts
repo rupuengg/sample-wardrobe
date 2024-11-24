@@ -3,7 +3,7 @@ import { IWardrobeModel } from "models";
 
 export interface IWardrobeState {
   wardrobes: IWardrobeModel[];
-  currentWardrobe: IWardrobeModel;
+  currentWardrobe?: IWardrobeModel;
   wardrobeColor?: string;
   wardrobeInnerColor?: string;
   showWireframe?: boolean;
@@ -14,5 +14,7 @@ export interface IWardrobeState {
 
 export const defaultWardrobeState: IWardrobeState = {
   wardrobes: [...mockWardrobes],
-  currentWardrobe: mockWardrobes[0],
+  currentWardrobe: mockWardrobes[3],
+  showGridLine: true,
+  showAxes: true,
 }

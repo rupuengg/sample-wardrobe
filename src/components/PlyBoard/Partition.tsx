@@ -21,7 +21,7 @@ export const Partition: React.FC<IBoard> = ({ position, size, type, backColor = 
   });
 
   console.log('Partition', type, position, size);
-  return <mesh position={[position.x, position.y, position.z]} ref={hangerRoadRef}>
+  return <mesh key={position.x} position={[position.x, position.y, position.z]} ref={hangerRoadRef}>
     <boxGeometry args={[size.width, size.height, size.depth]} />
 
     <meshStandardMaterial color={backColor}  {...(showWireFrame ? { wireframe: true } : {})} />
