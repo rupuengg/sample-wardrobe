@@ -1,12 +1,23 @@
 import { E_Category, E_Position } from "enums";
 import { ISize, IWardrobeModel, IWardrobePiecesModel } from "models";
-import { BoardThickness } from "constants/BoardSize";
+import { ConvertUtils } from "utils";
 import { WardrobeUtils } from "utils/WardrobeUtils";
 
 const size36_84_24: ISize = { width: 36, height: 84, depth: 24 };
 const size48_84_24: ISize = { width: 48, height: 84, depth: 24 };
 const size72_84_24: ISize = { width: 72, height: 84, depth: 24 };
 const size72_108_24: ISize = { width: 72, height: 108, depth: 24 };
+const size120_120_24: ISize = { width: 120, height: 120, depth: 24 };
+
+function getDetail(size: ISize): IWardrobeModel {
+  return {
+    key: `${size.width}*${size.height}*${size.depth}`,
+    title: `Wardrobe ${ConvertUtils().toFeetFromInch(size.width)}*${ConvertUtils().toFeetFromInch(size.height)}`,
+    size: { ...size },
+    wardrobeColor: '#3f51b5',
+    innerColor: '#cccccc',
+  } as IWardrobeModel;
+}
 
 function getPieces(size: ISize) {
   return [
@@ -20,11 +31,7 @@ function getPieces(size: ISize) {
 
 export const mockWardrobes: IWardrobeModel[] = [
   {
-    key: '36*84*24',
-    title: '3*7',
-    size: size36_84_24,
-    wardrobeColor: '#3f51b5',
-    innerColor: '#cccccc',
+    ...getDetail(size36_84_24),
     pieces: [
       ...getPieces(size36_84_24),
       { ...WardrobeUtils(size36_84_24).getPosition(E_Category.PARTITION, E_Position.HORIZONTAL_PARTITION, size36_84_24, { fromBottom: 36 }) },
@@ -41,11 +48,7 @@ export const mockWardrobes: IWardrobeModel[] = [
     ]
   },
   {
-    key: '48*84*24',
-    title: '4*7',
-    size: size48_84_24,
-    wardrobeColor: '#3f51b5',
-    innerColor: '#cccccc',
+    ...getDetail(size48_84_24),
     pieces: [
       ...getPieces(size48_84_24),
       { ...WardrobeUtils(size48_84_24).getPosition(E_Category.PARTITION, E_Position.VERTICAL_PARTITION, size48_84_24, { fromLeft: 32 }), },
@@ -71,11 +74,7 @@ export const mockWardrobes: IWardrobeModel[] = [
     ]
   },
   {
-    key: '72*84*24',
-    title: '6*7',
-    size: size72_84_24,
-    wardrobeColor: '#3f51b5',
-    innerColor: '#cccccc',
+    ...getDetail(size72_84_24),
     pieces: [
       ...getPieces(size72_84_24),
       { ...WardrobeUtils(size72_84_24).getPosition(E_Category.PARTITION, E_Position.VERTICAL_PARTITION, size72_84_24, { fromLeft: 36 }), },
@@ -104,11 +103,7 @@ export const mockWardrobes: IWardrobeModel[] = [
     ]
   },
   {
-    key: '72*108*24',
-    title: '7*9',
-    size: size72_108_24,
-    wardrobeColor: '#3f51b5',
-    innerColor: '#cccccc',
+    ...getDetail(size72_108_24),
     pieces: [
       ...getPieces(size72_108_24),
       { ...WardrobeUtils(size72_108_24).getPosition(E_Category.PARTITION, E_Position.HORIZONTAL_PARTITION, size72_108_24, { fromBottom: 84 }), },
@@ -116,11 +111,10 @@ export const mockWardrobes: IWardrobeModel[] = [
       { ...WardrobeUtils(size72_108_24).getPosition(E_Category.PARTITION, E_Position.VERTICAL_PARTITION, size72_108_24, { fromLeft: 36, height: 84 }), },
     ]
   },
-  // {
-  //   key: '120*120*24',
-  //   title: '10*10',
-  //   size: { width: 120, height: 120, depth: 24 },
-  //   wardrobeColor: '#3f51b5',
-  //   innerColor: '#cccccc'
-  // },
+  {
+    ...getDetail(size120_120_24),
+    pieces: [
+      ...getPieces(size72_108_24),
+    ]
+  },
 ];

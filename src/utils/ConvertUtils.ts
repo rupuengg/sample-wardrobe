@@ -41,6 +41,10 @@ export const ConvertUtils = () => {
       let value: number = typeof val === 'string' ? Number(val) : val;
       return value * UnitConverter.MM.TO_INCH;
     },
+    toFeetFromInch: (val: string | number) => {
+      let value: number = typeof val === 'string' ? Number(val) : val;
+      return value * UnitConverter.INCH.TO_FOOT;
+    },
     positionToInchFromMeter: (position: IPosition) => {
       return {
         x: position.x * UnitConverter.METER.TO_INCH,
