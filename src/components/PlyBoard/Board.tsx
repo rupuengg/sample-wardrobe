@@ -36,7 +36,6 @@ export const Board: React.FC<IBoard> = ({ position, size, type, backColor = '#cc
     }
   });
 
-  // console.log('Board', type, position, size);
   return <mesh position={[position.x, position.y, position.z]} ref={hangerRoadRef}>
     <boxGeometry args={[size.width, size.height, size.depth]} />
 

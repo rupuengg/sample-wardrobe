@@ -18,7 +18,6 @@ export const Drawer: React.FC<IBoard> = ({ position, size, type, frontColor = 'R
     }
   });
 
-  console.log('Drawer', type, position, size, frontColor);
   return <mesh position={[position.x, position.y, position.z]} ref={hangerRoadRef}>
     <boxGeometry args={[size.width, size.height, size.depth]} />
 

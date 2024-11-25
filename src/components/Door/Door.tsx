@@ -7,7 +7,6 @@ import { BackSide } from "three";
 extend({ Mesh: _Mesh, BoxGeometry: _BoxGeometry, MeshStandardMaterial: _MeshStandardMaterial, });
 
 export const Door: React.FC<IBoard> = ({ position, size, type, backColor = '#ccc', frontColor = 'red', showWireFrame = false }) => {
-  console.log('Door', type, position, size);
   return <mesh position={[position.x, position.y, position.z]}>
     <boxGeometry args={[size.width, size.height, size.depth]} />
 

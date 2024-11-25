@@ -145,7 +145,6 @@ export const WardrobeUtils = (size: ISize) => {
     getPosition: (category: E_Category, type: E_Position, size: ISize, positionAttr?: IGetPosition) => {
       const attr: IGetPosition = positionAttr || defaultGetPosition;
       intialPosition = { x: -size.width / 2, y: -size.height / 2, z: size.depth / 2 };
-      console.log('type, size', type, size, intialPosition, getPosition(type, getSize(type, attr), attr), getSize(type, attr));
 
       return { category, type, position: getPosition(type, getSize(type, attr), attr), size: getSize(type, attr) } as IWardrobePiecesModel;
     }
