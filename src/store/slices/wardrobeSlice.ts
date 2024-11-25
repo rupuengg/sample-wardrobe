@@ -9,6 +9,12 @@ export const wardrobeSlice = createSlice({
     setWardrobes(draft: IWardrobeState, action: PayloadAction<IWardrobeModel[]>) {
       draft.wardrobes = action.payload;
     },
+    setWardrobeByKey(draft: IWardrobeState, action: PayloadAction<string>) {
+      const index = draft.wardrobes.findIndex(i => i.key === action.payload);
+      if (index >= 0) {
+        draft.currentWardrobe = draft.wardrobes[index];
+      }
+    },
     setCurrentWardrobe(draft: IWardrobeState, action: PayloadAction<IWardrobeModel | undefined>) {
       draft.currentWardrobe = action.payload ? { ...action.payload } : undefined;
     },

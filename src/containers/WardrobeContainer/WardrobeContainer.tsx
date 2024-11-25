@@ -1,10 +1,24 @@
 import { useSelector } from "react-redux";
 import { Canvas } from "@react-three/fiber";
-import { IApplicationState } from "store/store";
+import { IApplicationState, useAppDispatch } from "store/store";
 import { CustomOption } from "components";
 import { WardrobeSample } from "components/Wardrobe/WardrobeSample";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import { WardrobeActions } from "store/slices";
+
 
 export const WardrobeContainer = () => {
+  const dispatch: any = useAppDispatch();
+  const params = useParams();
+
+  useEffect(() => {
+    if (params.entity && params.entity !== '') {
+      dispatch(WardrobeActions.setWardrobeByKey(params.entity));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [params.entity]);
+
   const { currentWardrobe, wardrobeColor, showWireframe = false, showDoors = false, showGridLine = false, showAxes } = useSelector((state: IApplicationState) => state.wardrobe);
 
   return <div className="main-container">

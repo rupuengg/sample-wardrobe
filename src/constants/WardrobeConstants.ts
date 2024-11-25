@@ -1,4 +1,5 @@
 export const WardrobeConstants = {
+  API_MAIN_ROUTE: '',
   TITLE: {
     COLOR_PICKER: 'Color Picker',
     SIZE_PICKER: 'Size Picker',
