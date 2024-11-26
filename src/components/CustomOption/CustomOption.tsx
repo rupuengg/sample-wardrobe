@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { CirclePicker } from "react-color";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
-import { IWardrobeModel } from "models";
 import { mockWardrobes } from "mockValues";
 import { useAppDispatch } from "store/store";
 import { WardrobeActions } from "store/slices";
@@ -11,25 +10,14 @@ import { E_Custom_Option } from "enums/E_Custom_Option";
 import { UrlUtils } from "utils/urlUtils";
 
 export interface ICustomOption {
-  wardrobe?: IWardrobeModel;
   color?: string;
-  wireframe?: boolean;
-  showDoors?: boolean;
-  showGridLine?: boolean;
-  showAxes?: boolean;
 }
 
-export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color = '#3f51b5', showDoors = false, wireframe = false, showGridLine = false, showAxes = true }) => {
+export const CustomOption: React.FC<ICustomOption> = ({ color = '#3f51b5' }) => {
   const dispatch: any = useAppDispatch();
   const params = useParams();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-
-  const [initialWardrobe] = useState<IWardrobeModel | undefined>(wardrobe);
-  const [initialShowDoors] = useState<boolean>(showDoors);
-  const [initialWireframe] = useState<boolean>(wireframe);
-  const [initialShowGridLine] = useState<boolean>(showGridLine);
-  const [initialShowAxes] = useState<boolean>(showAxes);
 
   const customOptions = useMemo(() => Object.keys(E_Custom_Option), []);
 
@@ -44,6 +32,10 @@ export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color = '#3f51
         return WardrobeConstants.TITLE.GRID_LINE;
       case E_Custom_Option.AXES:
         return WardrobeConstants.TITLE.AXES;
+      case E_Custom_Option.TOTAL_PIECE:
+        return WardrobeConstants.TITLE.TOTAL_PIECE;
+      case E_Custom_Option.TOTAL_BOARD:
+        return WardrobeConstants.TITLE.TOTAL_BOARD;
       case E_Custom_Option.RESET:
         return WardrobeConstants.TITLE.RESET;
       default:
@@ -58,45 +50,38 @@ export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color = '#3f51
   const handleEntityChange = useCallback((e: any, key: string) => {
     e.preventDefault();
 
-    navigate({
-      pathname: UrlUtils.makeRouteWidthoutSearch(params.entity),
-      search: `?${searchParams.toString()}`
-    });
+    navigate(UrlUtils.makeRoute(key, undefined));
   }, [navigate]);
 
   const handleOptionChange = useCallback((e: any, key: string) => {
     const type = E_Custom_Option[key as keyof typeof E_Custom_Option];
     e.preventDefault();
 
-    searchParams.set('q', key);
-    navigate({
-      pathname: UrlUtils.makeRouteWidthoutSearch(params.entity),
-      search: `?${searchParams.toString()}`
-    });
     switch (type) {
       case E_Custom_Option.WIREFRAME:
-        dispatch(WardrobeActions.toggleWireframe());
-        break;
       case E_Custom_Option.DOORS:
-        dispatch(WardrobeActions.toggleDoors());
-        break;
       case E_Custom_Option.GRID_LINE:
-        dispatch(WardrobeActions.toggleGridLine());
-        break;
       case E_Custom_Option.AXES:
-        dispatch(WardrobeActions.toggleAxes());
+      case E_Custom_Option.TOTAL_BOARD:
+      case E_Custom_Option.TOTAL_PIECE:
+        if (searchParams.get(key)) searchParams.delete(key);
+        else searchParams.set(key, 'true');
         break;
       case E_Custom_Option.RESET:
-        dispatch(WardrobeActions.setCurrentWardrobe(initialWardrobe));
-        dispatch(WardrobeActions.toggleWireframe(initialWireframe));
-        dispatch(WardrobeActions.toggleDoors(initialShowDoors));
-        dispatch(WardrobeActions.toggleGridLine(initialShowGridLine));
-        dispatch(WardrobeActions.toggleAxes(initialShowAxes));
+        searchParams.delete('WIREFRAME');
+        searchParams.delete('DOORS');
+        searchParams.delete('GRID_LINE');
+        searchParams.delete('AXES');
         break;
       default:
         return '';
     }
-  }, [dispatch, initialShowAxes, initialShowDoors, initialShowGridLine, initialWardrobe, initialWireframe]);
+
+    navigate({
+      pathname: UrlUtils.makeRouteWidthoutSearch(params.entity, undefined),
+      search: `?${searchParams.toString()}`
+    });
+  }, [navigate, params.entity, searchParams]);
 
   customOptions.map((item: string) => console.log('item => ', item));
 
@@ -119,7 +104,7 @@ export const CustomOption: React.FC<ICustomOption> = ({ wardrobe, color = '#3f51
         <ul className="sizes">
           {
             customOptions.map((item: string) => <li key={item}>
-              <Link onClick={(e) => handleOptionChange(e, item)} to={''}>{getOptionText(item)}</Link>
+              <Link onClick={(e) => handleOptionChange(e, item)} to={''} className={Boolean(searchParams.get(item)?.toString()) ? 'active' : ''}>{getOptionText(item)}</Link>
             </li>)
           }
         </ul>

@@ -45,6 +45,17 @@ export const ConvertUtils = () => {
       let value: number = typeof val === 'string' ? Number(val) : val;
       return value * UnitConverter.INCH.TO_FOOT;
     },
+    toMMFromInch: (val: string | number) => {
+      let value: number = typeof val === 'string' ? Number(val) : val;
+      return Math.round(value * UnitConverter.INCH.TO_MM);
+    },
+    sizeToInchFromMeter: (position: ISize) => {
+      return {
+        width: position.width * UnitConverter.METER.TO_INCH,
+        height: position.height * UnitConverter.METER.TO_INCH,
+        depth: position.depth * UnitConverter.METER.TO_INCH,
+      } as ISize;
+    },
     positionToInchFromMeter: (position: IPosition) => {
       return {
         x: position.x * UnitConverter.METER.TO_INCH,

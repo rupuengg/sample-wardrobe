@@ -25,18 +25,18 @@ export const wardrobeSlice = createSlice({
     setWardrobeInnerColor(draft: IWardrobeState, action: PayloadAction<string>) {
       draft.wardrobeInnerColor = action.payload;
     },
-    toggleWireframe(draft: IWardrobeState, action: PayloadAction<boolean | undefined>) {
-      draft.showWireframe = action.payload !== undefined ? action.payload : !draft.showWireframe;
-    },
-    toggleDoors(draft: IWardrobeState, action: PayloadAction<boolean | undefined>) {
-      draft.showDoors = action.payload !== undefined ? action.payload : !draft.showDoors;
-    },
-    toggleGridLine(draft: IWardrobeState, action: PayloadAction<boolean | undefined>) {
-      draft.showGridLine = action.payload !== undefined ? action.payload : !draft.showGridLine;
-    },
-    toggleAxes(draft: IWardrobeState, action: PayloadAction<boolean | undefined>) {
-      draft.showAxes = action.payload !== undefined ? action.payload : !draft.showAxes;
-    },
+    // toggleWireframe(draft: IWardrobeState, action: PayloadAction<boolean | undefined>) {
+    //   draft.showWireframe = action.payload !== undefined ? action.payload : !draft.showWireframe;
+    // },
+    // toggleDoors(draft: IWardrobeState, action: PayloadAction<boolean | undefined>) {
+    //   draft.showDoors = action.payload !== undefined ? action.payload : !draft.showDoors;
+    // },
+    // toggleGridLine(draft: IWardrobeState, action: PayloadAction<boolean | undefined>) {
+    //   draft.showGridLine = action.payload !== undefined ? action.payload : !draft.showGridLine;
+    // },
+    // toggleAxes(draft: IWardrobeState, action: PayloadAction<boolean | undefined>) {
+    //   draft.showAxes = action.payload !== undefined ? action.payload : !draft.showAxes;
+    // },
   },
   // extraReducers: (builder: ActionReducerMapBuilder<IDataManagementState>) => {
   //   builder

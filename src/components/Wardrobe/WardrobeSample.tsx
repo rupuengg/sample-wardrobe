@@ -1,6 +1,7 @@
 import { ComponentRef, Suspense, useCallback, useRef } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame, useThree, extend } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import { Group as _Group } from "three";
 import { IWardrobeModel, IWardrobePiecesModel } from "models";
 import { E_Category } from "enums";
 import { ConvertUtils } from "utils";
@@ -8,6 +9,8 @@ import { Board, Partition } from "components/PlyBoard";
 import { Drawer } from "components/Drawer";
 import { HangerRoad } from "components/HangerRoad";
 import { Door } from "components/Door";
+
+extend({ Group: _Group });
 
 export interface IWardrobeSample {
   wardrobe?: IWardrobeModel;
@@ -46,7 +49,7 @@ export const WardrobeSample: React.FC<IWardrobeSample> = ({ wardrobe, wardrobeCo
     }
   }, [showWireFrame, showDoors, wardrobe?.wardrobeColor, wardrobe?.innerColor, wardrobeColor]);
 
-  return <>
+  return <group key={wardrobe?.key}>
     <ambientLight intensity={0.5} />
     <OrbitControls ref={orbitRef} target={[0, 0, 0]} autoRotate={false} />
     <directionalLight position={[0, 0, 2]} intensity={Math.PI} ref={dLightRef} />
@@ -54,5 +57,5 @@ export const WardrobeSample: React.FC<IWardrobeSample> = ({ wardrobe, wardrobeCo
     {showGridLine && <gridHelper />}
 
     <Suspense>{wardrobe?.pieces?.map((piece, index) => getPiece(piece, index))}</Suspense>
-  </>;
+  </group>;
 }

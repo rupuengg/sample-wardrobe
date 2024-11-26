@@ -34,14 +34,14 @@ export const UrlUtils = (() => {
 
       if (params && params !== '') route.push(`?${params}`);
 
-      return '/' + route.join('/');
+      return route.join('/');
     },
     makeRouteWidthoutSearch: (domain: string | undefined, view: string | undefined = undefined, entity: string | undefined = undefined, detail: string | undefined = undefined, detailId: string | undefined = undefined, extra1: string | undefined = undefined, extra2: string | undefined = undefined) => {
       route = [];
 
       makeRouteArray(domain, view, entity, detail, detailId, extra1, extra2);
 
-      return '/' + route.join('/');
+      return route.join('/');
     },
   }
 })();

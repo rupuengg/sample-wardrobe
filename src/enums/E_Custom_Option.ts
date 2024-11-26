@@ -3,5 +3,7 @@ export enum E_Custom_Option {
   DOORS = 'Doors',
   GRID_LINE = 'Grid Line',
   AXES = 'Axes',
+  TOTAL_BOARD = 'Total Boards',
+  TOTAL_PIECE = 'Total Pieces',
   RESET = 'Reset',
 }

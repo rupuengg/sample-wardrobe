@@ -9,5 +9,7 @@ export const WardrobeConstants = {
     GRID_LINE: 'Grid Line',
     AXES: 'Axes',
     RESET: 'Reset',
+    TOTAL_BOARD: 'Total Boards',
+    TOTAL_PIECE: 'Total Pieces',
   }
 }
