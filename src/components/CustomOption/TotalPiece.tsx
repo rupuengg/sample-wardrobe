@@ -12,9 +12,9 @@ export const TotalPiece: React.FC<ITotalPiece> = ({ wardrobe }) => {
   const elements = useMemo(() => {
     const obj: { [x: string]: React.JSX.Element[] } = {};
 
-    wardrobe?.pieces?.forEach(piece => {
+    wardrobe?.pieces?.forEach((piece, index) => {
       const depth: number = ConvertUtils().toMMFromInch(piece.size.depth);
-      const element = <li>
+      const element = <li key={piece.category + piece.type + index.toString()}>
         <div>
           <span><b>Category:</b> {piece.category}</span>
           <span><b>Type:</b> {piece.type}</span>
@@ -49,7 +49,7 @@ export const TotalPiece: React.FC<ITotalPiece> = ({ wardrobe }) => {
       <h3 className="title">{WardrobeConstants.TITLE.TOTAL_PIECE}</h3>
       <ul className="board-pieces">
         {
-          Object.keys(elements).map(item => <li>
+          Object.keys(elements).map(item => <li key={item}>
             <h1>{getTitle(item)}</h1>
             <ul>{elements[item]}</ul>
           </li>)

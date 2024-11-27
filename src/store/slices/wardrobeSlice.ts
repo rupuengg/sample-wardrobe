@@ -1,6 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { defaultWardrobeState, IWardrobeState } from "store/states/WardrobeState/WardrobeState";
-import { IWardrobeModel } from "models";
+import { defaultWardrobeModel, ISize, IWardrobeModel, IWardrobePiecesModel } from "models";
+import { ConvertUtils } from "utils";
+import { WardrobeUtils } from "utils/WardrobeUtils";
+import { E_Category, E_Position } from "enums";
 
 export const wardrobeSlice = createSlice({
   name: 'wardrobeSlice',
@@ -24,6 +27,37 @@ export const wardrobeSlice = createSlice({
     },
     setWardrobeInnerColor(draft: IWardrobeState, action: PayloadAction<string>) {
       draft.wardrobeInnerColor = action.payload;
+    },
+    updateSizeInCWardrobe(draft: IWardrobeState, action: PayloadAction<ISize>) {
+      const wardrobe: IWardrobeModel = {
+        key: `${action.payload.width}*${action.payload.height}*${action.payload.depth}`,
+        title: `Wardrobe ${ConvertUtils().toFeetFromInch(action.payload.width)}*${ConvertUtils().toFeetFromInch(action.payload.height)}`,
+        size: { ...action.payload },
+        wardrobeColor: '#3f51b5',
+        innerColor: '#cccccc',
+        pieces: [
+          { ...WardrobeUtils(action.payload).getPosition(E_Category.BOARD, E_Position.BACK, action.payload), },
+          { ...WardrobeUtils(action.payload).getPosition(E_Category.BOARD, E_Position.LEFT, action.payload), },
+          { ...WardrobeUtils(action.payload).getPosition(E_Category.BOARD, E_Position.RIGHT, action.payload), },
+          { ...WardrobeUtils(action.payload).getPosition(E_Category.BOARD, E_Position.TOP, action.payload), },
+          { ...WardrobeUtils(action.payload).getPosition(E_Category.BOARD, E_Position.BOTTOM, action.payload), },
+        ] as IWardrobePiecesModel[],
+      };
+
+      draft.customWardrobe = {
+        ...wardrobe,
+      };
+    },
+    updatePieceInCWardrobe(draft: IWardrobeState, action: PayloadAction<IWardrobePiecesModel>) {
+      const pieces = draft.customWardrobe.pieces ? [...draft.customWardrobe.pieces] : [];
+      pieces.push(action.payload);
+
+      draft.customWardrobe = {
+        ...draft.customWardrobe,
+        pieces: [
+          ...pieces,
+        ],
+      };
     },
     // toggleWireframe(draft: IWardrobeState, action: PayloadAction<boolean | undefined>) {
     //   draft.showWireframe = action.payload !== undefined ? action.payload : !draft.showWireframe;

@@ -36,6 +36,8 @@ export const CustomOption: React.FC<ICustomOption> = ({ color = '#3f51b5' }) => 
         return WardrobeConstants.TITLE.TOTAL_PIECE;
       case E_Custom_Option.TOTAL_BOARD:
         return WardrobeConstants.TITLE.TOTAL_BOARD;
+      case E_Custom_Option.CUSTOM:
+        return WardrobeConstants.TITLE.CUSTOM;
       case E_Custom_Option.RESET:
         return WardrobeConstants.TITLE.RESET;
       default:
@@ -64,6 +66,7 @@ export const CustomOption: React.FC<ICustomOption> = ({ color = '#3f51b5' }) => 
       case E_Custom_Option.AXES:
       case E_Custom_Option.TOTAL_BOARD:
       case E_Custom_Option.TOTAL_PIECE:
+      case E_Custom_Option.CUSTOM:
         if (searchParams.get(key)) searchParams.delete(key);
         else searchParams.set(key, 'true');
         break;
@@ -83,8 +86,6 @@ export const CustomOption: React.FC<ICustomOption> = ({ color = '#3f51b5' }) => 
     });
   }, [navigate, params.entity, searchParams]);
 
-  customOptions.map((item: string) => console.log('item => ', item));
-
   return <div className="custom-option">
     <div className="inner-box">
       <h3 className="title">{WardrobeConstants.TITLE.COLOR_PICKER}</h3>
@@ -94,7 +95,7 @@ export const CustomOption: React.FC<ICustomOption> = ({ color = '#3f51b5' }) => 
         <ul className="sizes">
           {
             mockWardrobes.map(item => <li key={item.key}>
-              <Link onClick={(e) => handleEntityChange(e, item.key)} to={''} className={params.entity === item.key ? 'active' : ''}>{`${item.size.width / 12} * ${item.size.height / 12} Feet`}</Link>
+              <Link onClick={(e) => handleEntityChange(e, item.key)} to={''} className={params.entity === item.key ? 'active' : ''}>{`${item.size!!.width / 12} * ${item.size!!.height / 12} Feet`}</Link>
             </li>)
           }
         </ul>

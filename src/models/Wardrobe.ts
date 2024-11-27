@@ -16,8 +16,12 @@ export interface IWardrobeModel {
   title: string;
   size: ISize;
   innerColor?: string;
-  wardrobeColor: string;
+  wardrobeColor?: string;
   pieces?: IWardrobePiecesModel[];
-  partitions?: IWardrobePiecesModel[];
-  drawers?: IWardrobePiecesModel[];
+}
+
+export const defaultWardrobeModel: IWardrobeModel = {
+  key: 'custom_wardrobe',
+  title: 'Custom Wardrobe',
+  size: { width: 0, height: 0, depth: 0 },
 }
