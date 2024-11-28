@@ -2,7 +2,7 @@
 import { useCallback, useMemo } from "react";
 import { ISize, IWardrobeModel } from "models";
 import { WardrobeConstants } from "constants/WardrobeConstants";
-import { ConvertUtils, UnitConverter } from "utils";
+import { ConvertUtils } from "utils";
 import { E_Category } from "enums";
 
 interface ICalculation {

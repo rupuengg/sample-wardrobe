@@ -1,9 +1,8 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { useCallback } from "react";
+import { useSelector } from "react-redux";
 import { WardrobeConstants } from "constants/WardrobeConstants";
 import { E_Category, E_Position } from "enums";
-import { ISize } from "models";
-import { useCallback, useState } from "react";
-import { useSelector } from "react-redux";
 import { WardrobeActions } from "store/slices";
 import { IApplicationState, useAppDispatch } from "store/store";
 
@@ -20,7 +19,7 @@ export interface ICustomWardrobe {
 }
 
 export const CustomWardrobe = () => {
-  const { customWardrobe, wardrobeColor } = useSelector((state: IApplicationState) => state.wardrobe);
+  const { customWardrobe } = useSelector((state: IApplicationState) => state.wardrobe);
   const dispatch: any = useAppDispatch();
 
   const getText = useCallback((str: string) => {
