@@ -59,6 +59,18 @@ export const wardrobeSlice = createSlice({
         ],
       };
     },
+    updateDoorsInCWardrobe(draft: IWardrobeState, action: PayloadAction<IWardrobePiecesModel[]>) {
+      const doors = [...action.payload];
+      const pieces = draft.customWardrobe.pieces ? [...draft.customWardrobe.pieces.filter(i => i.category !== E_Category.DOOR)] : [];
+
+      draft.customWardrobe = {
+        ...draft.customWardrobe,
+        pieces: [
+          ...pieces,
+          ...doors,
+        ],
+      };
+    },
     // toggleWireframe(draft: IWardrobeState, action: PayloadAction<boolean | undefined>) {
     //   draft.showWireframe = action.payload !== undefined ? action.payload : !draft.showWireframe;
     // },
