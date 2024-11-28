@@ -1,31 +1,11 @@
 import { BoardThickness } from "constants/BoardSize";
 import { E_Category, E_Position } from "enums";
-import { IPosition, ISize, IWardrobePiecesModel } from "models";
-
-interface IGetPosition {
-  fromLeft?: number;
-  fromBottom?: number;
-  width?: number;
-  height?: number;
-  drawerHeight?: number;
-  numberOfGate?: number;
-  gateNumber?: number;
-}
-
-const defaultGetPosition: IGetPosition = {
-  fromLeft: 0,
-  fromBottom: 0,
-  width: 0,
-  height: 0,
-  drawerHeight: 0,
-  numberOfGate: 0,
-  gateNumber: 0,
-}
+import { defaultWardrobeCustomAttributes, IPosition, ISize, IWardrobeCustomAttributes, IWardrobePiecesModel } from "models";
 
 export const WardrobeUtils = (size: ISize) => {
   let intialPosition: IPosition = { x: 0, y: 0, z: 0 };
 
-  function getPosition(type: E_Position, boardSize: ISize | undefined = { width: 0, height: 0, depth: 0 }, positionAttr: IGetPosition) {
+  function getPosition(type: E_Position, boardSize: ISize | undefined = { width: 0, height: 0, depth: 0 }, positionAttr: IWardrobeCustomAttributes) {
     switch (type) {
       case E_Position.BACK:
         return { x: 0, y: 0, z: 0 } as IPosition;
@@ -50,7 +30,7 @@ export const WardrobeUtils = (size: ISize) => {
     }
   }
 
-  function getSize(type: E_Position, positionAttr: IGetPosition) {
+  function getSize(type: E_Position, positionAttr: IWardrobeCustomAttributes) {
     switch (type) {
       case E_Position.BACK:
         return { width: size.width, height: size.height, depth: BoardThickness.SIX_MM } as ISize;
@@ -142,8 +122,8 @@ export const WardrobeUtils = (size: ISize) => {
         z: size.depth + BoardThickness.SIX_MM
       } as IPosition;
     },
-    getPosition: (category: E_Category, type: E_Position, size: ISize, positionAttr?: IGetPosition) => {
-      const attr: IGetPosition = positionAttr || defaultGetPosition;
+    getPosition: (category: E_Category, type: E_Position, size: ISize, positionAttr?: IWardrobeCustomAttributes) => {
+      const attr: IWardrobeCustomAttributes = positionAttr || defaultWardrobeCustomAttributes;
       intialPosition = { x: -size.width / 2, y: -size.height / 2, z: size.depth / 2 };
 
       return { category, type, position: getPosition(type, getSize(type, attr), attr), size: getSize(type, attr) } as IWardrobePiecesModel;

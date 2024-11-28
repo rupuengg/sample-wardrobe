@@ -3,6 +3,7 @@ import { ISize } from "./Size";
 import { IPosition } from "./Position";
 
 export interface IWardrobePiecesModel {
+  key: string;
   category: E_Category;
   type: E_Position;
   position: IPosition;
@@ -18,6 +19,26 @@ export interface IWardrobeModel {
   innerColor?: string;
   wardrobeColor?: string;
   pieces?: IWardrobePiecesModel[];
+}
+
+export interface IWardrobeCustomAttributes {
+  fromLeft?: number;
+  fromBottom?: number;
+  width?: number;
+  height?: number;
+  drawerHeight?: number;
+  numberOfGate?: number;
+  gateNumber?: number;
+}
+
+export const defaultWardrobeCustomAttributes: IWardrobeCustomAttributes = {
+  fromLeft: 0,
+  fromBottom: 0,
+  width: 0,
+  height: 0,
+  drawerHeight: 0,
+  numberOfGate: 0,
+  gateNumber: 0,
 }
 
 export const defaultWardrobeModel: IWardrobeModel = {

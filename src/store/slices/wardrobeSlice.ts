@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { defaultWardrobeState, IWardrobeState } from "store/states/WardrobeState/WardrobeState";
-import { defaultWardrobeModel, ISize, IWardrobeModel, IWardrobePiecesModel } from "models";
+import { ISize, IWardrobeModel, IWardrobePiecesModel } from "models";
 import { ConvertUtils } from "utils";
 import { WardrobeUtils } from "utils/WardrobeUtils";
 import { E_Category, E_Position } from "enums";
@@ -58,6 +58,21 @@ export const wardrobeSlice = createSlice({
           ...pieces,
         ],
       };
+    },
+    removePieceInCWardrobe(draft: IWardrobeState, action: PayloadAction<string>) {
+      const index = draft.customWardrobe.pieces?.findIndex(p => p.key === action.payload);
+
+      if (index && index >= 0) {
+        const pieces = draft.customWardrobe.pieces ? [...draft.customWardrobe.pieces] : [];
+
+        draft.customWardrobe = {
+          ...draft.customWardrobe,
+          pieces: [
+            ...pieces.slice(0, index),
+            ...pieces.slice(index + 1),
+          ],
+        };
+      }
     },
     updateDoorsInCWardrobe(draft: IWardrobeState, action: PayloadAction<IWardrobePiecesModel[]>) {
       const doors = [...action.payload];
