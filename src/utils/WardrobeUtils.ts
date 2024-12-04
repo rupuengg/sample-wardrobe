@@ -18,7 +18,11 @@ export const WardrobeUtils = (size: ISize) => {
       case E_Position.BOTTOM:
         return { x: intialPosition.x + (size.width / 2), y: intialPosition.y + (BoardThickness.EIGHTEEN_MM / 2), z: intialPosition.z } as IPosition;
       case E_Position.HORIZONTAL_PARTITION:
-        return { x: intialPosition.x + (positionAttr.width ? (positionAttr.width / 2) + (BoardThickness.EIGHTEEN_MM / 4) : size.width / 2) + (positionAttr.fromLeft ? positionAttr.fromLeft!! - BoardThickness.EIGHTEEN_MM / 2 : 0), y: intialPosition.y + positionAttr.fromBottom!!, z: intialPosition.z } as IPosition;
+        return {
+          x: intialPosition.x + (boardSize.height / 2 + BoardThickness.EIGHTEEN_MM) + (positionAttr.fromLeft ? positionAttr.fromLeft!! - BoardThickness.EIGHTEEN_MM / 2 : 0),
+          y: intialPosition.y + positionAttr.fromBottom!!,
+          z: intialPosition.z
+        } as IPosition;
       case E_Position.VERTICAL_PARTITION:
         return { x: intialPosition.x + positionAttr.fromLeft!!, y: intialPosition.y + (positionAttr.height ? (positionAttr.height / 2) + (BoardThickness.EIGHTEEN_MM / 4) : (size.height / 2)), z: intialPosition.z } as IPosition;
       case E_Position.DRAWER:
@@ -28,6 +32,13 @@ export const WardrobeUtils = (size: ISize) => {
       case E_Position.DOOR:
         return { x: intialPosition.x + (boardSize.width / 2) + ((positionAttr.numberOfGate!! - positionAttr.gateNumber!!) * boardSize.width) + (positionAttr.numberOfGate!! > positionAttr.gateNumber!! ? BoardThickness.DOORS_GAP : 0), y: intialPosition.y + boardSize.height / 2, z: size.depth + BoardThickness.SIX_MM } as IPosition;
     }
+  }
+
+  function getHorizontalHeight(boxWidth: number, partitionWidth?: number) {
+    if (partitionWidth) {
+      if (partitionWidth >= boxWidth) return boxWidth - (2 * BoardThickness.EIGHTEEN_MM);
+      else return partitionWidth - BoardThickness.EIGHTEEN_MM - (BoardThickness.EIGHTEEN_MM / 2);
+    } else return boxWidth - (2 * BoardThickness.EIGHTEEN_MM);
   }
 
   function getSize(type: E_Position, positionAttr: IWardrobeCustomAttributes) {
@@ -43,7 +54,11 @@ export const WardrobeUtils = (size: ISize) => {
       case E_Position.BOTTOM:
         return { width: size.depth - BoardThickness.SIX_MM, height: size.width - (2 * BoardThickness.EIGHTEEN_MM), depth: BoardThickness.EIGHTEEN_MM } as ISize;
       case E_Position.HORIZONTAL_PARTITION:
-        return { width: size.depth - BoardThickness.SIX_MM, height: (positionAttr.width ? positionAttr.width - (BoardThickness.EIGHTEEN_MM / 2) : size.width - BoardThickness.EIGHTEEN_MM) - BoardThickness.EIGHTEEN_MM, depth: BoardThickness.EIGHTEEN_MM } as ISize;
+        return {
+          width: size.depth - BoardThickness.SIX_MM,
+          height: getHorizontalHeight(size.width, positionAttr.width),
+          depth: BoardThickness.EIGHTEEN_MM
+        } as ISize;
       case E_Position.VERTICAL_PARTITION:
         return { width: size.depth - BoardThickness.SIX_MM, height: (positionAttr.height ? positionAttr.height!! : size.height) - (2 * BoardThickness.EIGHTEEN_MM), depth: BoardThickness.EIGHTEEN_MM } as ISize;
       case E_Position.DRAWER:
@@ -126,6 +141,7 @@ export const WardrobeUtils = (size: ISize) => {
       const attr: IWardrobeCustomAttributes = positionAttr || defaultWardrobeCustomAttributes;
       intialPosition = { x: -size.width / 2, y: -size.height / 2, z: size.depth / 2 };
 
+      console.log('attr', attr);
       return { category, type, position: getPosition(type, getSize(type, attr), attr), size: getSize(type, attr) } as IWardrobePiecesModel;
     }
   }

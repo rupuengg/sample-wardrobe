@@ -44,5 +44,5 @@ export const defaultWardrobeCustomAttributes: IWardrobeCustomAttributes = {
 export const defaultWardrobeModel: IWardrobeModel = {
   key: 'custom_wardrobe',
   title: 'Custom Wardrobe',
-  size: { width: 0, height: 0, depth: 0 },
+  size: { width: 36, height: 84, depth: 24 },
 }

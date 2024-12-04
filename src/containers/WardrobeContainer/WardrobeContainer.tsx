@@ -20,20 +20,21 @@ export const WardrobeContainer = () => {
   const showAxes = useMemo(() => searchParams.get('AXES') && searchParams.get('AXES') !== null && searchParams.get('AXES') !== '' ? Boolean(searchParams.get('AXES')?.toString()) : false, [searchParams]);
   const showTotalPiece = useMemo(() => searchParams.get('TOTAL_PIECE') && searchParams.get('TOTAL_PIECE') !== null && searchParams.get('TOTAL_PIECE') !== '' ? Boolean(searchParams.get('TOTAL_PIECE')?.toString()) : false, [searchParams]);
   const showTotalBoard = useMemo(() => searchParams.get('TOTAL_BOARD') && searchParams.get('TOTAL_BOARD') !== null && searchParams.get('TOTAL_BOARD') !== '' ? Boolean(searchParams.get('TOTAL_BOARD')?.toString()) : false, [searchParams]);
-  const showCustomWardrobe = useMemo(() => searchParams.get('CUSTOM') && searchParams.get('CUSTOM') !== null && searchParams.get('CUSTOM') !== '' ? Boolean(searchParams.get('CUSTOM')?.toString()) : false, [searchParams]);
 
   useEffect(() => {
-    if (params.entity && params.entity !== '') {
-      dispatch(WardrobeActions.setWardrobeByKey(params.entity));
+    if (params.entity) {
+      if (params.entity === 'custom') dispatch(WardrobeActions.initalizeCWardrobe());
+      else dispatch(WardrobeActions.setWardrobeByKey(params.entity));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.entity]);
 
   return <div className="main-container">
     {/* <Canvas camera={{ fov: 7, near: 0.1, far: 1000, position: [-30, 4, -4] }}> */}
+
     <Canvas>
-      {!showCustomWardrobe && <WardrobeSample wardrobe={currentWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
-      {showCustomWardrobe && <WardrobeSample wardrobe={customWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
+      {params.entity !== 'custom' && <WardrobeSample wardrobe={currentWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
+      {params.entity === 'custom' && <WardrobeSample wardrobe={customWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
     </Canvas>
 
     <CustomOption color={currentWardrobe?.wardrobeColor} />
@@ -42,6 +43,6 @@ export const WardrobeContainer = () => {
 
     {showTotalPiece && <TotalPiece wardrobe={currentWardrobe} />}
 
-    {showCustomWardrobe && <CustomWardrobe />}
+    {params.entity === 'custom' && <CustomWardrobe />}
   </div>
 };

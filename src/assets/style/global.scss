@@ -21,10 +21,35 @@ body,
   position: relative;
   z-index: 1;
 
-  & .title {
+  & h1,
+  & h2,
+  & h3,
+  & h4,
+  & p,
+  & ul,
+  & li {
     margin: 0;
-    padding: 10px 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  & h1.title {
+    margin: 0;
+    padding: 10px 0 2px;
     display: block;
+    font-size: 22px;
+    color: #009BDE;
+    border-bottom: 2px solid #009BDE;
+    margin-bottom: 10px;
+  }
+
+  & h2.title {
+    margin: 0;
+    padding: 6px 0 2px;
+    display: block;
+    font-size: 18px;
+    color: #000000;
+    margin-bottom: 10px;
   }
 
   & .link {
@@ -101,7 +126,11 @@ body,
 
           & a {
             font-weight: 400;
+            font-size: 12px;
+            color: #009BDE;
+            text-decoration: none;
 
+            &:hover,
             &.active {
               font-weight: 600;
             }
@@ -161,13 +190,6 @@ body,
 
   &>li {
     display: block;
-  }
-
-  & h1 {
-    font-size: 18px;
-    color: #009BDE;
-    border-bottom: 2px solid #009BDE;
-    margin-bottom: 6px;
   }
 
   & ul {

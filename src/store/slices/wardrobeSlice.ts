@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { defaultWardrobeState, IWardrobeState } from "store/states/WardrobeState/WardrobeState";
-import { ISize, IWardrobeModel, IWardrobePiecesModel } from "models";
+import { defaultWardrobeModel, ISize, IWardrobeModel, IWardrobePiecesModel } from "models";
 import { ConvertUtils } from "utils";
 import { WardrobeUtils } from "utils/WardrobeUtils";
 import { E_Category, E_Position } from "enums";
@@ -24,23 +24,30 @@ export const wardrobeSlice = createSlice({
     setWardrobeColor(draft: IWardrobeState, action: PayloadAction<string>) {
       if (draft.currentWardrobe) draft.currentWardrobe.wardrobeColor = action.payload;
       draft.wardrobeColor = action.payload;
+      draft.customWardrobe.wardrobeColor = action.payload;
     },
     setWardrobeInnerColor(draft: IWardrobeState, action: PayloadAction<string>) {
       draft.wardrobeInnerColor = action.payload;
     },
-    updateSizeInCWardrobe(draft: IWardrobeState, action: PayloadAction<ISize>) {
+    initalizeCWardrobe(draft: IWardrobeState) {
+      draft.customWardrobe = {
+        ...defaultWardrobeModel,
+      };
+    },
+    updateSizeInCWardrobe(draft: IWardrobeState, action: PayloadAction<{ key: string, value: number }>) {
+      const tmpSize: ISize = { ...draft.customWardrobe.size, [action.payload.key]: action.payload.value };
       const wardrobe: IWardrobeModel = {
-        key: `${action.payload.width}*${action.payload.height}*${action.payload.depth}`,
-        title: `Wardrobe ${ConvertUtils().toFeetFromInch(action.payload.width)}*${ConvertUtils().toFeetFromInch(action.payload.height)}`,
-        size: { ...action.payload },
+        key: `${tmpSize.width}*${tmpSize.height}*${tmpSize.depth}`,
+        title: `Wardrobe ${ConvertUtils().toFeetFromInch(tmpSize.width)}*${ConvertUtils().toFeetFromInch(tmpSize.height)}`,
+        size: { ...tmpSize },
         wardrobeColor: '#3f51b5',
         innerColor: '#cccccc',
         pieces: [
-          { ...WardrobeUtils(action.payload).getPosition(E_Category.BOARD, E_Position.BACK, action.payload), },
-          { ...WardrobeUtils(action.payload).getPosition(E_Category.BOARD, E_Position.LEFT, action.payload), },
-          { ...WardrobeUtils(action.payload).getPosition(E_Category.BOARD, E_Position.RIGHT, action.payload), },
-          { ...WardrobeUtils(action.payload).getPosition(E_Category.BOARD, E_Position.TOP, action.payload), },
-          { ...WardrobeUtils(action.payload).getPosition(E_Category.BOARD, E_Position.BOTTOM, action.payload), },
+          { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.BACK, tmpSize), },
+          { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.LEFT, tmpSize), },
+          { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.RIGHT, tmpSize), },
+          { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.TOP, tmpSize), },
+          { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.BOTTOM, tmpSize), },
         ] as IWardrobePiecesModel[],
       };
 

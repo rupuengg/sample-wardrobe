@@ -98,6 +98,7 @@ export const CustomOption: React.FC<ICustomOption> = ({ color = '#3f51b5' }) => 
               <Link onClick={(e) => handleEntityChange(e, item.key)} to={''} className={params.entity === item.key ? 'active' : ''}>{`${item.size!!.width / 12} * ${item.size!!.height / 12} Feet`}</Link>
             </li>)
           }
+          <li><Link onClick={(e) => handleEntityChange(e, 'custom')} to={''} className={params.entity === 'custom' ? 'active' : ''}>{WardrobeConstants.TITLE.CUSTOM}</Link></li>
         </ul>
       </div>
       <h3 className="title">{WardrobeConstants.TITLE.OTHER_OPTION}</h3>
