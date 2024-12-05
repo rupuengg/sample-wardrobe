@@ -151,6 +151,7 @@ body,
     // z-index: 2;
     // width: 430px;
     // overflow: hidden;
+    // height: 100%;
 
     & .inner-box {
       // display: flex;
@@ -256,7 +257,7 @@ body,
 .slide-panel {
   display: flex;
   flex-direction: row;
-  height: 100%;
+  height: 100vh;
   width: 100%;
 
   & .left {
@@ -264,6 +265,7 @@ body,
     height: 100%;
     min-width: 300px;
     border-right: 2px solid #009BDE;
+    overflow-y: auto;
   }
 
   & .right {
