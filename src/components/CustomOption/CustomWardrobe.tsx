@@ -5,7 +5,7 @@ import { WardrobeConstants } from "constants/WardrobeConstants";
 import { E_Category, E_Position } from "enums";
 import { WardrobeActions } from "store/slices";
 import { IApplicationState, useAppDispatch } from "store/store";
-import { defaultWardrobeCustomAttributes, ISize, IWardrobeCustomAttributes, IWardrobePiecesModel } from "models";
+import { defaultWardrobeCustomAttributes, IWardrobeCustomAttributes, IWardrobePiecesModel } from "models";
 import { WardrobeUtils } from "utils/WardrobeUtils";
 import { DropDown, IDropDownOption, TextBox } from "components/FormField";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
@@ -102,7 +102,7 @@ export const CustomWardrobe = () => {
 
       setWardrobeAttributes(p => ({ ...p, [name]: value }));
     }
-  }, [customWardrobe.size]);
+  }, [customWardrobe.size, dispatch, navigate, params.entity, searchParams]);
 
   const handleAddPiece = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const key: string = `${category}_${type}_${customWardrobe.size.width}_${customWardrobe.size.height}_${customWardrobe.size.depth}_${Math.random().toFixed(4)}`;
