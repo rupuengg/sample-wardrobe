@@ -24,7 +24,7 @@ export const PieceInfo: React.FC<IPieceInfo> = ({ piece, onEdit, onRemove }) => 
       <span><strong>Size: </strong>{`${piece.size.width.toFixed(2) + '*' + piece.size.height.toFixed(2) + '*' + piece.size.depth.toFixed(2)}`}</span>
     </div>
     {
-      ![E_Category.BOARD].includes(piece.category) && <div className="action">
+      ![E_Category.BOARD, E_Category.DOOR].includes(piece.category) && <div className="action">
         <Button onClick={handleEdit}>Edit</Button>
         <Button onClick={handleRemove}>Remove</Button>
       </div>

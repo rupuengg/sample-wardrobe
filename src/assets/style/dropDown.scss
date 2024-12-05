@@ -25,8 +25,6 @@
 
       & .input-wrapper {
         display: inline-block;
-        border-radius: 10px;
-        border: 2px solid #009BDE;
       }
 
       & button {
@@ -38,8 +36,15 @@
         font-weight: 600;
         font-size: 14px;
         cursor: pointer;
+        border-radius: 10px;
+        border: 2px solid #009BDE;
 
-        &:hover {
+        &[disabled] {
+          color: #cccccc;
+          border: 2px solid #cccccc;
+        }
+
+        &:not([disabled]):hover {
           background-color: #009BDE;
           color: #ffffff;
         }

@@ -7,6 +7,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useMemo } from "react";
 import { WardrobeActions } from "store/slices";
 import { CustomWardrobe } from "components/CustomOption/CustomWardrobe";
+import { SlidePanel } from "components/SlidePanel";
 
 export const WardrobeContainer = () => {
   const { currentWardrobe, customWardrobe, wardrobeColor } = useSelector((state: IApplicationState) => state.wardrobe);
@@ -30,19 +31,21 @@ export const WardrobeContainer = () => {
   }, [params.entity]);
 
   return <div className="main-container">
+    <SlidePanel
+      isOpen={params.entity === 'custom'}
+      leftContent={<CustomWardrobe />}
+      rightContent={
+        <Canvas>
+          {params.entity !== 'custom' && <WardrobeSample wardrobe={currentWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
+          {params.entity === 'custom' && <WardrobeSample wardrobe={customWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
+        </Canvas>
+      } />
     {/* <Canvas camera={{ fov: 7, near: 0.1, far: 1000, position: [-30, 4, -4] }}> */}
-
-    <Canvas>
-      {params.entity !== 'custom' && <WardrobeSample wardrobe={currentWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
-      {params.entity === 'custom' && <WardrobeSample wardrobe={customWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
-    </Canvas>
 
     <CustomOption color={currentWardrobe?.wardrobeColor} />
 
     {showTotalBoard && <TotalBoard wardrobe={currentWardrobe} />}
 
     {showTotalPiece && <TotalPiece wardrobe={currentWardrobe} />}
-
-    {params.entity === 'custom' && <CustomWardrobe />}
   </div>
 };

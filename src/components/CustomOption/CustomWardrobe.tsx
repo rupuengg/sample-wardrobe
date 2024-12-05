@@ -186,14 +186,20 @@ export const CustomWardrobe = () => {
 
             {/* Save Button */}
             <div className="row">
-              {category && type && <Button onClick={handleAddPiece}>Save Piece</Button>}
+              <Button isDisabled={category && type ? false : true} onClick={handleAddPiece}>Save Piece</Button>
+              <Button onClick={handleAddPiece}>Export Wardrobe</Button>
             </div>
           </div>
 
-          <h2 className="title">Piece List</h2>
-          <div className="board-pieces">
-            {pieces.length > 0 && <ul>{pieces.map(p => <li key={p.key}><PieceInfo piece={p} onEdit={handleEditPiece} onRemove={handleRemovePiece} /></li>)}</ul>}
-          </div>
+          {
+            pieces.length > 0 && <>
+              <h2 className="title">Piece List</h2>
+              <div className="board-pieces">
+                <ul>{pieces.map(p => <li key={p.key}><PieceInfo piece={p} onEdit={handleEditPiece} onRemove={handleRemovePiece} /></li>)}</ul>
+              </div>
+            </>
+          }
+
         </div>
       </div>
     </div>
