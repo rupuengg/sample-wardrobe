@@ -9,13 +9,14 @@ export interface IDropDown {
   name: string;
   label?: string;
   options: IDropDownOption[];
-  value?: string;
+  isMultiple?: boolean;
+  value?: string | string[];
   onChange?: (name: string, value: string) => void;
 }
 
-export const DropDown: React.FC<IDropDown> = ({ name, label, options, value, onChange }) => {
+export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple = false, value, onChange }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [tmpValue, setTmpValue] = useState<string | undefined>(value);
+  const [tmpValue, setTmpValue] = useState<string[] | undefined>(value ? typeof value === 'string' ? [value] : value : undefined);
   const divRef: any = useRef(null);
 
   useEffect(() => {
@@ -32,12 +33,17 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, value, onC
   }, []);
 
   useEffect(() => {
-    if (value) setTmpValue(value);
-    else setTmpValue('');
+    if (value) setTmpValue(value ? typeof value === 'string' ? [value] : value : undefined);
+    else setTmpValue(undefined);
   }, [value]);
 
+  const handleClose = useCallback(() => {
+    // onChange && onChange(name, tmpValue);
+    setIsOpen(false);
+  }, [onChange]);
+
   const handleSelectChange = useCallback((fieldName: string, fieldValue: string) => {
-    setTmpValue(fieldValue);
+    setTmpValue(p => ([...(p ? [...p] : []), fieldValue]));
     onChange && onChange(fieldName, fieldValue);
     setIsOpen(false);
   }, [onChange]);
@@ -48,7 +54,7 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, value, onC
       <p onClick={() => setIsOpen(!isOpen)}>{tmpValue}</p>
       <div>
         <ul>
-          {options.map((option, index) => <li key={index} value={option.key} onClick={() => handleSelectChange(name, option.key)}>{option.value}</li>)}
+          {options.map((option, index) => <li key={index} className={tmpValue?.includes(option.key) ? 'active' : ''} value={option.key} onClick={() => handleSelectChange(name, option.key)}>{option.value}</li>)}
         </ul>
       </div>
     </div>
