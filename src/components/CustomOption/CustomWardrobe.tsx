@@ -173,9 +173,9 @@ export const CustomWardrobe = () => {
 
             <div className="row">
               {/* FromLeft */}
-              {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="From Left" name="fromLeft" value={wardrobeAttributes.fromLeft} onChange={handleChange} />}
+              {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="F. Left" name="fromLeft" value={wardrobeAttributes.fromLeft} onChange={handleChange} />}
               {/* FromBottom */}
-              {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="From Bottom" name="fromBottom" value={wardrobeAttributes.fromBottom} onChange={handleChange} />}
+              {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="F. Bottom" name="fromBottom" value={wardrobeAttributes.fromBottom} onChange={handleChange} />}
               {/* Width */}
               {category && type && ([E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) || ([E_Category.PARTITION].includes(category) && [E_Position.HORIZONTAL_PARTITION].includes(type))) && <TextBox label="Width" name="width" value={wardrobeAttributes.width} onChange={handleChange} />}
               {/* Height */}

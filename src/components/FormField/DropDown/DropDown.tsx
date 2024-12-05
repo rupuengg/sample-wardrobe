@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export interface IDropDownOption {
   key: string;
@@ -16,6 +16,20 @@ export interface IDropDown {
 export const DropDown: React.FC<IDropDown> = ({ name, label, options, value, onChange }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [tmpValue, setTmpValue] = useState<string | undefined>(value);
+  const divRef: any = useRef(null);
+
+  useEffect(() => {
+    const cb = (e: any) => {
+      if (divRef.current && divRef.current.contains(e.target)) return;
+      setIsOpen(false);
+    }
+
+    document.addEventListener('click', cb);
+
+    return () => {
+      document.removeEventListener('click', cb);
+    }
+  }, []);
 
   useEffect(() => {
     if (value) setTmpValue(value);
@@ -30,7 +44,7 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, value, onC
 
   return <div className="form-field dropdown">
     {label && <label className="form-field-label">{label}</label>}
-    <div className={`wrapper-box ${isOpen ? 'open' : ''}`}>
+    <div ref={divRef} className={`wrapper-box ${isOpen ? 'open' : ''}`}>
       <p onClick={() => setIsOpen(!isOpen)}>{tmpValue}</p>
       <div>
         <ul>
