@@ -11,7 +11,7 @@ export interface IDropDown {
   options: IDropDownOption[];
   isMultiple?: boolean;
   value?: string | string[];
-  onChange?: (name: string, value: string) => void;
+  onChange?: (name: string, value: string | string[]) => void;
 }
 
 export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple = false, value, onChange }) => {
@@ -19,10 +19,15 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple
   const [tmpValue, setTmpValue] = useState<string[] | undefined>(value ? typeof value === 'string' ? [value] : value : undefined);
   const divRef: any = useRef(null);
 
+  const dropDownClose = useCallback(() => {
+    isMultiple && onChange && onChange(name, '');
+    setIsOpen(false);
+  }, [isMultiple, name, onChange]);
+
   useEffect(() => {
     const cb = (e: any) => {
       if (divRef.current && divRef.current.contains(e.target)) return;
-      setIsOpen(false);
+      dropDownClose();
     }
 
     document.addEventListener('click', cb);
@@ -30,7 +35,7 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple
     return () => {
       document.removeEventListener('click', cb);
     }
-  }, []);
+  }, [dropDownClose]);
 
   useEffect(() => {
     if (value) setTmpValue(value ? typeof value === 'string' ? [value] : value : undefined);
@@ -38,20 +43,22 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple
   }, [value]);
 
   const handleClose = useCallback(() => {
-    // onChange && onChange(name, tmpValue);
-    setIsOpen(false);
-  }, [onChange]);
+    if (isOpen) {
+      isMultiple && onChange && onChange(name, tmpValue ? tmpValue : []);
+      setIsOpen(false);
+    } else setIsOpen(true);
+  }, [isMultiple, isOpen, name, onChange, tmpValue]);
 
   const handleSelectChange = useCallback((fieldName: string, fieldValue: string) => {
     setTmpValue(p => ([...(p ? [...p] : []), fieldValue]));
     onChange && onChange(fieldName, fieldValue);
-    setIsOpen(false);
-  }, [onChange]);
+    !isMultiple && setIsOpen(false);
+  }, [isMultiple, onChange]);
 
   return <div className="form-field dropdown">
     {label && <label className="form-field-label">{label}</label>}
     <div ref={divRef} className={`wrapper-box ${isOpen ? 'open' : ''}`}>
-      <p onClick={() => setIsOpen(!isOpen)}>{tmpValue}</p>
+      <p onClick={handleClose}>{tmpValue}</p>
       <div>
         <ul>
           {options.map((option, index) => <li key={index} className={tmpValue?.includes(option.key) ? 'active' : ''} value={option.key} onClick={() => handleSelectChange(name, option.key)}>{option.value}</li>)}

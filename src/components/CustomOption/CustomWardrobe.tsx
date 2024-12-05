@@ -48,8 +48,8 @@ export const CustomWardrobe = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customWardrobe.pieces]);
 
-  const handleSelectChange = useCallback((name: string, value: string) => {
-    if (name === 'category') {
+  const handleSelectChange = useCallback((name: string, value: string | string[]) => {
+    if (name === 'category' && typeof value === 'string') {
       setCategory(value as E_Category);
       setType(undefined);
     } else if (name === 'type') setType(value as E_Position)
