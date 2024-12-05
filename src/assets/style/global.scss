@@ -179,6 +179,9 @@ body,
   padding: 0;
   display: flex;
   flex-direction: column;
+  border-radius: 10px;
+  padding: 6px;
+  border: 2px solid #009BDE;
 
   & li,
   & ul,
@@ -198,19 +201,32 @@ body,
 
     & li {
       display: flex;
-      flex-direction: row;
+      width: 100%;
+      flex-direction: column;
       font-size: 14px;
-      margin-bottom: 6px;
+      padding-top: 6px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #009BDE;
+      cursor: pointer;
 
-      & div:first-of-type {
-        width: 50%;
+      &:last-of-type {
+        border-bottom: none;
+        margin-bottom: 0;
       }
 
-      & div:last-of-type {
-        width: 50%;
-        min-height: 80px;
-        border: 1px solid #009BDE;
+      &:hover {
+        background-color: #e5f7ff;
       }
+
+      // & div:first-of-type {
+      //   width: 50%;
+      // }
+
+      // & div:last-of-type {
+      //   width: 50%;
+      //   min-height: 80px;
+      //   border: 1px solid #009BDE;
+      // }
 
       & span {
         display: block;
@@ -220,6 +236,19 @@ body,
         display: inline-block;
         min-width: 80px;
       }
+    }
+  }
+
+  & .piece-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    column-gap: 10px;
+
+    & .action {
+      display: flex;
+      flex-direction: row;
+      column-gap: 10px;
     }
   }
 }

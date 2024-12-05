@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { WardrobeConstants } from "constants/WardrobeConstants";
 import { E_Category, E_Position } from "enums";
@@ -7,9 +7,10 @@ import { WardrobeActions } from "store/slices";
 import { IApplicationState, useAppDispatch } from "store/store";
 import { defaultWardrobeCustomAttributes, IWardrobeCustomAttributes, IWardrobePiecesModel } from "models";
 import { WardrobeUtils } from "utils/WardrobeUtils";
-import { DropDown, IDropDownOption, TextBox } from "components/FormField";
+import { Button, DropDown, IDropDownOption, TextBox } from "components/FormField";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { UrlUtils } from "utils/urlUtils";
+import { PieceInfo } from "./PieceInfo";
 
 export interface ICustomWardrobe {
   category?: E_Category;
@@ -24,16 +25,28 @@ export interface ICustomWardrobe {
 }
 
 export const CustomWardrobe = () => {
-  const params = useParams();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
   const { customWardrobe } = useSelector((state: IApplicationState) => state.wardrobe);
+
   const [category, setCategory] = useState<E_Category | undefined>(undefined);
   const [type, setType] = useState<E_Position | undefined>(undefined);
   const [numberOfDoors, setNumberOfDoors] = useState<number>(0);
   const [wardrobeAttributes, setWardrobeAttributes] = useState<IWardrobeCustomAttributes>(defaultWardrobeCustomAttributes);
-  const [pieces, setPieces] = useState<IWardrobePiecesModel[]>([]);
+  const [pieces, setPieces] = useState<IWardrobePiecesModel[]>(customWardrobe.pieces || []);
+
+  const params = useParams();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const dispatch: any = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(WardrobeActions.generateCustomWardrobe());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    setPieces(customWardrobe.pieces || []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [customWardrobe.pieces]);
 
   const handleSelectChange = useCallback((name: string, value: string) => {
     if (name === 'category') {
@@ -104,7 +117,7 @@ export const CustomWardrobe = () => {
     }
   }, [customWardrobe.size, dispatch, navigate, params.entity, searchParams]);
 
-  const handleAddPiece = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  const handleAddPiece = useCallback(() => {
     const key: string = `${category}_${type}_${customWardrobe.size.width}_${customWardrobe.size.height}_${customWardrobe.size.depth}_${Math.random().toFixed(4)}`;
     if (category && type) {
       let piece: IWardrobePiecesModel = { category, type, key, size: { width: 0, height: 0, depth: 0 }, position: { x: 0, y: 0, z: 0 } };
@@ -118,84 +131,71 @@ export const CustomWardrobe = () => {
         piece = { ...piece, ...WardrobeUtils(customWardrobe.size).getPosition(E_Category.HANGER_ROAD, E_Position.HANGER_ROAD, customWardrobe.size, { fromLeft: wardrobeAttributes.fromLeft, fromBottom: wardrobeAttributes.fromBottom, width: wardrobeAttributes.width }) };
       }
       dispatch(WardrobeActions.updatePieceInCWardrobe(piece));
-      setPieces(p => ([...p, piece]));
       setCategory(undefined);
       setType(undefined);
       setWardrobeAttributes(defaultWardrobeCustomAttributes);
     }
   }, [category, customWardrobe.size, dispatch, type, wardrobeAttributes.drawerHeight, wardrobeAttributes.fromBottom, wardrobeAttributes.fromLeft, wardrobeAttributes.height, wardrobeAttributes.width]);
 
-  const handleRemovePiece = useCallback((e: React.MouseEvent<HTMLButtonElement, MouseEvent>, piece: IWardrobePiecesModel) => {
+  const handleEditPiece = useCallback((piece: IWardrobePiecesModel) => {
     const key: string = piece.key;
-    if (key) {
-      dispatch(WardrobeActions.removePieceInCWardrobe(key));
-      const index = pieces.findIndex(p => p.key === key);
-      if (index && index >= 0) {
-        setPieces([
-          ...pieces.slice(0, index),
-          ...pieces.slice(index + 1),
-        ]);
-      }
-    }
-  }, [dispatch, pieces]);
+    if (key) dispatch(WardrobeActions.removePieceInCWardrobe(key));
+  }, [dispatch]);
+
+  const handleRemovePiece = useCallback((piece: IWardrobePiecesModel) => {
+    const key: string = piece.key;
+    if (key) dispatch(WardrobeActions.removePieceInCWardrobe(key));
+  }, [dispatch]);
 
   return <div className="total-board">
     <div className="inner-box">
-      <ul className="board-pieces">
-        <li>
-          <div>
-            <div className="form">
-              <h1 className="title">{WardrobeConstants.TITLE.CUSTOM}</h1>
-              <h2 className="title">Wardrobe Size</h2>
-              <div className="row">
-                <TextBox label="Width" name="size.width" value={customWardrobe.size.width} onChange={handleChange} />
-                <TextBox label="Height" name="size.height" value={customWardrobe.size.height} onChange={handleChange} />
-                <TextBox label="Depth" name="size.depth" value={customWardrobe.size.depth} onChange={handleChange} />
-              </div>
-              <h2 className="title">Door Information</h2>
-              <div className="row">
-                <TextBox label="Number of Doors" name="numberOfGate" value={numberOfDoors} onChange={handleChange} />
-              </div>
-              <h2 className="title">Piece Information</h2>
-              <div className="row">
-                {/* Category Dropdown */}
-                {categoryDropdown}
-                {/* Type Dropdown */}
-                {category && typeDropdown}
-              </div>
+      <div>
+        <div className="form">
+          <h1 className="title">{WardrobeConstants.TITLE.CUSTOM}</h1>
+          <h2 className="title">Wardrobe Size</h2>
+          <div className="row">
+            <TextBox label="Width" name="size.width" value={customWardrobe.size.width} onChange={handleChange} />
+            <TextBox label="Height" name="size.height" value={customWardrobe.size.height} onChange={handleChange} />
+            <TextBox label="Depth" name="size.depth" value={customWardrobe.size.depth} onChange={handleChange} />
+          </div>
+          <h2 className="title">Door Information</h2>
+          <div className="row">
+            <TextBox label="Number of Doors" name="numberOfGate" value={numberOfDoors} onChange={handleChange} />
+          </div>
+          <h2 className="title">Piece Information</h2>
+          <div style={{ minHeight: '190px' }}>
+            <div className="row">
+              {/* Category Dropdown */}
+              {categoryDropdown}
+              {/* Type Dropdown */}
+              {category && typeDropdown}
+            </div>
 
-              <div className="row">
-                {/* FromLeft */}
-                {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="From Left" name="fromLeft" value={wardrobeAttributes.fromLeft} onChange={handleChange} />}
-                {/* FromBottom */}
-                {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="From Bottom" name="fromBottom" value={wardrobeAttributes.fromBottom} onChange={handleChange} />}
-                {/* Width */}
-                {category && type && ([E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) || ([E_Category.PARTITION].includes(category) && [E_Position.HORIZONTAL_PARTITION].includes(type))) && <TextBox label="Width" name="width" value={wardrobeAttributes.width} onChange={handleChange} />}
-                {/* Height */}
-                {category && type && [E_Category.PARTITION].includes(category) && [E_Position.VERTICAL_PARTITION].includes(type) && <TextBox label="Height" name="height" value={wardrobeAttributes.height} onChange={handleChange} />}
-                {/* Drawer Height */}
-                {category && type && [E_Category.DRAWER].includes(category) && <TextBox label="Drawer Height" name="drawerHeight" value={wardrobeAttributes.drawerHeight} onChange={handleChange} />}
-              </div>
+            <div className="row">
+              {/* FromLeft */}
+              {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="From Left" name="fromLeft" value={wardrobeAttributes.fromLeft} onChange={handleChange} />}
+              {/* FromBottom */}
+              {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="From Bottom" name="fromBottom" value={wardrobeAttributes.fromBottom} onChange={handleChange} />}
+              {/* Width */}
+              {category && type && ([E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) || ([E_Category.PARTITION].includes(category) && [E_Position.HORIZONTAL_PARTITION].includes(type))) && <TextBox label="Width" name="width" value={wardrobeAttributes.width} onChange={handleChange} />}
+              {/* Height */}
+              {category && type && [E_Category.PARTITION].includes(category) && [E_Position.VERTICAL_PARTITION].includes(type) && <TextBox label="Height" name="height" value={wardrobeAttributes.height} onChange={handleChange} />}
+              {/* Drawer Height */}
+              {category && type && [E_Category.DRAWER].includes(category) && <TextBox label="D. Height" name="drawerHeight" value={wardrobeAttributes.drawerHeight} onChange={handleChange} />}
+            </div>
 
-              {/* Save Button */}
-              {category && type && <button onClick={(e) => handleAddPiece(e)}>Save Piece</button>}
-
-              {
-                pieces.length > 0 && <ul>
-                  {
-                    pieces.map(p => <li key={p.key}>
-                      {`Category:${p.category}, Type:${p.type}, Size:${p.size.width.toFixed(2) + '*' + p.size.height.toFixed(2) + '*' + p.size.depth.toFixed(2)}`}
-                      <button onClick={(e) => handleRemovePiece(e, p)}>Edit</button>
-                      &nbsp;
-                      <button onClick={(e) => handleRemovePiece(e, p)}>Remove</button>
-                    </li>)
-                  }
-                </ul>
-              }
+            {/* Save Button */}
+            <div className="row">
+              {category && type && <Button onClick={handleAddPiece}>Save Piece</Button>}
             </div>
           </div>
-        </li>
-      </ul>
+
+          <h2 className="title">Piece List</h2>
+          <div className="board-pieces">
+            {pieces.length > 0 && <ul>{pieces.map(p => <li key={p.key}><PieceInfo piece={p} onEdit={handleEditPiece} onRemove={handleRemovePiece} /></li>)}</ul>}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 }

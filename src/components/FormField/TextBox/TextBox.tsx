@@ -24,7 +24,7 @@ export const TextBox: React.FC<ITextBox> = ({ name, label, value, onChange }) =>
     {label && <label className="form-field-label">{label}</label>}
     <div className={`wrapper-box`}>
       <div className="input-wrapper">
-        <input name={name} value={tmpValue} onChange={handleChange} />
+        <input autoComplete="false" name={name} value={tmpValue} onChange={handleChange} />
       </div>
     </div>
   </div>;

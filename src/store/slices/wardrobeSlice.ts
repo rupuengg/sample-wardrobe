@@ -5,6 +5,23 @@ import { ConvertUtils } from "utils";
 import { WardrobeUtils } from "utils/WardrobeUtils";
 import { E_Category, E_Position } from "enums";
 
+function generateWardrobe(tmpSize: ISize): IWardrobeModel {
+  return {
+    key: `${tmpSize.width}*${tmpSize.height}*${tmpSize.depth}`,
+    title: `Wardrobe ${ConvertUtils().toFeetFromInch(tmpSize.width)}*${ConvertUtils().toFeetFromInch(tmpSize.height)}`,
+    size: { ...tmpSize },
+    wardrobeColor: '#3f51b5',
+    innerColor: '#cccccc',
+    pieces: [
+      { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.BACK, tmpSize), key: "back" },
+      { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.LEFT, tmpSize), key: "left" },
+      { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.RIGHT, tmpSize), key: "right" },
+      { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.TOP, tmpSize), key: "top" },
+      { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.BOTTOM, tmpSize), key: "bottom" },
+    ] as IWardrobePiecesModel[],
+  };
+}
+
 export const wardrobeSlice = createSlice({
   name: 'wardrobeSlice',
   initialState: defaultWardrobeState,
@@ -34,25 +51,18 @@ export const wardrobeSlice = createSlice({
         ...defaultWardrobeModel,
       };
     },
-    updateSizeInCWardrobe(draft: IWardrobeState, action: PayloadAction<{ key: string, value: number }>) {
-      const tmpSize: ISize = { ...draft.customWardrobe.size, [action.payload.key]: action.payload.value };
-      const wardrobe: IWardrobeModel = {
-        key: `${tmpSize.width}*${tmpSize.height}*${tmpSize.depth}`,
-        title: `Wardrobe ${ConvertUtils().toFeetFromInch(tmpSize.width)}*${ConvertUtils().toFeetFromInch(tmpSize.height)}`,
-        size: { ...tmpSize },
-        wardrobeColor: '#3f51b5',
-        innerColor: '#cccccc',
-        pieces: [
-          { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.BACK, tmpSize), },
-          { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.LEFT, tmpSize), },
-          { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.RIGHT, tmpSize), },
-          { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.TOP, tmpSize), },
-          { ...WardrobeUtils(tmpSize).getPosition(E_Category.BOARD, E_Position.BOTTOM, tmpSize), },
-        ] as IWardrobePiecesModel[],
-      };
+    generateCustomWardrobe(draft: IWardrobeState) {
+      const tmpSize: ISize = { ...draft.customWardrobe.size };
 
       draft.customWardrobe = {
-        ...wardrobe,
+        ...generateWardrobe(tmpSize),
+      };
+    },
+    updateSizeInCWardrobe(draft: IWardrobeState, action: PayloadAction<{ key: string, value: number }>) {
+      const tmpSize: ISize = { ...draft.customWardrobe.size, [action.payload.key]: action.payload.value };
+
+      draft.customWardrobe = {
+        ...generateWardrobe(tmpSize),
       };
     },
     updatePieceInCWardrobe(draft: IWardrobeState, action: PayloadAction<IWardrobePiecesModel>) {

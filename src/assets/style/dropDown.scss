@@ -1,6 +1,6 @@
 .form {
   display: block;
-  padding: 10px;
+  padding: 10px 20px;
 
   & .row {
     display: flex;
@@ -15,6 +15,41 @@
   font-weight: 400;
   display: block;
   width: 100%;
+
+  &.button {
+
+    & .wrapper-box {
+      position: relative;
+      display: block;
+      z-index: 1;
+
+      & .input-wrapper {
+        display: inline-block;
+        border-radius: 10px;
+        border: 2px solid #009BDE;
+      }
+
+      & button {
+        width: auto;
+        border: 0px;
+        padding: 6px;
+        background-color: transparent;
+        color: #009BDE;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+
+        &:hover {
+          background-color: #009BDE;
+          color: #ffffff;
+        }
+
+        &:focus-visible {
+          outline-style: none;
+        }
+      }
+    }
+  }
 
   &.textbox {
 
