@@ -54,10 +54,12 @@ export const TotalBoard: React.FC<ITotalBoard> = ({ wardrobe }) => {
 
   const getDetail = useCallback((item: string, obj: ICalculation) => {
     return <li>
-      <div style={{ width: '100%' }}>
-        <span><b>Total Sqft:</b> {Math.round(obj.sqft)}</span>
-        {[E_Category.DRAWER.toString(), E_Category.HANGER_ROAD.toString()].includes(item) && <span><b>Size:</b> {obj.sizes.map(size => <span>{size.width.toFixed(2) + ' * ' + size.height.toFixed(2) + ' * ' + size.depth.toFixed(2)}</span>)}</span>}
-        {![E_Category.DRAWER.toString(), E_Category.HANGER_ROAD.toString()].includes(item) && <span><b>Number of boards:</b> {(obj.sqft / 32).toFixed(2)} (48 * 98 boards)</span>}
+      <div className="piece-info" style={{ width: '100%' }}>
+        <div className="info">
+          <span><b>Total Sqft:</b> {Math.round(obj.sqft)}</span>
+          {[E_Category.DRAWER.toString(), E_Category.HANGER_ROAD.toString()].includes(item) && <span><b>Size:</b> {obj.sizes.map(size => <span>{size.width.toFixed(2) + ' * ' + size.height.toFixed(2) + ' * ' + size.depth.toFixed(2)}</span>)}</span>}
+          {![E_Category.DRAWER.toString(), E_Category.HANGER_ROAD.toString()].includes(item) && <span><b>Number of boards:</b> {(obj.sqft / 32).toFixed(2)} (48 * 98 boards)</span>}
+        </div>
       </div>
     </li>
 
@@ -67,14 +69,14 @@ export const TotalBoard: React.FC<ITotalBoard> = ({ wardrobe }) => {
     <div className="inner-box">
       <div className="form">
         <h1 className="title">{WardrobeConstants.TITLE.TOTAL_BOARD}</h1>
-        <ul className="board-pieces">
-          {
-            Object.keys(elements).map(item => <li key={item}>
-              <h2 className="title">{getTitle(item)}</h2>
+        {
+          Object.keys(elements).map(item => <div key={item}>
+            <h2 className="title">{getTitle(item)}</h2>
+            <div className="board-pieces">
               <ul>{getDetail(item, elements[item])}</ul>
-            </li>)
-          }
-        </ul>
+            </div>
+          </div>)
+        }
       </div>
     </div>
   </div>

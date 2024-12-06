@@ -25,8 +25,8 @@ export const PieceInfo: React.FC<IPieceInfo> = ({ piece, onEdit, onRemove }) => 
     </div>
     {
       ![E_Category.BOARD, E_Category.DOOR].includes(piece.category) && <div className="action">
-        <Button onClick={handleEdit}>Edit</Button>
-        <Button onClick={handleRemove}>Remove</Button>
+        {onEdit && <Button onClick={handleEdit}>Edit</Button>}
+        {onRemove && <Button onClick={handleRemove}>Remove</Button>}
       </div>
     }
   </div>;

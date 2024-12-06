@@ -3,6 +3,7 @@ import { useCallback, useMemo } from "react";
 import { IWardrobeModel } from "models";
 import { WardrobeConstants } from "constants/WardrobeConstants";
 import { ConvertUtils } from "utils";
+import { StringUtils } from "utils/StringUtils";
 
 export interface ITotalPiece {
   wardrobe?: IWardrobeModel;
@@ -15,12 +16,13 @@ export const TotalPiece: React.FC<ITotalPiece> = ({ wardrobe }) => {
     wardrobe?.pieces?.forEach((piece, index) => {
       const depth: number = ConvertUtils().toMMFromInch(piece.size.depth);
       const element = <li key={piece.category + piece.type + index.toString()}>
-        <div>
-          <span><b>Category:</b> {piece.category}</span>
-          <span><b>Type:</b> {piece.type}</span>
-          <span><b>Size:</b> {piece.size.width.toFixed(2) + ' * ' + piece.size.height.toFixed(2) + ' * ' + depth}</span>
+        <div className="piece-info">
+          <div className="info">
+            <span><span style={{ display: 'inline-block', marginRight: '10px', minWidth: '150px' }}><strong>Category: </strong>{StringUtils(piece.category).toCapitalize()}</span><span style={{ display: 'inline' }}><strong>Position: </strong>{StringUtils(piece.type).toCapitalize()}</span></span>
+            <span><strong>Size: </strong>{`${piece.size.width.toFixed(2) + '*' + piece.size.height.toFixed(2) + '*' + piece.size.depth.toFixed(2)}`}</span>
+          </div>
+          <div className="action">&nbsp;</div>
         </div>
-        <div>dd</div>
       </li>;
 
       if (obj[depth]) obj[depth].push(element);
@@ -48,14 +50,14 @@ export const TotalPiece: React.FC<ITotalPiece> = ({ wardrobe }) => {
     <div className="inner-box">
       <div className="form">
         <h1 className="title">{WardrobeConstants.TITLE.TOTAL_PIECE}</h1>
-        <ul className="board-pieces">
-          {
-            Object.keys(elements).map(item => <li key={item}>
-              <h2 className="title">{getTitle(item)}</h2>
+        {
+          Object.keys(elements).map(item => <div key={item}>
+            <h2 className="title">{getTitle(item)}</h2>
+            <div className="board-pieces">
               <ul>{elements[item]}</ul>
-            </li>)
-          }
-        </ul>
+            </div>
+          </div>)
+        }
       </div>
     </div>
   </div>
