@@ -153,58 +153,56 @@ export const CustomWardrobe = () => {
 
   return <div className="total-board">
     <div className="inner-box">
-      <div>
-        <div className="form">
-          <h1 className="title">{WardrobeConstants.TITLE.CUSTOM}</h1>
-          <h2 className="title">Wardrobe Size</h2>
-          <div className="row">
-            <TextBox label="Width" name="size.width" value={customWardrobe.size.width} onChange={handleChange} />
-            <TextBox label="Height" name="size.height" value={customWardrobe.size.height} onChange={handleChange} />
-            <TextBox label="Depth" name="size.depth" value={customWardrobe.size.depth} onChange={handleChange} />
-          </div>
-          <h2 className="title">Door Information</h2>
-          <div className="row">
-            <TextBox label="Number of Doors" name="numberOfGate" value={numberOfDoors} onChange={handleChange} />
-          </div>
-          <h2 className="title">Piece Information</h2>
-          <div style={{ minHeight: '190px' }}>
-            <div className="row">
-              {/* Category Dropdown */}
-              {categoryDropdown}
-              {/* Type Dropdown */}
-              {category && typeDropdown}
-            </div>
-
-            <div className="row">
-              {/* FromLeft */}
-              {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="F. Left" name="fromLeft" value={wardrobeAttributes.fromLeft} onChange={handleChange} />}
-              {/* FromBottom */}
-              {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="F. Bottom" name="fromBottom" value={wardrobeAttributes.fromBottom} onChange={handleChange} />}
-              {/* Width */}
-              {category && type && ([E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) || ([E_Category.PARTITION].includes(category) && [E_Position.HORIZONTAL_PARTITION].includes(type))) && <TextBox label="Width" name="width" value={wardrobeAttributes.width} onChange={handleChange} />}
-              {/* Height */}
-              {category && type && [E_Category.PARTITION].includes(category) && [E_Position.VERTICAL_PARTITION].includes(type) && <TextBox label="Height" name="height" value={wardrobeAttributes.height} onChange={handleChange} />}
-              {/* Drawer Height */}
-              {category && type && [E_Category.DRAWER].includes(category) && <TextBox label="D. Height" name="drawerHeight" value={wardrobeAttributes.drawerHeight} onChange={handleChange} />}
-            </div>
-
-            {/* Save Button */}
-            <div className="row">
-              <Button isDisabled={category && type ? false : true} onClick={handleAddPiece}>Save Piece</Button>
-              <Button onClick={handleExport}>Export Wardrobe</Button>
-            </div>
-          </div>
-
-          {
-            pieces.length > 0 && <>
-              <h2 className="title">Piece List</h2>
-              <div className="board-pieces">
-                <ul>{pieces.map(p => <li key={p.key}><PieceInfo piece={p} onEdit={handleEditPiece} onRemove={handleRemovePiece} /></li>)}</ul>
-              </div>
-            </>
-          }
-
+      <div className="form">
+        <h1 className="title">{WardrobeConstants.TITLE.CUSTOM}</h1>
+        <h2 className="title">Wardrobe Size</h2>
+        <div className="row">
+          <TextBox label="Width" name="size.width" value={customWardrobe.size.width} onChange={handleChange} />
+          <TextBox label="Height" name="size.height" value={customWardrobe.size.height} onChange={handleChange} />
+          <TextBox label="Depth" name="size.depth" value={customWardrobe.size.depth} onChange={handleChange} />
         </div>
+        <h2 className="title">Door Information</h2>
+        <div className="row">
+          <TextBox label="Number of Doors" name="numberOfGate" value={numberOfDoors} onChange={handleChange} />
+        </div>
+        <h2 className="title">Piece Information</h2>
+        <div style={{ minHeight: '190px' }}>
+          <div className="row">
+            {/* Category Dropdown */}
+            {categoryDropdown}
+            {/* Type Dropdown */}
+            {category && typeDropdown}
+          </div>
+
+          <div className="row">
+            {/* FromLeft */}
+            {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="F. Left" name="fromLeft" value={wardrobeAttributes.fromLeft} onChange={handleChange} />}
+            {/* FromBottom */}
+            {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="F. Bottom" name="fromBottom" value={wardrobeAttributes.fromBottom} onChange={handleChange} />}
+            {/* Width */}
+            {category && type && ([E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) || ([E_Category.PARTITION].includes(category) && [E_Position.HORIZONTAL_PARTITION].includes(type))) && <TextBox label="Width" name="width" value={wardrobeAttributes.width} onChange={handleChange} />}
+            {/* Height */}
+            {category && type && [E_Category.PARTITION].includes(category) && [E_Position.VERTICAL_PARTITION].includes(type) && <TextBox label="Height" name="height" value={wardrobeAttributes.height} onChange={handleChange} />}
+            {/* Drawer Height */}
+            {category && type && [E_Category.DRAWER].includes(category) && <TextBox label="D. Height" name="drawerHeight" value={wardrobeAttributes.drawerHeight} onChange={handleChange} />}
+          </div>
+
+          {/* Save Button */}
+          <div className="row">
+            <Button isDisabled={category && type ? false : true} onClick={handleAddPiece}>Save Piece</Button>
+            <Button onClick={handleExport}>Export Wardrobe</Button>
+          </div>
+        </div>
+
+        {
+          pieces.length > 0 && <>
+            <h2 className="title">Piece List</h2>
+            <div className="board-pieces">
+              <ul>{pieces.map(p => <li key={p.key}><PieceInfo piece={p} onEdit={handleEditPiece} onRemove={handleRemovePiece} /></li>)}</ul>
+            </div>
+          </>
+        }
+
       </div>
     </div>
   </div>

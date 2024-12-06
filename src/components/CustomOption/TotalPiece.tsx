@@ -46,15 +46,17 @@ export const TotalPiece: React.FC<ITotalPiece> = ({ wardrobe }) => {
 
   return <div className="total-board">
     <div className="inner-box">
-      <h3 className="title">{WardrobeConstants.TITLE.TOTAL_PIECE}</h3>
-      <ul className="board-pieces">
-        {
-          Object.keys(elements).map(item => <li key={item}>
-            <h1>{getTitle(item)}</h1>
-            <ul>{elements[item]}</ul>
-          </li>)
-        }
-      </ul>
+      <div className="form">
+        <h1 className="title">{WardrobeConstants.TITLE.TOTAL_PIECE}</h1>
+        <ul className="board-pieces">
+          {
+            Object.keys(elements).map(item => <li key={item}>
+              <h2 className="title">{getTitle(item)}</h2>
+              <ul>{elements[item]}</ul>
+            </li>)
+          }
+        </ul>
+      </div>
     </div>
   </div>
 }

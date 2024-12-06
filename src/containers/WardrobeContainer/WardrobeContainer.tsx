@@ -32,8 +32,12 @@ export const WardrobeContainer = () => {
 
   return <div className="main-container">
     <SlidePanel
-      isOpen={params.entity === 'custom'}
-      leftContent={<CustomWardrobe />}
+      isOpen={params.entity === 'custom' || showTotalBoard || showTotalPiece}
+      leftContent={<>
+        {params.entity === 'custom' && <CustomWardrobe />}
+        {showTotalBoard && <TotalBoard wardrobe={currentWardrobe} />}
+        {showTotalPiece && <TotalPiece wardrobe={currentWardrobe} />}
+      </>}
       rightContent={
         <Canvas>
           {params.entity !== 'custom' && <WardrobeSample wardrobe={currentWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
@@ -43,9 +47,5 @@ export const WardrobeContainer = () => {
     {/* <Canvas camera={{ fov: 7, near: 0.1, far: 1000, position: [-30, 4, -4] }}> */}
 
     <CustomOption color={currentWardrobe?.wardrobeColor} />
-
-    {showTotalBoard && <TotalBoard wardrobe={currentWardrobe} />}
-
-    {showTotalPiece && <TotalPiece wardrobe={currentWardrobe} />}
   </div>
 };
