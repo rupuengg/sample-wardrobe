@@ -96,7 +96,7 @@ export const CustomWardrobe = () => {
       const gates: number = fieldValue && fieldValue.toString() !== '' ? Number(fieldValue) : 0;
       const doors: IWardrobePiecesModel[] = [];
       for (let iCounter = 1; iCounter <= gates; iCounter++) {
-        doors.push({ ...WardrobeUtils(customWardrobe.size).getPosition(E_Category.DOOR, E_Position.DOOR, customWardrobe.size, { numberOfGate: gates, gateNumber: iCounter }) })
+        doors.push({ ...WardrobeUtils(customWardrobe).getPosition(E_Category.DOOR, E_Position.DOOR, customWardrobe.size, { numberOfGate: gates, gateNumber: iCounter }) })
       }
       dispatch(WardrobeActions.updateDoorsInCWardrobe(doors));
       setNumberOfDoors(gates);
@@ -115,27 +115,31 @@ export const CustomWardrobe = () => {
 
       setWardrobeAttributes(p => ({ ...p, [name]: value }));
     }
-  }, [customWardrobe.size, dispatch, navigate, params.entity, searchParams]);
+  }, [customWardrobe, dispatch, navigate, params.entity, searchParams]);
 
   const handleAddPiece = useCallback(() => {
     const key: string = `${category}_${type}_${customWardrobe.size.width}_${customWardrobe.size.height}_${customWardrobe.size.depth}_${Math.random().toFixed(4)}`;
     if (category && type) {
       let piece: IWardrobePiecesModel = { category, type, key, size: { width: 0, height: 0, depth: 0 }, position: { x: 0, y: 0, z: 0 } };
       if (category === E_Category.PARTITION && type === E_Position.VERTICAL_PARTITION) {
-        piece = { ...piece, ...WardrobeUtils(customWardrobe.size).getPosition(E_Category.PARTITION, E_Position.VERTICAL_PARTITION, customWardrobe.size, { fromLeft: wardrobeAttributes.fromLeft, height: wardrobeAttributes.height }) };
+        piece = { ...piece, ...WardrobeUtils(customWardrobe).getPosition(E_Category.PARTITION, E_Position.VERTICAL_PARTITION, customWardrobe.size, { fromLeft: wardrobeAttributes.fromLeft, height: wardrobeAttributes.height }) };
       } else if (category === E_Category.PARTITION && type === E_Position.HORIZONTAL_PARTITION) {
-        piece = { ...piece, ...WardrobeUtils(customWardrobe.size).getPosition(E_Category.PARTITION, E_Position.HORIZONTAL_PARTITION, customWardrobe.size, { fromBottom: wardrobeAttributes.fromBottom, width: wardrobeAttributes.width }) };
+        piece = { ...piece, ...WardrobeUtils(customWardrobe).getPosition(E_Category.PARTITION, E_Position.HORIZONTAL_PARTITION, customWardrobe.size, { fromBottom: wardrobeAttributes.fromBottom, width: wardrobeAttributes.width }) };
       } else if (category === E_Category.DRAWER && type === E_Position.DRAWER) {
-        piece = { ...piece, ...WardrobeUtils(customWardrobe.size).getPosition(E_Category.DRAWER, E_Position.DRAWER, customWardrobe.size, { fromLeft: wardrobeAttributes.fromLeft, fromBottom: wardrobeAttributes.fromBottom, width: wardrobeAttributes.width, drawerHeight: wardrobeAttributes.drawerHeight }) };
+        piece = { ...piece, ...WardrobeUtils(customWardrobe).getPosition(E_Category.DRAWER, E_Position.DRAWER, customWardrobe.size, { fromLeft: wardrobeAttributes.fromLeft, fromBottom: wardrobeAttributes.fromBottom, width: wardrobeAttributes.width, drawerHeight: wardrobeAttributes.drawerHeight }) };
       } else if (category === E_Category.HANGER_ROAD && type === E_Position.HANGER_ROAD) {
-        piece = { ...piece, ...WardrobeUtils(customWardrobe.size).getPosition(E_Category.HANGER_ROAD, E_Position.HANGER_ROAD, customWardrobe.size, { fromLeft: wardrobeAttributes.fromLeft, fromBottom: wardrobeAttributes.fromBottom, width: wardrobeAttributes.width }) };
+        piece = { ...piece, ...WardrobeUtils(customWardrobe).getPosition(E_Category.HANGER_ROAD, E_Position.HANGER_ROAD, customWardrobe.size, { fromLeft: wardrobeAttributes.fromLeft, fromBottom: wardrobeAttributes.fromBottom, width: wardrobeAttributes.width }) };
       }
       dispatch(WardrobeActions.updatePieceInCWardrobe(piece));
       setCategory(undefined);
       setType(undefined);
       setWardrobeAttributes(defaultWardrobeCustomAttributes);
     }
-  }, [category, customWardrobe.size, dispatch, type, wardrobeAttributes.drawerHeight, wardrobeAttributes.fromBottom, wardrobeAttributes.fromLeft, wardrobeAttributes.height, wardrobeAttributes.width]);
+  }, [category, customWardrobe, dispatch, type, wardrobeAttributes.drawerHeight, wardrobeAttributes.fromBottom, wardrobeAttributes.fromLeft, wardrobeAttributes.height, wardrobeAttributes.width]);
+
+  const handleExport = useCallback(() => {
+    console.log('customWardrobe', WardrobeUtils(customWardrobe).export());
+  }, [customWardrobe]);
 
   const handleEditPiece = useCallback((piece: IWardrobePiecesModel) => {
     const key: string = piece.key;
@@ -187,7 +191,7 @@ export const CustomWardrobe = () => {
             {/* Save Button */}
             <div className="row">
               <Button isDisabled={category && type ? false : true} onClick={handleAddPiece}>Save Piece</Button>
-              <Button onClick={handleAddPiece}>Export Wardrobe</Button>
+              <Button onClick={handleExport}>Export Wardrobe</Button>
             </div>
           </div>
 

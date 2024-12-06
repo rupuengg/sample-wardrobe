@@ -1,8 +1,32 @@
 import { BoardThickness } from "constants/BoardSize";
 import { E_Category, E_Position } from "enums";
-import { defaultWardrobeCustomAttributes, IPosition, ISize, IWardrobeCustomAttributes, IWardrobePiecesModel } from "models";
+import { defaultWardrobeCustomAttributes, IPosition, ISize, IWardrobeCustomAttributes, IWardrobeModel, IWardrobePiecesModel } from "models";
+import { ConvertUtils } from "./ConvertUtils";
+import { E_Unit } from "enums/E_Unit";
 
-export const WardrobeUtils = (size: ISize) => {
+export function generateWardrobe(tmpSize: ISize): IWardrobeModel {
+  const wardrobe: IWardrobeModel = {
+    key: `${tmpSize.width}*${tmpSize.height}*${tmpSize.depth}`,
+    title: `Wardrobe ${ConvertUtils().toFeetFromInch(tmpSize.width)}*${ConvertUtils().toFeetFromInch(tmpSize.height)}`,
+    size: { ...tmpSize },
+    wardrobeColor: '#3f51b5',
+    innerColor: '#cccccc',
+  };
+
+  return {
+    ...wardrobe,
+    pieces: [
+      { ...WardrobeUtils(wardrobe).getPosition(E_Category.BOARD, E_Position.BACK, tmpSize), key: "back" },
+      { ...WardrobeUtils(wardrobe).getPosition(E_Category.BOARD, E_Position.LEFT, tmpSize), key: "left" },
+      { ...WardrobeUtils(wardrobe).getPosition(E_Category.BOARD, E_Position.RIGHT, tmpSize), key: "right" },
+      { ...WardrobeUtils(wardrobe).getPosition(E_Category.BOARD, E_Position.TOP, tmpSize), key: "top" },
+      { ...WardrobeUtils(wardrobe).getPosition(E_Category.BOARD, E_Position.BOTTOM, tmpSize), key: "bottom" },
+    ] as IWardrobePiecesModel[],
+  };
+}
+
+export const WardrobeUtils = (wardrobe: IWardrobeModel) => {
+  const size: ISize = wardrobe.size;
   let intialPosition: IPosition = { x: 0, y: 0, z: 0 };
 
   function getPosition(type: E_Position, boardSize: ISize | undefined = { width: 0, height: 0, depth: 0 }, positionAttr: IWardrobeCustomAttributes) {
@@ -71,78 +95,24 @@ export const WardrobeUtils = (size: ISize) => {
   }
 
   return {
-    leftFramePosition: (boardThickness: number) => {
-      return { x: -(size.width / 2) + (boardThickness / 2), y: 0, z: size.depth / 2 } as IPosition;
-    },
-    rightFramePosition: (boardThickness: number) => {
-      return { x: (size.width / 2) - (boardThickness / 2), y: 0, z: size.depth / 2 } as IPosition;
-    },
-    topFramePosition: (boardThickness: number) => {
-      return { x: 0, y: (size.height / 2) - (boardThickness / 2), z: size.depth / 2 } as IPosition;
-    },
-    bottomFramePosition: (boardThickness: number) => {
-      return { x: 0, y: -(size.height / 2) + (boardThickness / 2), z: size.depth / 2 } as IPosition;
-    },
-    partitionFromTopPosition: (fromTop: number, boardThickness: number) => {
-      return { x: 0, y: (size.height / 2) - (boardThickness / 2) + fromTop, z: size.depth / 2 } as IPosition;
-    },
-    partitionFromLeftPosition: (fromLeft: number, boardThickness: number) => {
-      return { x: -(size.width / 2) + (boardThickness / 2) + fromLeft, y: 0, z: size.depth / 2 } as IPosition;
-    },
-    drawerFromTopPosition: (fromTop: number, drawerHeight: number, boardThickness: number) => {
-      return { x: 0, y: (size.height / 2) - (boardThickness / 2) + fromTop - (drawerHeight / 2), z: size.depth / 2 } as IPosition;
-    },
-    hangerRoadFromTopPosition: (fromTop: number, boardThickness: number) => {
-      return { x: 0, y: (size.height / 2) - (boardThickness / 2) + fromTop, z: size.depth / 2 } as IPosition;
-    },
-    leftDoorPosition: (boardThickness: number, doorGap: number) => {
-      return { x: -(size.width / 4) - doorGap / 2, y: 0, z: size.depth + boardThickness } as IPosition;
-    },
-    rightDoorPosition: (boardThickness: number, doorGap: number) => {
-      return { x: (size.width / 4) + doorGap / 2, y: 0, z: size.depth + boardThickness } as IPosition;
-    },
-    partitionVPositionFromBottomLeft: (partitionSize: ISize, fromLeft: number, fromTop: number, boardThickness: number) => {
-      return {
-        x: -(size.width / 2) - (boardThickness / 2) + (partitionSize.depth / 2) + (fromLeft - boardThickness),
-        y: -(size.height / 2) + (partitionSize.height / 2) + fromTop,
-        z: size.depth / 2
-      } as IPosition;
-    },
-    partitionHPositionFromBottomLeft: (partitionSize: ISize, fromBottom: number, boardThickness: number) => {
-      return {
-        x: -(size.width / 2) + (partitionSize.height / 2),// + (boardThickness / 2),// + (size.width - partitionSize.height),// + (boardThickness / 2) + (size.width - partitionSize.height / 2),
-        y: -(size.height / 2) - (boardThickness / 2) + fromBottom,
-        z: size.depth / 2
-      } as IPosition;
-    },
-    leftXPosition: (partitionSize: ISize, fromBottom: number, drawerDepth?: number, hangerWidth?: number) => {
-      return {
-        x: -(size.width / 2) + (partitionSize.height / 2) + (hangerWidth ? ((hangerWidth / 2)) : 0),
-        y: -(size.height / 2) + (BoardThickness.EIGHTEEN_MM / 2) + fromBottom - (drawerDepth ? ((drawerDepth / 2)) : 0),
-        z: size.depth / 2,
-      } as IPosition;
-    },
-    leftYPosition: (partitionSize: ISize, fromLeft: number) => {
-      return {
-        x: -(size.width / 2) - (BoardThickness.EIGHTEEN_MM / 2) + fromLeft,
-        y: -(size.height / 2) + (partitionSize.height / 2),
-        z: size.depth / 2
-      } as IPosition;
-    },
-    doorPosition: (numberOfDoors: number, gateNumber: number, doorGap: number) => {
-      const doorWidth = size.width / numberOfDoors;
-      return {
-        x: -(size.width / 2) - doorGap / 2 + (doorWidth / 2) + ((gateNumber - 1) * doorWidth),
-        y: 0,
-        z: size.depth + BoardThickness.SIX_MM
-      } as IPosition;
-    },
     getPosition: (category: E_Category, type: E_Position, size: ISize, positionAttr?: IWardrobeCustomAttributes) => {
       const attr: IWardrobeCustomAttributes = positionAttr || defaultWardrobeCustomAttributes;
       intialPosition = { x: -size.width / 2, y: -size.height / 2, z: size.depth / 2 };
 
-      console.log('attr', attr);
       return { category, type, position: getPosition(type, getSize(type, attr), attr), size: getSize(type, attr) } as IWardrobePiecesModel;
+    },
+    export: () => {
+      const exportWardrobe: IWardrobeModel = { ...wardrobe };
+
+      exportWardrobe.size = ConvertUtils().convertSize(wardrobe.size, 'METER', E_Unit.INCH);
+
+      exportWardrobe.pieces?.map(piece => ({
+        ...piece,
+        position: ConvertUtils().convertPosition(piece.position, 'METER', E_Unit.INCH),
+        size: ConvertUtils().convertSize(piece.size, 'METER', E_Unit.INCH),
+      }));
+
+      return exportWardrobe;
     }
   }
 }

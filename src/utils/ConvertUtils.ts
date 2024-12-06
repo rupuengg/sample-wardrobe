@@ -1,6 +1,14 @@
+import { E_Unit } from "enums/E_Unit";
 import { IPosition, ISize } from "models";
 
-export const UnitConverter = {
+interface IUnitConverter {
+  MM: { [x: string]: number };
+  METER: { [x: string]: number };
+  FOOT: { [x: string]: number };
+  INCH: { [x: string]: number };
+}
+
+export const UnitConverter: IUnitConverter = {
   MM: {
     TO_METER: 0.001,
     TO_FOOT: 0.0032808399,
@@ -77,5 +85,53 @@ export const ConvertUtils = () => {
         z: position.z * UnitConverter.INCH.TO_METER,
       } as IPosition;
     },
+    convertSize: (size: ISize, fromUnit: string, unit: E_Unit) => {
+      const from: keyof IUnitConverter = fromUnit.toString() as keyof IUnitConverter;
+      let conversion: number = 0;
+      switch (unit) {
+        case E_Unit.FOOT:
+          conversion = UnitConverter[from].TO_FOOT;
+          break;
+        case E_Unit.INCH:
+          conversion = UnitConverter[from].TO_INCH;
+          break;
+        case E_Unit.METER:
+          conversion = UnitConverter[from].TO_METER;
+          break;
+        case E_Unit.MM:
+          conversion = UnitConverter[from].TO_MM;
+          break;
+      }
+
+      return {
+        width: size.width * conversion,
+        height: size.height * conversion,
+        depth: size.depth * conversion,
+      } as ISize;
+    },
+    convertPosition: (position: IPosition, fromUnit: string, unit: E_Unit) => {
+      const from: keyof IUnitConverter = fromUnit.toString() as keyof IUnitConverter;
+      let conversion: number = 0;
+      switch (unit) {
+        case E_Unit.FOOT:
+          conversion = UnitConverter[from].TO_FOOT;
+          break;
+        case E_Unit.INCH:
+          conversion = UnitConverter[from].TO_INCH;
+          break;
+        case E_Unit.METER:
+          conversion = UnitConverter[from].TO_METER;
+          break;
+        case E_Unit.MM:
+          conversion = UnitConverter[from].TO_MM;
+          break;
+      }
+
+      return {
+        x: position.x * conversion,
+        y: position.y * conversion,
+        z: position.z * conversion,
+      } as IPosition;
+    }
   }
 }
