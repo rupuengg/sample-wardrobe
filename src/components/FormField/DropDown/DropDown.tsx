@@ -11,13 +11,19 @@ export interface IDropDown {
   options: IDropDownOption[];
   isMultiple?: boolean;
   value?: string | string[];
+  isDisabled?: boolean;
   onChange?: (name: string, value: string | string[]) => void;
 }
 
-export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple = false, value, onChange }) => {
+export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple = false, value, isDisabled, onChange }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [tmpDisabled, setTmpDisabled] = useState<boolean>(isDisabled || false);
   const [tmpValue, setTmpValue] = useState<string[] | undefined>(value ? typeof value === 'string' ? [value] : value : undefined);
   const divRef: any = useRef(null);
+
+  useEffect(() => {
+    setTmpDisabled(isDisabled || false);
+  }, [isDisabled]);
 
   const dropDownClose = useCallback(() => {
     isMultiple && onChange && onChange(name, '');
@@ -57,8 +63,8 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple
 
   return <div className="form-field dropdown">
     {label && <label className="form-field-label">{label}</label>}
-    <div ref={divRef} className={`wrapper-box ${isOpen ? 'open' : ''}`}>
-      <p onClick={handleClose}>{tmpValue}</p>
+    <div ref={divRef} data-disabled={tmpDisabled} className={`wrapper-box ${isOpen ? 'open' : ''}`}>
+      <p {...(!tmpDisabled ? { onClick: handleClose } : {})} >{tmpValue}</p>
       <div>
         <ul>
           {options.map((option, index) => <li key={index} className={tmpValue?.includes(option.key) ? 'active' : ''} value={option.key} onClick={() => handleSelectChange(name, option.key)}>{option.value}</li>)}

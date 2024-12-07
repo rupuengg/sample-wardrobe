@@ -81,7 +81,7 @@ export const CustomWardrobe = () => {
     const newOptions: IDropDownOption[] = options.filter(cb);
 
     newOptions.unshift({ key: '', value: 'Select Type' });
-    return <DropDown label="Type" name="type" value={type} options={newOptions} onChange={handleSelectChange} />
+    return <DropDown label="Type" name="type" value={type} options={newOptions} onChange={handleSelectChange} isDisabled={!category} />
   }, [category, type, handleSelectChange]);
 
   const handleChange = useCallback((fieldName: string, fieldValue: string | number) => {
@@ -171,26 +171,26 @@ export const CustomWardrobe = () => {
             {/* Category Dropdown */}
             {categoryDropdown}
             {/* Type Dropdown */}
-            {category && typeDropdown}
+            {typeDropdown}
           </div>
 
-          <div className="row">
+          <div className="row" style={{ marginBottom: '20px' }}>
             {/* FromLeft */}
-            {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="F. Left" name="fromLeft" value={wardrobeAttributes.fromLeft} onChange={handleChange} />}
+            <TextBox label="F. Left" name="fromLeft" value={wardrobeAttributes.fromLeft} onChange={handleChange} isDisabled={!(category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category))} />
             {/* FromBottom */}
-            {category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) && <TextBox label="F. Bottom" name="fromBottom" value={wardrobeAttributes.fromBottom} onChange={handleChange} />}
+            <TextBox label="F. Bottom" name="fromBottom" value={wardrobeAttributes.fromBottom} onChange={handleChange} isDisabled={!(category && type && [E_Category.PARTITION, E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category))} />
             {/* Width */}
-            {category && type && ([E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) || ([E_Category.PARTITION].includes(category) && [E_Position.HORIZONTAL_PARTITION].includes(type))) && <TextBox label="Width" name="width" value={wardrobeAttributes.width} onChange={handleChange} />}
+            <TextBox label="Width" name="width" value={wardrobeAttributes.width} onChange={handleChange} isDisabled={!(category && type && ([E_Category.DRAWER, E_Category.HANGER_ROAD].includes(category) || ([E_Category.PARTITION].includes(category) && [E_Position.HORIZONTAL_PARTITION].includes(type))))} />
             {/* Height */}
-            {category && type && [E_Category.PARTITION].includes(category) && [E_Position.VERTICAL_PARTITION].includes(type) && <TextBox label="Height" name="height" value={wardrobeAttributes.height} onChange={handleChange} />}
+            {category && !([E_Category.DRAWER].includes(category)) && <TextBox label="Height" name="height" value={wardrobeAttributes.height} onChange={handleChange} isDisabled={!(category && type && [E_Category.PARTITION].includes(category) && [E_Position.VERTICAL_PARTITION].includes(type))} />}
             {/* Drawer Height */}
             {category && type && [E_Category.DRAWER].includes(category) && <TextBox label="D. Height" name="drawerHeight" value={wardrobeAttributes.drawerHeight} onChange={handleChange} />}
           </div>
 
           {/* Save Button */}
-          <div className="row">
+          <div className="row" style={{ justifyContent: 'flex-start' }}>
             <Button isDisabled={category && type ? false : true} onClick={handleAddPiece}>Save Piece</Button>
-            <Button onClick={handleExport}>Export Wardrobe</Button>
+            <Button style={{ width: '130px' }} onClick={handleExport}>Export Wardrobe</Button>
           </div>
         </div>
 
