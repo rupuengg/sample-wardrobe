@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { Canvas } from "@react-three/fiber";
 import { IApplicationState, useAppDispatch } from "store/store";
-import { CustomOption, TotalBoard, TotalPiece } from "components";
+import { BoardInfo, CustomOption } from "components";
 import { WardrobeSample } from "components/Wardrobe/WardrobeSample";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useMemo } from "react";
@@ -19,8 +19,7 @@ export const WardrobeContainer = () => {
   const showDoors = useMemo(() => searchParams.get('DOORS') && searchParams.get('DOORS') !== null && searchParams.get('DOORS') !== '' ? Boolean(searchParams.get('DOORS')?.toString()) : false, [searchParams]);
   const showGridLine = useMemo(() => searchParams.get('GRID_LINE') && searchParams.get('GRID_LINE') !== null && searchParams.get('GRID_LINE') !== '' ? Boolean(searchParams.get('GRID_LINE')?.toString()) : false, [searchParams]);
   const showAxes = useMemo(() => searchParams.get('AXES') && searchParams.get('AXES') !== null && searchParams.get('AXES') !== '' ? Boolean(searchParams.get('AXES')?.toString()) : false, [searchParams]);
-  const showTotalPiece = useMemo(() => searchParams.get('TOTAL_PIECE') && searchParams.get('TOTAL_PIECE') !== null && searchParams.get('TOTAL_PIECE') !== '' ? Boolean(searchParams.get('TOTAL_PIECE')?.toString()) : false, [searchParams]);
-  const showTotalBoard = useMemo(() => searchParams.get('TOTAL_BOARD') && searchParams.get('TOTAL_BOARD') !== null && searchParams.get('TOTAL_BOARD') !== '' ? Boolean(searchParams.get('TOTAL_BOARD')?.toString()) : false, [searchParams]);
+  const showDetail = useMemo(() => searchParams.get('DETAIL') && searchParams.get('DETAIL') !== null && searchParams.get('DETAIL') !== '' ? Boolean(searchParams.get('DETAIL')?.toString()) : false, [searchParams]);
 
   useEffect(() => {
     if (params.entity) {
@@ -32,11 +31,10 @@ export const WardrobeContainer = () => {
 
   return <div className="main-container">
     <SlidePanel
-      isOpen={params.entity === 'custom' || showTotalBoard || showTotalPiece}
+      isOpen={params.entity === 'custom' || showDetail}
       leftContent={<>
         {params.entity === 'custom' && <CustomWardrobe />}
-        {showTotalBoard && <TotalBoard wardrobe={currentWardrobe} />}
-        {showTotalPiece && <TotalPiece wardrobe={currentWardrobe} />}
+        {showDetail && <BoardInfo wardrobe={currentWardrobe} />}
       </>}
       rightContent={
         <Canvas>

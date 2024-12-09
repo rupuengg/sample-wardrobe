@@ -15,7 +15,7 @@ export interface IDropDown {
   onChange?: (name: string, value: string | string[]) => void;
 }
 
-export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple = false, value, isDisabled, onChange }) => {
+export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple, value, isDisabled, onChange }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [tmpDisabled, setTmpDisabled] = useState<boolean>(isDisabled || false);
   const [tmpValue, setTmpValue] = useState<string[] | undefined>(value ? typeof value === 'string' ? [value] : value : undefined);
@@ -26,7 +26,7 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple
   }, [isDisabled]);
 
   const dropDownClose = useCallback(() => {
-    isMultiple && onChange && onChange(name, '');
+    isMultiple && onChange && onChange(name, tmpValue || []);
     setIsOpen(false);
   }, [isMultiple, name, onChange]);
 
@@ -56,15 +56,34 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple
   }, [isMultiple, isOpen, name, onChange, tmpValue]);
 
   const handleSelectChange = useCallback((fieldName: string, fieldValue: string) => {
-    setTmpValue(p => ([...(p ? [...p] : []), fieldValue]));
-    onChange && onChange(fieldName, fieldValue);
-    !isMultiple && setIsOpen(false);
+    if (isMultiple) {
+      setTmpValue(p => {
+        let newTmpValue: string[] = p ? [...p] : [];
+        if (newTmpValue?.includes(fieldValue)) {
+          const index = newTmpValue.findIndex(t => fieldValue);
+          if (index >= 0) {
+            newTmpValue = [
+              ...newTmpValue.slice(0, index),
+              ...newTmpValue.slice(index + 1),
+            ]
+          }
+        } else newTmpValue.push(fieldValue);
+
+        return newTmpValue;
+      });
+    } else {
+      setTmpValue([fieldValue]);
+      onChange && onChange(fieldName, fieldValue);
+      setIsOpen(false);
+    }
   }, [isMultiple, onChange]);
 
   return <div className="form-field dropdown">
     {label && <label className="form-field-label">{label}</label>}
     <div ref={divRef} data-disabled={tmpDisabled} className={`wrapper-box ${isOpen ? 'open' : ''}`}>
-      <p {...(!tmpDisabled ? { onClick: handleClose } : {})} >{tmpValue}</p>
+      <p {...(!tmpDisabled ? { onClick: handleClose } : {})}>
+        <span>{tmpValue?.join(', ')}</span>
+      </p>
       <div>
         <ul>
           {options.map((option, index) => <li key={index} className={tmpValue?.includes(option.key) ? 'active' : ''} value={option.key} onClick={() => handleSelectChange(name, option.key)}>{option.value}</li>)}

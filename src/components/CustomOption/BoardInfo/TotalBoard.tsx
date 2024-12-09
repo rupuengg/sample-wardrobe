@@ -68,7 +68,7 @@ export const TotalBoard: React.FC<ITotalBoard> = ({ wardrobe }) => {
   return <div className="total-board">
     <div className="inner-box">
       <div className="form">
-        <h1 className="title">{WardrobeConstants.TITLE.TOTAL_BOARD}</h1>
+        <h1 className="title">{WardrobeConstants.TITLES.TOTAL_BOARD}</h1>
         {
           Object.keys(elements).map(item => <div key={item}>
             <h2 className="title">{getTitle(item)}</h2>

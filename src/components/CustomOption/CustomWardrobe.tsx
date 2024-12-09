@@ -154,7 +154,7 @@ export const CustomWardrobe = () => {
   return <div className="total-board">
     <div className="inner-box">
       <div className="form">
-        <h1 className="title">{WardrobeConstants.TITLE.CUSTOM}</h1>
+        <h1 className="title">{WardrobeConstants.OPTION_TITLE.CUSTOM}</h1>
         <h2 className="title">Wardrobe Size</h2>
         <div className="row">
           <TextBox label="Width" name="size.width" value={customWardrobe.size.width} onChange={handleChange} />

@@ -94,12 +94,20 @@
       display: block;
 
       & p {
-        min-height: 18px;
+        height: 18px;
         padding: 6px;
         border-radius: 10px;
         border: 2px solid #009BDE;
         position: relative;
         z-index: 1;
+
+        & span {
+          display: block;
+          width: calc(100% - 25px);
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+        }
 
         &::after {
           position: absolute;
@@ -144,6 +152,10 @@
             height: 20px;
             line-height: 20px;
             cursor: pointer;
+
+            &.active {
+              background-color: #c1e6f5;
+            }
           }
         }
       }

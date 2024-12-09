@@ -25,21 +25,17 @@ export const CustomOption: React.FC<ICustomOption> = ({ color = '#3f51b5' }) => 
     const type = E_Custom_Option[key as keyof typeof E_Custom_Option];
     switch (type) {
       case E_Custom_Option.WIREFRAME:
-        return WardrobeConstants.TITLE.WIREFRAME;
+        return WardrobeConstants.OPTION_TITLE.WIREFRAME;
       case E_Custom_Option.DOORS:
-        return WardrobeConstants.TITLE.DOORS;
+        return WardrobeConstants.OPTION_TITLE.DOORS;
       case E_Custom_Option.GRID_LINE:
-        return WardrobeConstants.TITLE.GRID_LINE;
+        return WardrobeConstants.OPTION_TITLE.GRID_LINE;
       case E_Custom_Option.AXES:
-        return WardrobeConstants.TITLE.AXES;
-      case E_Custom_Option.TOTAL_PIECE:
-        return WardrobeConstants.TITLE.TOTAL_PIECE;
-      case E_Custom_Option.TOTAL_BOARD:
-        return WardrobeConstants.TITLE.TOTAL_BOARD;
-      case E_Custom_Option.CUSTOM:
-        return WardrobeConstants.TITLE.CUSTOM;
+        return WardrobeConstants.OPTION_TITLE.AXES;
+      case E_Custom_Option.DETAIL:
+        return WardrobeConstants.OPTION_TITLE.DETAIL;
       case E_Custom_Option.RESET:
-        return WardrobeConstants.TITLE.RESET;
+        return WardrobeConstants.OPTION_TITLE.RESET;
       default:
         return '';
     }
@@ -64,9 +60,7 @@ export const CustomOption: React.FC<ICustomOption> = ({ color = '#3f51b5' }) => 
       case E_Custom_Option.DOORS:
       case E_Custom_Option.GRID_LINE:
       case E_Custom_Option.AXES:
-      case E_Custom_Option.TOTAL_BOARD:
-      case E_Custom_Option.TOTAL_PIECE:
-      case E_Custom_Option.CUSTOM:
+      case E_Custom_Option.DETAIL:
         if (searchParams.get(key)) searchParams.delete(key);
         else searchParams.set(key, 'true');
         break;
@@ -88,9 +82,9 @@ export const CustomOption: React.FC<ICustomOption> = ({ color = '#3f51b5' }) => 
 
   return <div className="custom-option">
     <div className="inner-box">
-      <h3 className="title">{WardrobeConstants.TITLE.COLOR_PICKER}</h3>
+      <h3 className="title">{WardrobeConstants.OPTION_TITLE.COLOR_PICKER}</h3>
       <CirclePicker color={color} onChange={handleColorChange} />
-      <h3 className="title">{WardrobeConstants.TITLE.SIZE_PICKER}</h3>
+      <h3 className="title">{WardrobeConstants.OPTION_TITLE.SIZE_PICKER}</h3>
       <div className="wardrobe-size">
         <ul className="sizes">
           {
@@ -98,10 +92,10 @@ export const CustomOption: React.FC<ICustomOption> = ({ color = '#3f51b5' }) => 
               <Link onClick={(e) => handleEntityChange(e, item.key)} to={''} className={params.entity === item.key ? 'active' : ''}>{`${item.size!!.width / 12} * ${item.size!!.height / 12} Feet`}</Link>
             </li>)
           }
-          <li><Link onClick={(e) => handleEntityChange(e, 'custom')} to={''} className={params.entity === 'custom' ? 'active' : ''}>{WardrobeConstants.TITLE.CUSTOM}</Link></li>
+          <li><Link to={UrlUtils.makeRoute('custom', undefined)} className={params.entity === 'custom' ? 'active' : ''}>{WardrobeConstants.OPTION_TITLE.CUSTOM}</Link></li>
         </ul>
       </div>
-      <h3 className="title">{WardrobeConstants.TITLE.OTHER_OPTION}</h3>
+      <h3 className="title">{WardrobeConstants.OPTION_TITLE.OTHER_OPTION}</h3>
       <div className="other">
         <ul className="sizes">
           {
