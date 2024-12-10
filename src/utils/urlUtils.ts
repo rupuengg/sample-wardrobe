@@ -1,4 +1,4 @@
-import { WardrobeConstants } from "constants/WardrobeConstants";
+import { WardrobeConstants } from "constant";
 
 export const UrlUtils = (() => {
   let route: string[] = [];

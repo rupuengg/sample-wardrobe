@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useCallback, useMemo } from "react";
 import { ISize, IWardrobeModel } from "models";
-import { WardrobeConstants } from "constants/WardrobeConstants";
+import { WardrobeConstants } from "constant";
 import { ConvertUtils } from "utils";
 import { E_Category } from "enums";
 

@@ -1,4 +1,3 @@
-export * from './App';
 export * from './CustomOption';
 export * from './Door';
 export * from './Drawer';
