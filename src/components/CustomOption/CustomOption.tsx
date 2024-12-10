@@ -5,7 +5,7 @@ import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom"
 import { mockWardrobes } from "mockValues";
 import { useAppDispatch } from "store/store";
 import { WardrobeActions } from "store/slices";
-import { WardrobeConstants } from "constants/WardrobeConstants";
+import { WardrobeConstants } from "constant";
 import { E_Custom_Option } from "enums/E_Custom_Option";
 import { UrlUtils } from "utils/urlUtils";
 

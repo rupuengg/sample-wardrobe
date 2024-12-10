@@ -1,4 +1,4 @@
-import { BoardThickness } from "constants/BoardSize";
+import { BoardThickness } from "constant/BoardSize";
 import { E_Category, E_Position } from "enums";
 import { defaultWardrobeCustomAttributes, IPosition, ISize, IWardrobeCustomAttributes, IWardrobeModel, IWardrobePiecesModel } from "models";
 import { ConvertUtils } from "./ConvertUtils";

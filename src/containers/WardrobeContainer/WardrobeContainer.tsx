@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Canvas } from "@react-three/fiber";
 import { IApplicationState, useAppDispatch } from "store/store";
 import { BoardInfo, CustomOption } from "components";
-import { WardrobeSample } from "components/Wardrobe/WardrobeSample";
+import { Wardrobe } from "components/Wardrobe/Wardrobe";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useMemo } from "react";
 import { WardrobeActions } from "store/slices";
@@ -40,8 +40,8 @@ export const WardrobeContainer = () => {
       }
       rightContent={
         <Canvas>
-          {params.entity !== 'custom' && <WardrobeSample wardrobe={currentWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
-          {params.entity === 'custom' && <WardrobeSample wardrobe={customWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
+          {params.entity !== 'custom' && <Wardrobe wardrobe={currentWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
+          {params.entity === 'custom' && <Wardrobe wardrobe={customWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
         </Canvas>
       } />
     {/* <Canvas camera={{ fov: 7, near: 0.1, far: 1000, position: [-30, 4, -4] }}> */}

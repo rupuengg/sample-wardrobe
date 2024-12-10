@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { WardrobeConstants } from "constants/WardrobeConstants";
+import { WardrobeConstants } from "constant";
 import { E_Category, E_Position } from "enums";
 import { WardrobeActions } from "store/slices";
 import { IApplicationState, useAppDispatch } from "store/store";
