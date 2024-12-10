@@ -47,14 +47,12 @@ export const CustomOption: React.FC<ICustomOption> = ({ color = '#3f51b5' }) => 
 
   const handleEntityChange = useCallback((e: any, key: string) => {
     e.preventDefault();
-
     navigate(UrlUtils.makeRoute(key, undefined));
   }, [navigate]);
 
   const handleOptionChange = useCallback((e: any, key: string) => {
-    const type = E_Custom_Option[key as keyof typeof E_Custom_Option];
     e.preventDefault();
-
+    const type = E_Custom_Option[key as keyof typeof E_Custom_Option];
     switch (type) {
       case E_Custom_Option.WIREFRAME:
       case E_Custom_Option.DOORS:

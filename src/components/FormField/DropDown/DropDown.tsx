@@ -28,7 +28,7 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple
   const dropDownClose = useCallback(() => {
     isMultiple && onChange && onChange(name, tmpValue || []);
     setIsOpen(false);
-  }, [isMultiple, name, onChange]);
+  }, [tmpValue, isMultiple, name, onChange]);
 
   useEffect(() => {
     const cb = (e: any) => {
@@ -37,7 +37,6 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple
     }
 
     document.addEventListener('click', cb);
-
     return () => {
       document.removeEventListener('click', cb);
     }

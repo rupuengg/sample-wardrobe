@@ -31,11 +31,13 @@ export const WardrobeContainer = () => {
 
   return <div className="main-container">
     <SlidePanel
-      isOpen={params.entity === 'custom' || showDetail}
-      leftContent={<>
-        {params.entity === 'custom' && <CustomWardrobe />}
-        {showDetail && <BoardInfo wardrobe={currentWardrobe} />}
-      </>}
+      isOpen={true}
+      leftContent={
+        <>
+          {params.entity === 'custom' && <CustomWardrobe />}
+          {showDetail && <BoardInfo wardrobe={currentWardrobe} />}
+        </>
+      }
       rightContent={
         <Canvas>
           {params.entity !== 'custom' && <WardrobeSample wardrobe={currentWardrobe} wardrobeColor={wardrobeColor} showWireFrame={showWireframe} showDoors={showDoors} showGridLine={showGridLine} showAxes={showAxes} />}
