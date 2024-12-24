@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { IWardrobePiecesModel } from "models";
 import { E_Category } from "enums";
-import { Button } from "components/FormField";
+import { Button } from "components";
 
 export interface IPieceInfo {
   piece: IWardrobePiecesModel;

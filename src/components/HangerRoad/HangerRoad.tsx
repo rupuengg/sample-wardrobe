@@ -2,7 +2,7 @@ import { useRef } from "react";
 import * as THREE from "three";
 import { extend, useFrame } from "@react-three/fiber";
 import { E_Position } from "enums";
-import { IBoard, rotate } from "components/PlyBoard";
+import { IBoard, rotate } from "components";
 
 extend({ Mesh: THREE.Mesh, CylinderGeometry: THREE.CylinderGeometry, MeshStandardMaterial: THREE.MeshStandardMaterial, });
 

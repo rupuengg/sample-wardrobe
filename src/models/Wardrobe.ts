@@ -1,6 +1,5 @@
 import { E_Category, E_Position } from "enums";
-import { ISize } from "./Size";
-import { IPosition } from "./Position";
+import { ISize, IPosition } from "models";
 
 export interface IWardrobePiecesModel {
   key: string;

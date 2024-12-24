@@ -5,10 +5,7 @@ import { Group as _Group } from "three";
 import { IWardrobeModel, IWardrobePiecesModel } from "models";
 import { E_Category } from "enums";
 import { ConvertUtils } from "utils";
-import { Board, Partition } from "components/PlyBoard";
-import { Drawer } from "components/Drawer";
-import { HangerRoad } from "components/HangerRoad";
-import { Door } from "components/Door";
+import { Board, Partition, Drawer, HangerRoad, Door } from "components";
 
 extend({ Group: _Group });
 

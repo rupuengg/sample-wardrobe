@@ -1,8 +1,7 @@
-import { BoardThickness } from "constant/BoardSize";
-import { E_Category, E_Position } from "enums";
+import { BoardThickness } from "constant";
+import { E_Category, E_Position, E_Unit } from "enums";
 import { defaultWardrobeCustomAttributes, IPosition, ISize, IWardrobeCustomAttributes, IWardrobeModel, IWardrobePiecesModel } from "models";
-import { ConvertUtils } from "./ConvertUtils";
-import { E_Unit } from "enums/E_Unit";
+import { ConvertUtils } from "utils";
 
 export function generateWardrobe(tmpSize: ISize): IWardrobeModel {
   const wardrobe: IWardrobeModel = {

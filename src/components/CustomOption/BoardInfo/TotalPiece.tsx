@@ -3,7 +3,7 @@ import { useCallback, useMemo } from "react";
 import { IWardrobeModel } from "models";
 import { WardrobeConstants } from "constant";
 import { ConvertUtils } from "utils";
-import { StringUtils } from "utils/StringUtils";
+import { StringUtils } from "utils";
 
 export interface ITotalPiece {
   wardrobe?: IWardrobeModel;
