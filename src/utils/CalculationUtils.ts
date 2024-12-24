@@ -1,5 +1,5 @@
 import { ISize } from "models";
-import { ConvertUtils } from "utils/ConvertUtils";
+import { ConvertUtils } from "utils";
 
 export const CalculationUtils = (size: ISize) => {
   return {

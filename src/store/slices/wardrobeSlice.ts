@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { defaultWardrobeState, IWardrobeState } from "store/states/WardrobeState/WardrobeState";
+import { defaultWardrobeState, IWardrobeState } from "store/states";
 import { defaultWardrobeModel, ISize, IWardrobeModel, IWardrobePiecesModel } from "models";
 import { E_Category } from "enums";
-import { generateWardrobe } from "utils/WardrobeUtils";
+import { generateWardrobe } from "utils";
 
 export const wardrobeSlice = createSlice({
   name: 'wardrobeSlice',

@@ -3,14 +3,12 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { WardrobeConstants } from "constant";
 import { E_Category, E_Position } from "enums";
-import { WardrobeActions } from "store/slices";
-import { IApplicationState, useAppDispatch } from "store/store";
+import { IApplicationState, useAppDispatch, WardrobeActions } from "store";
 import { defaultWardrobeCustomAttributes, IWardrobeCustomAttributes, IWardrobePiecesModel } from "models";
-import { WardrobeUtils } from "utils/WardrobeUtils";
-import { Button, DropDown, IDropDownOption, TextBox } from "components/FormField";
+import { WardrobeUtils } from "utils";
+import { Button, DropDown, IDropDownOption, TextBox, PieceInfo } from "components";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { UrlUtils } from "utils/urlUtils";
-import { PieceInfo } from "./PieceInfo";
 
 export interface ICustomWardrobe {
   category?: E_Category;

@@ -1,7 +1,6 @@
 import React from "react";
 import { IWardrobeModel } from "models";
-import { TotalBoard } from "./TotalBoard";
-import { TotalPiece } from "./TotalPiece";
+import { TotalBoard, TotalPiece } from "components";
 
 export interface IBoardInfo {
   wardrobe?: IWardrobeModel;

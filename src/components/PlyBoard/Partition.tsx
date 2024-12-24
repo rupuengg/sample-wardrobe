@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { Mesh as _Mesh, BoxGeometry as _BoxGeometry, MeshStandardMaterial as _MeshStandardMaterial } from "three";
 import { extend, useFrame } from '@react-three/fiber';
 import { E_Position } from "enums";
-import { IBoard, rotate } from "./Board";
+import { IBoard, rotate } from "components";
 
 extend({ Mesh: _Mesh, BoxGeometry: _BoxGeometry, MeshStandardMaterial: _MeshStandardMaterial, });
 

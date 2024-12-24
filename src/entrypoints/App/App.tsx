@@ -1,6 +1,6 @@
 import { Provider } from "react-redux";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
-import store from "store/store";
+import { store } from "store";
 import { WardrobeContainer } from "containers";
 import { WardrobeConstants } from "constant";
 

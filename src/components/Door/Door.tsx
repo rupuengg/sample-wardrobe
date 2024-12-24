@@ -1,6 +1,6 @@
 import { Mesh as _Mesh, BoxGeometry as _BoxGeometry, MeshStandardMaterial as _MeshStandardMaterial } from "three";
 import { extend } from '@react-three/fiber';
-import { IBoard } from "components/PlyBoard";
+import { IBoard } from "components";
 import { FrontSide } from "three";
 import { BackSide } from "three";
 

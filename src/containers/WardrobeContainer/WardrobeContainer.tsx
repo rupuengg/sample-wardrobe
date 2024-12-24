@@ -1,13 +1,9 @@
 import { useSelector } from "react-redux";
 import { Canvas } from "@react-three/fiber";
-import { IApplicationState, useAppDispatch } from "store/store";
-import { BoardInfo, CustomOption } from "components";
-import { Wardrobe } from "components/Wardrobe/Wardrobe";
+import { IApplicationState, useAppDispatch, WardrobeActions } from "store";
+import { BoardInfo, CustomOption, Wardrobe, CustomWardrobe, SlidePanel } from "components";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useMemo } from "react";
-import { WardrobeActions } from "store/slices";
-import { CustomWardrobe } from "components/CustomOption/CustomWardrobe";
-import { SlidePanel } from "components/SlidePanel";
 
 export const WardrobeContainer = () => {
   const { currentWardrobe, customWardrobe, wardrobeColor } = useSelector((state: IApplicationState) => state.wardrobe);

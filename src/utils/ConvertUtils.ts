@@ -1,4 +1,4 @@
-import { E_Unit } from "enums/E_Unit";
+import { E_Unit } from "enums";
 import { IPosition, ISize } from "models";
 
 interface IUnitConverter {

@@ -3,11 +3,10 @@ import { useCallback, useMemo } from "react";
 import { CirclePicker } from "react-color";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { mockWardrobes } from "mockValues";
-import { useAppDispatch } from "store/store";
-import { WardrobeActions } from "store/slices";
+import { useAppDispatch, WardrobeActions } from "store";
 import { WardrobeConstants } from "constant";
-import { E_Custom_Option } from "enums/E_Custom_Option";
-import { UrlUtils } from "utils/urlUtils";
+import { E_Custom_Option } from "enums";
+import { UrlUtils } from "utils";
 
 export interface ICustomOption {
   color?: string;

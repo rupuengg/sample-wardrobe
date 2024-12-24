@@ -1,6 +1,6 @@
 import { E_Category, E_Position } from "enums";
 import { ISize, IWardrobeModel } from "models";
-import { generateWardrobe, WardrobeUtils } from "utils/WardrobeUtils";
+import { generateWardrobe, WardrobeUtils } from "utils";
 
 const size36_84_24: ISize = { width: 36, height: 84, depth: 24 };
 const size48_84_24: ISize = { width: 48, height: 84, depth: 24 };
