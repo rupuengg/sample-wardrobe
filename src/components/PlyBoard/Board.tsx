@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { Mesh as _Mesh, BoxGeometry as _BoxGeometry, MeshStandardMaterial as _MeshStandardMaterial } from "three";
+import { BoxGeometry as _BoxGeometry, Mesh as _Mesh, MeshStandardMaterial as _MeshStandardMaterial } from "three";
 import { extend, useFrame } from '@react-three/fiber';
 import { IPosition, ISize } from "models";
 import { E_Position } from "enums";

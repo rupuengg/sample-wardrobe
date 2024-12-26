@@ -1,9 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useCallback, useMemo } from "react";
 import { CirclePicker } from "react-color";
 import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { mockWardrobes } from "mockValues";
-import { useAppDispatch, WardrobeActions } from "store";
+import { WardrobeActions, useAppDispatch } from "store";
 import { WardrobeConstants } from "constant";
 import { E_Custom_Option } from "enums";
 import { UrlUtils } from "utils";
@@ -86,7 +85,7 @@ export const CustomOption: React.FC<ICustomOption> = ({ color = '#3f51b5' }) => 
         <ul className="sizes">
           {
             mockWardrobes.map(item => <li key={item.key}>
-              <Link onClick={(e) => handleEntityChange(e, item.key)} to={''} className={params.entity === item.key ? 'active' : ''}>{`${item.size!!.width / 12} * ${item.size!!.height / 12} Feet`}</Link>
+              <Link onClick={(e) => handleEntityChange(e, item.key)} to={''} className={params.entity === item.key ? 'active' : ''}>{`${item.size!.width / 12} * ${item.size!.height / 12} Feet`}</Link>
             </li>)
           }
           <li><Link to={UrlUtils.makeRoute('custom', undefined)} className={params.entity === 'custom' ? 'active' : ''}>{WardrobeConstants.OPTION_TITLE.CUSTOM}</Link></li>
@@ -97,7 +96,7 @@ export const CustomOption: React.FC<ICustomOption> = ({ color = '#3f51b5' }) => 
         <ul className="sizes">
           {
             customOptions.map((item: string) => <li key={item}>
-              <Link onClick={(e) => handleOptionChange(e, item)} to={''} className={Boolean(searchParams.get(item)?.toString()) ? 'active' : ''}>{getOptionText(item)}</Link>
+              <Link onClick={(e) => handleOptionChange(e, item)} to={''} className={searchParams.get(item)?.toString() ? 'active' : ''}>{getOptionText(item)}</Link>
             </li>)
           }
         </ul>

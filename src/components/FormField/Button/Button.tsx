@@ -9,7 +9,7 @@ export interface IButton {
 
 export const Button: React.FC<IButton> = ({ children, isDisabled = false, style, onClick }) => {
   const handleClick = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    onClick && onClick(e);
+    if (onClick) onClick(e);
   }, [onClick]);
 
   return <div className="form-field button">

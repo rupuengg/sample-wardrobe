@@ -1,12 +1,11 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { WardrobeConstants } from "constant";
 import { E_Category, E_Position } from "enums";
-import { IApplicationState, useAppDispatch, WardrobeActions } from "store";
-import { defaultWardrobeCustomAttributes, IWardrobeCustomAttributes, IWardrobePiecesModel } from "models";
+import { IApplicationState, WardrobeActions, useAppDispatch } from "store";
+import { IWardrobeCustomAttributes, IWardrobePiecesModel, defaultWardrobeCustomAttributes } from "models";
 import { WardrobeUtils } from "utils";
-import { Button, DropDown, IDropDownOption, TextBox, PieceInfo } from "components";
+import { Button, DropDown, IDropDownOption, PieceInfo, TextBox } from "components";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { UrlUtils } from "utils/urlUtils";
 
@@ -38,12 +37,10 @@ export const CustomWardrobe = () => {
 
   useEffect(() => {
     dispatch(WardrobeActions.generateCustomWardrobe());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     setPieces(customWardrobe.pieces || []);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [customWardrobe.pieces]);
 
   const handleSelectChange = useCallback((name: string, value: string | string[]) => {
@@ -70,8 +67,6 @@ export const CustomWardrobe = () => {
         return i;
       } else if ((category as E_Category) === E_Category.PARTITION && [E_Position.HORIZONTAL_PARTITION, E_Position.VERTICAL_PARTITION].includes(i.key as E_Position)) {
         return i;
-      } else if ((category as E_Category) === E_Category.PARTITION && [E_Position.HORIZONTAL_PARTITION, E_Position.VERTICAL_PARTITION].includes(i.key as E_Position)) {
-        return i;
       } else if ((category as E_Category) === E_Category.BOARD && [E_Position.BACK, E_Position.FRONT, E_Position.TOP, E_Position.BOTTOM, E_Position.LEFT, E_Position.RIGHT].includes(i.key as E_Position)) {
         return i;
       }
@@ -89,9 +84,10 @@ export const CustomWardrobe = () => {
       else if (fieldName === 'size.height') tmpColumn = 'height';
       else if (fieldName === 'size.depth') tmpColumn = 'depth';
 
-      tmpColumn && dispatch(WardrobeActions.updateSizeInCWardrobe({ key: tmpColumn, value: Number(fieldValue) }));
+      if (tmpColumn) dispatch(WardrobeActions.updateSizeInCWardrobe({ key: tmpColumn, value: Number(fieldValue) }));
     } else if (['numberOfGate'].includes(fieldName)) {
-      const gates: number = fieldValue && fieldValue.toString() !== '' ? Number(fieldValue) : 0;
+      let gates: number = 0;
+      if (fieldValue) gates = fieldValue.toString() !== '' ? Number(fieldValue) : 0;
       const doors: IWardrobePiecesModel[] = [];
       for (let iCounter = 1; iCounter <= gates; iCounter++) {
         doors.push({ ...WardrobeUtils(customWardrobe).getPosition(E_Category.DOOR, E_Position.DOOR, customWardrobe.size, { numberOfGate: gates, gateNumber: iCounter }) })

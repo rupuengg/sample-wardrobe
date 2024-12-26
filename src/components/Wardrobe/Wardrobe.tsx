@@ -1,11 +1,11 @@
 import { ComponentRef, Suspense, useCallback, useRef } from "react";
-import { useFrame, useThree, extend } from "@react-three/fiber";
+import { extend, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { Group as _Group } from "three";
 import { IWardrobeModel, IWardrobePiecesModel } from "models";
 import { E_Category } from "enums";
 import { ConvertUtils } from "utils";
-import { Board, Partition, Drawer, HangerRoad, Door } from "components";
+import { Board, Door, Drawer, HangerRoad, Partition } from "components";
 
 extend({ Group: _Group });
 

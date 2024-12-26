@@ -26,7 +26,7 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple
   }, [isDisabled]);
 
   const dropDownClose = useCallback(() => {
-    isMultiple && onChange && onChange(name, tmpValue || []);
+    if (isMultiple && onChange) onChange(name, tmpValue || []);
     setIsOpen(false);
   }, [tmpValue, isMultiple, name, onChange]);
 
@@ -49,7 +49,7 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple
 
   const handleClose = useCallback(() => {
     if (isOpen) {
-      isMultiple && onChange && onChange(name, tmpValue ? tmpValue : []);
+      if (isMultiple && onChange) onChange(name, tmpValue ? tmpValue : []);
       setIsOpen(false);
     } else setIsOpen(true);
   }, [isMultiple, isOpen, name, onChange, tmpValue]);
@@ -72,7 +72,7 @@ export const DropDown: React.FC<IDropDown> = ({ name, label, options, isMultiple
       });
     } else {
       setTmpValue([fieldValue]);
-      onChange && onChange(fieldName, fieldValue);
+      if (onChange) onChange(fieldName, fieldValue);
       setIsOpen(false);
     }
   }, [isMultiple, onChange]);

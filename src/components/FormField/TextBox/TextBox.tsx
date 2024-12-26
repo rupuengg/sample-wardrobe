@@ -18,7 +18,7 @@ export const TextBox: React.FC<ITextBox> = ({ name, label, value, isDisabled = f
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setTmpValue(e.currentTarget.value);
-    onChange && onChange(e.currentTarget.name, e.currentTarget.value);
+    if (onChange) onChange(e.currentTarget.name, e.currentTarget.value);
   }, [onChange]);
 
   return <div className="form-field textbox">

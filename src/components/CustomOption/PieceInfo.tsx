@@ -11,11 +11,11 @@ export interface IPieceInfo {
 
 export const PieceInfo: React.FC<IPieceInfo> = ({ piece, onEdit, onRemove }) => {
   const handleEdit = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    onEdit && onEdit(piece);
+    if (onEdit) onEdit(piece);
   }, [onEdit, piece]);
 
   const handleRemove = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    onRemove && onRemove(piece);
+    if (onRemove) onRemove(piece);
   }, [onRemove, piece]);
 
   return <div className="piece-info">

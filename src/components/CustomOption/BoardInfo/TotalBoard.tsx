@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useCallback, useMemo } from "react";
 import { ISize, IWardrobeModel } from "models";
 import { WardrobeConstants } from "constant";
@@ -57,7 +56,7 @@ export const TotalBoard: React.FC<ITotalBoard> = ({ wardrobe }) => {
       <div className="piece-info" style={{ width: '100%' }}>
         <div className="info">
           <span><b>Total Sqft:</b> {Math.round(obj.sqft)}</span>
-          {[E_Category.DRAWER.toString(), E_Category.HANGER_ROAD.toString()].includes(item) && <span><b>Size:</b> {obj.sizes.map(size => <span>{size.width.toFixed(2) + ' * ' + size.height.toFixed(2) + ' * ' + size.depth.toFixed(2)}</span>)}</span>}
+          {[E_Category.DRAWER.toString(), E_Category.HANGER_ROAD.toString()].includes(item) && <span><b>Size:</b> {obj.sizes.map((size, index) => <span key={index.toString()}>{size.width.toFixed(2) + ' * ' + size.height.toFixed(2) + ' * ' + size.depth.toFixed(2)}</span>)}</span>}
           {![E_Category.DRAWER.toString(), E_Category.HANGER_ROAD.toString()].includes(item) && <span><b>Number of boards:</b> {(obj.sqft / 32).toFixed(2)} (48 * 98 boards)</span>}
         </div>
       </div>

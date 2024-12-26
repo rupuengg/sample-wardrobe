@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useCallback, useMemo } from "react";
 import { IWardrobeModel } from "models";
 import { WardrobeConstants } from "constant";

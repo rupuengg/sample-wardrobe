@@ -1,4 +1,4 @@
-import { Mesh as _Mesh, BoxGeometry as _BoxGeometry, MeshStandardMaterial as _MeshStandardMaterial, BackSide, FrontSide } from "three";
+import { BackSide, FrontSide, BoxGeometry as _BoxGeometry, Mesh as _Mesh, MeshStandardMaterial as _MeshStandardMaterial } from "three";
 import { extend } from '@react-three/fiber';
 import { IPosition } from "models";
 import { E_Position } from "enums";

@@ -22,7 +22,6 @@ export const WardrobeContainer = () => {
       if (params.entity === 'custom') dispatch(WardrobeActions.initalizeCWardrobe());
       else dispatch(WardrobeActions.setWardrobeByKey(params.entity));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.entity]);
 
   return <div className="main-container">
